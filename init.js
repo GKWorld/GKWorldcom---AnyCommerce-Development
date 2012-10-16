@@ -101,6 +101,10 @@ app.u.appInitComplete = function()	{
 	app.u.dump("Executing myAppIsLoaded code...");
 //display product blob fields in tabbed format.
 	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {$( "#tabbedProductContent" ).tabs()}) 
+	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
+		var container = "productTemplate_"+pid
+		app.u.dump(P);
+		}) 
 //sample for adding a onInit
 	app.ext.myRIA.template.homepageTemplate.onInits.push(function(P) {
 		//do something.

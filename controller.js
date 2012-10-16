@@ -438,8 +438,10 @@ app.u.throwMessage(responseData); is the default error handler.
 			
 		translateSelector : {
 			onSuccess : function(tagObj)	{
-//				app.u.dump("BEGIN callbacks.translateSelector");
-				app.renderFunctions.translateSelector(tagObj.selector,app.data[tagObj.datapointer]);
+//app.u.dump("BEGIN callbacks.translateSelector");
+var dataSrc = app.data[tagObj.datapointer];
+if(tagObj.datapointer == 'cartItemsList')	{dataSrc = app.data[tagObj.datapointer].cart}
+app.renderFunctions.translateSelector(tagObj.selector,dataSrc);
 				}
 			},
 	

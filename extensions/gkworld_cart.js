@@ -399,7 +399,7 @@ either templateID needs to be set OR showloading must be true. TemplateID will t
 					app.u.dump(P);
 					}
 
-				
+				return P;
 				}, //showCartInModal
 
 //executed when a giftcard is submitted. handles ajax call for giftcard and also updates cart.
@@ -436,7 +436,7 @@ either templateID needs to be set OR showloading must be true. TemplateID will t
 
 			updateCartSummary : function()	{
 //				$('#cartTemplateCostSummary').empty().addClass('loadingBG');
-				app.calls.refreshCart.init({'callback':'translateSelector','parentID':'cartTemplateCostSummary'},'immutable'); /* only update cost summary so messaging is preserved. */
+				app.calls.refreshCart.init({'callback':'translateSelector','selector':'cartTemplateCostSummary'},'immutable'); /* only update cost summary so messaging is preserved. */
 //don't set this up with a getShipping because we don't always need it.  Add it to parent functions when needed.
 				},
 /*

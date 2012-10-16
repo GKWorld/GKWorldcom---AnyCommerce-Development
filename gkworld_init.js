@@ -14,7 +14,7 @@ app.vars.extensions = [
 //	{"namespace":"analytics_google","filename":"extensions/analytics_google.js","callback":"addTriggers"},
 //	{"namespace":"bonding_buysafe","filename":"extensions/bonding_buysafe.js","callback":"addTriggers"},
 	{"namespace":"store_crm","filename":"extensions/store_crm.js"},
-	{"namespace":"myRIA","filename":"quickstart.js","callback":"startMyProgram"}
+	{"namespace":"myRIA","filename":"gkworld_quickstart.js","callback":"startMyProgram"}
 	];
 
 
@@ -111,6 +111,9 @@ app.u.appInitComplete = function()	{
 
 //display product blob fields in tabbed format.
 	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {$( "#tabbedProductContent" ).tabs()}) 
+	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
+		app.ext.myRIA.u.handleToolTip('#'+P.parentID);
+		}) 
 
 
 /* code for obtaining and displaying the dropdowns for the top level nav */

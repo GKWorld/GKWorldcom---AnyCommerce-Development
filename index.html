@@ -745,16 +745,52 @@ this will likely become more flexible in the future. ###
 	
 <div class='floatRight prodGuarantee'>
 <div class='header center' data-bind="var: product(is:user5); format:addClass; className:inStock spriteBG;"></div>
-<div class='header center' data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG;"></div>
+<div class='header center' data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
 <div class='header center' data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
 <div class='header center' data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
+<div class='header center' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="$('#invMessage_is_specialorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_specialorder').dialog('open');"></div>
 
 	<ul class='checkmarkList'>
-		<li>No billing occurs until shipping (?)</li>
-		<li>30-Day return policy (?)</li>
-		<li data-bind='var: product(zoovy:ship_latency); format:text;pretext:Ships in ;posttext: day(s) (?); defaultValue: 2;'></li>
-		<li>100% Secure checkout (?)</li>
-		<li>YES, We Ship Worldwide! (?)</li>
+		<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
+		No billing occurs until shipping (<a href='#' class='tipify'>?</a>)
+		<div class='toolTip'>
+		<p>Payments will be "authorized" by our credit card processor, PayPal and Google checkout at the time of checkout. This means that the authorized amount will not be available to you, it will be held in reserve by your bank.</p>
+
+<p>If you pre-order or back order an item and pay with a credit card, the authorization for that purchase usually expires in seven days for Visa, or 30 days for MasterCard, American Express, Discover and PayPal. For items that arrive in more than 30 days, we may need to obtain another authorization from your credit card company. Your credit card is charged only at the time we ship the product.</p>
+		</div>
+		
+		</li>
+		
+		<li>60-Day return policy  (<a href='#' class='tipify'>?</a>)
+		<div class='toolTip'>
+<p>Orders are carefully inspected before shipping. We accept returns that are unused and unopened only unless the item itself is broken. Products must be in there original condition and packaging.</p>
+<p>You must contact us first to receive an authorization before any return is able to be sent back. When we receive the return back your form of payment will be credited for the price of the item(s) and any taxes. This credit will not include shipping, unless the products were damaged upon arrival.</p>
+<p>Your credit will be authorized after we receive and process your return, as long as the item meets the above criteria.</p>
+		</div></li>
+		
+
+		
+		<li class='displayNone' data-bind="var: product(is:user5); format:showIfSet;">
+Ships in 1-2 days  (<a href='#' class='tipify'>?</a>)
+<div class='toolTip'>
+<p>All of our In-Stock items usually ship within 1 business day, depending on how busy we are, some In-Stock items may take up to 2 business days to ship.</p>
+<p>In-Stock items ordered with back orders and pre-orders may cause delays in the shipping of In-Stock items.</p>
+</div>
+		</li>
+
+		<li>100% Secure checkout</li>
+		<li>YES, we ship worldwide! (<a href='#' class='tipify'>?</a>)
+<div class='toolTip'>
+<p>We ship worldwide via U.S. Postal Service. We ship to nearly every country. After adding an item to your shopping cart, specify your country in the shopping cart and it will calculate shipping based on country.</p>
+<p>Please note that shipping costs may be high for 1-2 items, as more items are added to the cart you will not see shipping costs increase much.</p>
+<p>
+Intl. First Class Mail – This mail service takes about 2-3 weeks to arrive.<br />
+Intl. Priority Mail – This mail service takes about 5-10 business days to arrive.<br />
+Intl. Express Mail – This mail service takes about 3-5 business days to arrive.<br />
+(Orders may take longer if held or delayed by customs).<br />
+</p>
+</div>
+		</li>
 	</ul>
 
 	<h6 class="alignCenter">Add item to cart for shipping</h6>
@@ -1312,9 +1348,11 @@ So the cart template should contain these two elements and the extension should 
 		<td colspan='2'>
 		<label for='data-ship_zip'>Zip/Postal Code:</label>
 		<input type='text' size='6'  name='data.ship_zip' id='data-ship_zip' value='' data-bind='var: cart(data.ship_zip); format:popVal;' maxlength='10' onChange="app.calls.cartSet.init({'data.ship_zip':this.value});
-	app.ext.store_cart.u.updateCartSummary();
 	app.ext.store_cart.calls.cartShippingMethodsWithUpdate.init();
-	app.model.dispatchThis('immutable');"  />
+	$('#modalCartContents').replaceWith(app.renderFunctions.createTemplateInstance('cartTemplate','modalCartContents'));
+	app.calls.refreshCart.init({'callback':'translateTemplate','parentID':'modalCartContents'},'immutable');
+	app.model.dispatchThis('immutable');
+	"  />
 
 <!--<select name='data.ship_country' id='data-ship_country_cart' data-bind='var: cart(data.ship_country); defaultValue:US; format:countriesAsOptions; extension: store_checkout;' required='required' onChange="app.ext.store_checkout.u.countryChange('ship',this.value); app.ext.convertSessionToOrder.u.addressFieldUpdated(this.id); app.model.dispatchThis('immutable');" ></select> Countries? -->
 
@@ -1332,11 +1370,11 @@ So the cart template should contain these two elements and the extension should 
 	<tr>
 		<td>
 	<ul class='twoColList listStyleNone'>
-		<li onClick="showContent('company',{'show':'payment'});">Payment</li>
-		<li onClick="showContent('company',{'show':'shipping'});">Shipping</li>
-		<li onClick="showContent('company',{'show':'return'});">Returns</li>
-		<li onClick="showContent('company',{'show':'privacy'});">Your Security/Privacy</li>
-		<li onClick="showContent('company',{'show':'contact'});">Customer Service</li>
+		<li onClick="showContent('company',{'show':'payment'});" class='pointer'>Payment</li>
+		<li onClick="showContent('company',{'show':'shipping'});" class='pointer'>Shipping</li>
+		<li onClick="showContent('company',{'show':'return'});" class='pointer'>Returns</li>
+		<li onClick="showContent('company',{'show':'privacy'});" class='pointer'>Your Security/Privacy</li>
+		<li onClick="showContent('company',{'show':'contact'});" class='pointer'>Customer Service</li>
 	</ul>
 		</td>
 	</tr>
@@ -1381,9 +1419,6 @@ So the cart template should contain these two elements and the extension should 
 
 
 
-
-
-
 <!-- cart line-item template -->
 <table>
 	<tr id='productListTemplateCart' class='padMargBorderBottom clearfix cartRow'>
@@ -1400,9 +1435,11 @@ So the cart template should contain these two elements and the extension should 
 
 		<td>
 <div class="cartStockContainer">
-	<div data-bind="var: product(full_product.is:preorder); format:addClass; className:preorder spriteBG;"></div>
-	<div data-bind="var: product(full_product.is:user4); format:addClass; className:backorder spriteBG;"></div>
 	<div data-bind="var: product(full_product.is:user6); format:addClass; className:soldOut spriteBG;"></div>
+	<div data-bind="var: product(full_product.is:user4); format:addClass; className:backorder spriteBG;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
+	<div data-bind="var: product(full_product.is:preorder); format:addClass; className:preorder spriteBG;"></div>
+	<div data-bind="var: product(full_product.is:specialorder); format:addClass; className:specialorder spriteBG;"  onClick="$('#invMessage_is_specialorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_specialorder').dialog('open');"></div>
+
 	<div class='inStock spriteBG'></div>
 </div>
 		</td>
@@ -1852,6 +1889,51 @@ The 'data-action' attribute is used to assign an onclick.
 		<button class='ui-button-text ui-button ui-state-default ui-corner-all ' id='modalLoginContinueButton' onClick="$('#loginFormForModal').dialog('close');">Continue</button>
 	</div>
 </div>
+
+
+
+
+
+<!-- these are a bunch of messaging used within modals. -->
+<div class='displayNone'>
+
+
+<div id='invMessage_is_specialorder' title="GKWorld.com 'special order' details">
+<p>We at GKWorld have over 30,000 items available so we are not able to stock all of our items. We do work very closely with our suppliers and receive weekly shipments in for special orders placed.</p>
+<p>From when this item is ordered it will take no longer then 5-10 business days for it to come into our warehouse and ship. We only charge special orders once they are shipped. Special orders can be cancelled at anytime.</p>
+<p><b>USA Orders:</b> Ordering items both In-Stock and on Special Order. In most cases we will ship the In-Stock items in 1-2 business days and the special ordered items separately. There is NEVER additional shipping; we cover all shipping charges on back orders.</p>
+<p><b>International Orders:</b> Ordering items both In-Stock and on Special Order. In most cases we will HOLD the In-Stock items until the special ordered items are re-stocked.</p>
+</div>
+
+
+<div id='invMessage_is_backorder' title="GKWorld.com 'back order' details">
+<p>GKWorld has over 30,000 items available so we are not able to stock all of our items. We do work very closely with our suppliers and receive weekly shipments in for back orders placed.</p>
+<p>Most back orders arrive to us within 2-3 weeks from when they are ordered. We will notify you once your back order has arrived and is ready to ship. We only charge back orders once they are shipped. Back orders can be cancelled at anytime.</p>
+<p><b>USA Orders:</b> Ordering items both In-Stock and on Back Order. In most cases we will ship the In-Stock items in 1-2 business days and the back ordered items separately. There is NEVER additional shipping; we cover all shipping charges on back orders.</p>
+<p><b>International Orders:</b> Ordering items both In-Stock and on Back Order. In most cases we will HOLD the In-Stock items until the back ordered items are re-stocked.</p>
+<p>If we ship the in-stock items first, do not worry there is NEVER additional shipping; we cover all shipping charges on back orders.</p>
+</div>
+
+
+<div id='shipMessageDomestic' title="GKWorld.com Domestic Shipping">
+<p>We ship out of Pennsylvania, USA. The closer you are to us the faster you will receive your order.</p>
+<p>The shipping times below are based on from the day you receive your shipping notice and tracking number.</p>
+<p>Priority Mail and FedEx Home takes 1-5 business days to arrive.</p>
+<p>Standard shipping is a slow mail service through the postal service which takes 5-10 business days to arrive.</p>
+<ul>
+	<li>FedEx Express Saver will take 3 business days to arrive.</li>
+	<li>FedEx Second Day will take 2 business days to arrive.</li>
+	<li>FedEx Overnight will take 1 business day to arrive.</li>
+</ul>
+<p>Please Note: If an item is on back order or is a pre-order, choosing a faster shipping time will NOT make the item re-stock faster.</p>
+</div>
+
+</div>
+
+
+
+
+
 
 
 
