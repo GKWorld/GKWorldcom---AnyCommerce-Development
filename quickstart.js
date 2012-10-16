@@ -592,7 +592,7 @@ need to be customized on a per-ria basis.
 
 
 			addPicSlider : function($tag,data)	{
-				app.u.dump("BEGIN myRIA.renderFormats.addPicSlider: "+data.value);
+//				app.u.dump("BEGIN myRIA.renderFormats.addPicSlider: "+data.value);
 				if(typeof app.data['appProductGet|'+data.value] == 'object')	{
 					var pdata = app.data['appProductGet|'+data.value]['%attribs'];
 //if image 1 or 2 isn't set, likely there are no secondary images. stop.
@@ -773,7 +773,13 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 
 				app.ext.myRIA.u.closeAllModals();  //close any open modal dialogs. important cuz a 'showpage' could get executed via wiki in a modal window.
 				//to avoid confusion, clear keywords when leaving a search page. cart opens a modal, so no need to clear.
-				if(pageType != 'search' || pageType != 'cart')	{$('.productSearchKeyword').val('');}
+//				app.u.dump("pagetype: "+pageType);
+				if(pageType != 'search' && pageType != 'cart')	{
+					$('.productSearchKeyword').each(function(){
+						var $this = $(this);
+						if($this[0].defaultValue != $this.val())	{$this.val($this[0].defaultValue)}
+						});
+					}
 				infoObj.state = 'onInits'; //needed for handleTemplateFunctions.
 
 				switch(pageType)	{
@@ -1683,6 +1689,7 @@ return r;
 				$('#mainContentArea').append(app.renderFunctions.createTemplateInstance('customerTemplate',parentID))
 				app.ext.myRIA.u.bindNav('#sideline a');
 				var authState = app.u.determineAuthentication();
+				app.u.dump(" -> authState:"+authState);
 				
 				P.templateID = 'customerTemplate';
 				P.state = 'onInits';
@@ -1993,8 +2000,18 @@ app.templates[P.templateID].find('[data-bind]').each(function()	{
 
 // this is a navcat in focus
 		else	{
+//for the page namespace, we only need to retrieve it if we don't already have it OR if the value is no null (null means it's been requested but has no value)
 			if(namespace == 'page')	{
-				myAttributes.push(attribute);  //set value to the actual value
+				if(app.data['appCategoryDetail|'+catSafeID] && app.data['appCategoryDetail|'+catSafeID]['%page'])	{
+					if(app.data['appCategoryDetail|'+catSafeID]['%page'][attribute])	{}
+					else if(app.data['appCategoryDetail|'+catSafeID]['%page'][attribute] === null){}
+					else	{
+						myAttributes.push(attribute);  //set value to the actual value
+						}
+					}
+				else	{
+					myAttributes.push(attribute);  //set value to the actual value
+					}
 				}
 			else if(namespace == 'category' && attribute == '@subcategoryDetail' )	{
 	//			app.u.dump(" -> category(@subcategoryDetail) found");
@@ -2133,8 +2150,8 @@ else	{
 //handles inline validation
 			loginFrmSubmit : function(email,password)	{
 				var errors = '';
-				var $errorDiv = $("#loginMessaging").empty().toggle(false); //make sure error screen is hidden and empty.
-				
+				var $errorDiv = $("#loginMessaging").empty(); //make sure error screen is empty. do not hide or callback errors won't show up.
+
 				if(app.u.isValidEmail(email) == false){
 					errors += "Please provide a valid email address<br \/>";
 					}
@@ -2150,7 +2167,7 @@ else	{
 					app.model.dispatchThis('immutable');
 					}
 				else {
-					$errorDiv.toggle(true).append(app.u.formatMessage(errors));
+					$errorDiv.append(app.u.formatMessage(errors));
 					}
 				}, //loginFrmSubmit
 			

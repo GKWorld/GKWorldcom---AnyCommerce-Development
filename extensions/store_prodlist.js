@@ -347,7 +347,7 @@ so the atc events are unbinded, then binded.
 event.preventDefault();
 // !!! TEMPORARY!!! this needs to be handled better. a function needs to be passed in or something.
 //move into the custom app. 
-app.ext.myRIA.u.handlePageContent('product',pid)
+showContent('product',{'pid':pid})
 					}).text('Choose Options')}
 					
 					}
