@@ -324,7 +324,7 @@ templateID - the template id used (from app.templates)
 					for(var i = 0; i < size; i +=1)	{
 						if(subcatDetail[i].pretty[0] != '!')	{
 							catSafeID = subcatDetail[i].id;
-							o += "<li><a href='#' onClick=\"showContent('category',{'navcat':'"+catSafeID+"'}); return false;\">"+subcatDetail[i].pretty+ " ("+subcatDetail[i]['@products'].length+")<\/a><\/li>";
+							o += "<li><a href='#' onClick=\"showContent('category',{'navcat':'"+catSafeID+"'}); $('.subcatListContainer',$('#nav')).hide(); return false;\">"+subcatDetail[i].pretty+ " ("+subcatDetail[i]['@products'].length+")<\/a><\/li>";
 							}
 						}
 					if(L > size)	{

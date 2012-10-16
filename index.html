@@ -49,7 +49,7 @@ css files should be included before any .js file to ensure they are downloaded i
 <link href='http://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" type="text/css" href="qs_styles.css" />
 <link rel="stylesheet" type="text/css" href="jquery-ui-1.8.23.custom.css" />
-<link rel="stylesheet" type="text/css" href="gkworld_styles-20120924.css">
+<link rel="stylesheet" type="text/css" href="gkworld_styles-20121016.css">
 
 
 <script type="text/javascript" src="jquery-1.7.2.min.js"></script>
@@ -135,8 +135,8 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 	<ul id='nav'>
 		
 		<li>
-		<a href='#category?navcat=.genre.anime_categories' class='bindByAnchor'>Anime<span class='spriteBG'></span></a>
-		<span>
+		<a href='#category?navcat=.genre.anime_categories' class='topCat'>Anime<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 			<ul class="child_menu subcatContainer ">
 				<li class='col1'>
 				<h6>Anime by Series</h6>
@@ -148,11 +148,11 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>Anime by Category</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.cartoon_categories' class='bindByAnchor'>Cartoons<span class='spriteBG'></span></a>
-		<span>
+		<li><a href='#category?navcat=.genre.cartoon_categories' class='topCat'>Cartoons<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 			<ul class="child_menu subcatContainer ">
 				<li class='col1'>
 				<h6>Cartoon by Series</h6>
@@ -164,11 +164,11 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>Cartoon by Category</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.comic_series_-_marvel' class='bindByAnchor'>Comics<span class='spriteBG'></span></a>
-		<span>
+		<li><a href='#category?navcat=.genre.comic_series_-_marvel' class='topCat'>Comics<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 			<ul class="child_menu subcatContainer twoCols ">
 				<li class='col1' id='subcats_genrecomic_series__marvel'>
 				<h6>Marvel Universe</h6>
@@ -177,11 +177,11 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>DC Universe</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.disney_categories' class='bindByAnchor'>Disney<span class='spriteBG'></span></a>
-		<span>
+		<li><a href='#category?navcat=.genre.disney_categories' class='topCat'>Disney<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 			<ul class="child_menu subcatContainer twoCols ">
 				<li class='col1' id='subcats_genredisney'>
 				<h6>Shop Disney by Series</h6>
@@ -190,12 +190,12 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>Shop Disney by Category</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 
 		
-		<li><a href='#category?navcat=.genre.tv_series_categories' class='bindByAnchor'>Movie/TV<span class='spriteBG'></span></a>
-		<span>
+		<li><a href='#category?navcat=.genre.tv_series_categories' class='topCat'>Movie/TV<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 			<ul class="child_menu subcatContainer twoCols ">
 				<li class='col1' id='subcats_genretv_series'>
 				<h6>Shop TV by Series</h6>
@@ -204,11 +204,11 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>Shop TV by Category</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 
-		<li><a href='#category?navcat=.genre.movie_categories' class='bindByAnchor'>Music<span class='spriteBG'></span></a>
-		<span>
+		<li><a href='#category?navcat=.genre.movie_categories' class='topCat'>Music<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 		<ul class="child_menu subcatContainer ">
 				<li class='col1'>
 				<h6>Music by Series</h6>
@@ -220,12 +220,12 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>Music by Category</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 
 		
-		<li><a href='#category?navcat=.genre.video_game_categories' class='bindByAnchor'>Video Games<span class='spriteBG'></span></a>
-		<span>
+		<li><a href='#category?navcat=.genre.video_game_categories' class='topCat'>Video Games<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
 		<ul class="child_menu subcatContainer ">
 				<li class='col1'>
 				<h6>Video Games by Series</h6>
@@ -237,11 +237,13 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 				<h6>Video Games by Category</h6>
 				</li>
 			</ul>
-		</span>
+		</div>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.zmore' class='bindByAnchor noRightBorder'>More<span class='spriteBG'></span></a>
-		<span id='subcats_genrezmore' class='fourCols subcatContainer'></span>
+		<li><a href='#category?navcat=.genre.zmore' class='noRightBorder topCat'>More<span class='spriteBG'></span></a>
+		<div class='subcatListContainer'>
+			<span id='subcats_genrezmore' class='fourCols subcatContainer'></span>
+		</div>
 		</li>
 	</ul>
 	
@@ -466,7 +468,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 </ul>
 
 <!-- used to generate container for subcats in tier1 nav. contents generated in navcat.renderformat.subcategory2LevelList -->
-<ul id='topLevelSubs' data-bind='var:category(@subcategoryDetail); format:subcategory2LevelList; extension:store_navcats; size:false; ' class="loadingBG"></ul>
+<ul id='topLevelSubs' data-bind='var:category(@subcategoryDetail); format:subcategory2LevelList; extension:store_navcats; size:false; '></ul>
 
 
 <ul>

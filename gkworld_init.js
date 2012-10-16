@@ -104,11 +104,20 @@ app.u.throwMessage = function(m)	{
 	}
 
 
+
+
 //put any code that you want executed AFTER the app has been initiated in here.  This may include adding onCompletes or onInits for a given template.
 app.u.appInitComplete = function()	{
 	app.u.loadScriptsByPass(2,true); //loads the rest of the scripts.
 	app.u.dump("Executing myAppIsLoaded code...");
-
+	$('.subcatListContainer a',$('#nav')).click(function(){$('.subcatListContainer',$('#nav')).hide();}); //make sure hard coded links close the nav
+	$('.topCat').click(function(event){
+		event.preventDefault();
+		$('.subcatListContainer').hide(); //closes all open menus
+		$('.subcatListContainer',$(this).parent()).css('display','block'); //opens active menu.
+	})
+	$('.subcatListContainer').append("<span class='ui-state-default ui-corner-all floatRight removeButton center' onClick='$(\".subcatListContainer\",$(\"#nav\")).hide();' ><span class='ui-icon ui-icon-closethick'></span></span>");
+	
 //display product blob fields in tabbed format.
 	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {$( "#tabbedProductContent" ).tabs()}) 
 	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
