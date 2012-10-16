@@ -548,6 +548,52 @@ need to be customized on a per-ria basis.
 
 		renderFormats : {
 
+
+
+			shipMethodsAsTable : function($tag,data)	{
+//				app.u.dump('BEGIN app.ext.convertSessionToOrder.formats.shipMethodsAsTable');
+				var o = '';
+				if(app.data.cartItemsList['data.ship_zip'])	{
+					var shipName;
+					var L = data.value.length;
+	
+					var id,safeid;  // id is actual ship id. safeid is id without any special characters or spaces. isSelectedMethod is set to true if id matches cart shipping id selected.
+					var isSelectedMethod = false;
+					if(L == 1)	{
+						isSelectedMethod = data.value[0].id; //will make the ship method 'selected' if it's the only choice.
+						}
+					for(var i = 0; i < L; i += 1)	{
+						
+						safeid = app.u.makeSafeHTMLId(data.value[i].id);
+						id = data.value[i].id;
+	
+	//whether or not this iteration is for the selected method should only be determined once, but is used on a couple occasions, so save to a var.
+						if(id == app.data.cartItemsList.cart['ship.selected_id'])	{
+							isSelectedMethod = true;
+							}
+	
+	//app.u.dump(' -> id = '+id+' and ship.selected_id = '+app.data.cartItemsList.cart['ship.selected_id']);
+						
+						shipName = app.u.isSet(data.value[i].pretty) ? data.value[i].pretty : data.value[i].name
+						
+						o += "<tr class='shipcon "
+						if(isSelectedMethod)
+							o+= ' ui-state-active selected  ';
+						o += "shipcon_"+safeid; //hhhmmm... seems to cause issues sometimes. add it last so ui-state-active and selected always get added.
+						o += "'><td><input type='radio' name='ship.selected_id' id='ship-selected_id_"+safeid+"' value='"+id+"' onClick='app.ext.store_cart.u.shipMethodSelected(this.value,\""+safeid+"\"); app.model.dispatchThis(\"immutable\");'";
+						if(isSelectedMethod)
+							o += " checked='checked' "
+						o += "/><label for='ship-selected_id_"+safeid+"'>"+shipName+": <\/label><\/td><td>"+app.u.formatMoney(data.value[i].amount,'$','',false)+"<\/td><\/tr>";
+						isSelectedMethod = false;
+						}
+					}
+				else	{
+					o = "<tr><td colspan='2'>Please enter zip for ship estimate<\/td><\/tr>"					
+					}
+				$tag.html(o);
+				}, //shipMethodsAsRadioButtons 
+
+
 //This function works in conjuction with the fetchPageContent and showPageContent functions.
 //the parent and subcategory data (appCategoryDetail) must be in memory already for this to work right.
 //data.value is the category object. data.bindData is the bindData obj.

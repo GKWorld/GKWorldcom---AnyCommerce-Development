@@ -645,7 +645,8 @@ need to remove duplicate code from this and the renderFormat. ###
 //$output is the multipage header object.  It is what is returned.
 				var $output = app.renderFunctions.transmogrify({'id':'mpControl_'+parentID+'_'+location},'mpControlSpec',app.ext.store_prodlist.vars[parentID]);
 				$output.find('.mpControlJumpToPage').click(function(){
-					app.ext.store_prodlist.u.mpJumpToPage(parentID,$(this).attr('data-page'))
+					app.ext.store_prodlist.u.mpJumpToPage(parentID,$(this).attr('data-page'));
+					app.u.jumpToAnchor(parentID);
 					})
 
 $output.find('.paging').each(function(){
@@ -653,13 +654,19 @@ $output.find('.paging').each(function(){
 	if($this.attr('data-role') == 'next')	{
 		if(app.ext.store_prodlist.vars[parentID].page_in_focus == app.ext.store_prodlist.vars[parentID].total_page_count)	{$this.attr('disabled','disabled').addClass('ui-state-disabled')}
 		else	{
-			$(this).click(function(){app.ext.store_prodlist.u.mpJumpToPage(parentID,app.ext.store_prodlist.vars[parentID].page_in_focus + 1)})
+			$(this).click(function(){
+				app.ext.store_prodlist.u.mpJumpToPage(parentID,app.ext.store_prodlist.vars[parentID].page_in_focus + 1);
+				app.u.jumpToAnchor(parentID);
+				})
 			}
 		}
 	else if($this.attr('data-role') == 'previous')	{
 		if(app.ext.store_prodlist.vars[parentID].page_in_focus == 1)	{$this.attr('disabled','disabled').addClass('ui-state-disabled')}
 		else	{
-			$(this).click(function(){app.ext.store_prodlist.u.mpJumpToPage(parentID,app.ext.store_prodlist.vars[parentID].page_in_focus - 1)})
+			$(this).click(function(){
+				app.ext.store_prodlist.u.mpJumpToPage(parentID,app.ext.store_prodlist.vars[parentID].page_in_focus - 1)
+				app.u.jumpToAnchor(parentID);
+				})
 			}
 		}
 	});

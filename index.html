@@ -23,7 +23,7 @@ var myCreole;
 
 
 var app = {vars:{
-	"release":"20121009142800",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20121015050600",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"baseURL":"",
 	"httpsURL":"https://secure.gkworld.com/s=app.gkworld.com/",
 	"httpURL":"http://app.gkworld.com/"
@@ -500,9 +500,9 @@ remember to NOT put the button inside the 'onclick' container or two events will
 
 	</div>
 
-	<form data-bind='var: product(pid); format:atcForm; extension:store_product;' class='prodViewerAddToCartForm' id='prodViewerAddToCartFrm' action='#' onSubmit="app.ext.myRIA.u.handleAddToCart(this.id);  return false;">
+	<form data-bind='var: product(pid); format:atcForm; extension:store_product;' class='prodViewerAddToCartForm' id='prodViewerAddToCartFrm' action='#' onSubmit="app.ext.myRIA.u.handleAddToCart(this.id,{'action':'modal'});  return false;">
 	
-		<input type="hidden" data-bind='var: product(pid); format:atcFixedQuantity; extension:store_product;' name="quantity" value="1">
+		<input type="hidden" data-bind='var: product(pid); format:atcFixedQuantity; extension:store_product;' name="quantity" value="1" />
 <!--
 the data-bind format will handle whether an 'addToCartButton' or 'chooseOptionsButton' class is added to this button.
 the text will also be added. if no text is desired, use CSS
@@ -1271,63 +1271,80 @@ sticky, so they're fixed. Makes it easier on the designer and the developer.
 So the cart template should contain these two elements and the extension should contain these two templates.
 -->
 
-<div id='cartTemplate' class='loadingBG'>
-
+<div id='cartTemplate' class='loadingBG cartContainer'>
+	<div id='cartMessaging'></div>
 <form id='cartTemplateForm' action='#' onSubmit='return false'>
-<table id='cartStuffList' data-bind="var: cart(stuff); format:stuffList; loadsTemplate:productListTemplateCart;" class='borderTable'>
+<table id='cartStuffList' data-bind="var: cart(stuff); format:stuffList; loadsTemplate:productListTemplateCart;" class='borderTable marginBottom'>
 <thead>
+<tr>
 	<th colspan="2">product information</th>
 	<th>availability</th>
 	<th>unit price</th>
 	<th>qty</th>
 	<th>total</th>
-	<th>remove</th>
+	<th></th>
+</tr>
 </thead>
+<tfoot>
+<tr>
+	<td colspan='3'>
+	<label for='coupon'>Voucher Code:</label>
+	<input type='text' name='coupon' size='8' id='cartCouponCode' onKeyPress="if(event.keyCode==13){$('#addCouponBtn').click();}" />
+	<button class='loadingButton ui-state-default ui-corner-all' onClick="app.ext.store_cart.u.handleCouponSubmit($('#cartCouponCode').val(),'cartMessaging'); app.model.dispatchThis('immutable'); return false;">add</button>
+	</td>
+	<td colspan='2' class='alignRight'>Subtotal:</td>
+	<td colspan='2' data-bind="var: cart(data.order_subtotal); format:money; className:orderSubtotal; hideZero:false; currencySign: $;"></td>
+</tr>
+</tfoot>
 </table>
-<br />
 <div  id='cartTemplateCostSummary'>
 <table class='summaryAndShippingContainer'>
 <tr>
 	<td>
-<div>
-	<h5>Calculate shipping and tax</h5>
-
-<div class='clearfix marginBottom'>
-
-	<div class='floatLeft'>
+	<div class='marginRight'>
+	<table class='borderTable marginBottom'>
+	<thead>
+	<tr>
+		<th colspan='2'>Calculate shipping and tax</th>
+	</tr>
+	</thead>
+	<tr>
+		<td colspan='2'>
 		<label for='data-ship_zip'>Zip/Postal Code:</label>
 		<input type='text' size='6'  name='data.ship_zip' id='data-ship_zip' value='' data-bind='var: cart(data.ship_zip); format:popVal;' maxlength='10' onChange="app.calls.cartSet.init({'data.ship_zip':this.value});
 	app.ext.store_cart.u.updateCartSummary();
 	app.ext.store_cart.calls.cartShippingMethodsWithUpdate.init();
 	app.model.dispatchThis('immutable');"  />
-	</div>
-	
-	<div class='floatLeft marginLeft'><!--<select name='data.ship_country' id='data-ship_country_cart' data-bind='var: cart(data.ship_country); defaultValue:US; format:countriesAsOptions; extension: store_checkout;' required='required' onChange="app.ext.store_checkout.u.countryChange('ship',this.value); app.ext.convertSessionToOrder.u.addressFieldUpdated(this.id); app.model.dispatchThis('immutable');" ></select>-->Countries?</div>
 
-</div>
+<!--<select name='data.ship_country' id='data-ship_country_cart' data-bind='var: cart(data.ship_country); defaultValue:US; format:countriesAsOptions; extension: store_checkout;' required='required' onChange="app.ext.store_checkout.u.countryChange('ship',this.value); app.ext.convertSessionToOrder.u.addressFieldUpdated(this.id); app.model.dispatchThis('immutable');" ></select> Countries? -->
 
-
-	<div data-bind='var: cart(data.ship_zip); format:showIfSet;' class='displayNone'>
-	<ul class='noPadOrMargin listStyleNone cartShipMethods' data-bind='var: cart(@shipmethods); format:shipMethodsAsRadioButtons; extension:store_cart;'></ul>
-	</div>
-
-	<h5>Shipping and Order Information</h5>
-	
+		</td>
+	</tr>
+	<tbody data-bind='var: cart(@shipmethods); format:shipMethodsAsTable; extension:myRIA;'>
+	</tbody>
+	</table>
+	<table class='borderTable marginBottom'>
+	<thead>
+	<tr>
+		<th>Shipping and Order Information</th>
+	</tr>
+	</thead>
+	<tr>
+		<td>
 	<ul class='twoColList listStyleNone'>
 		<li onClick="showContent('company',{'show':'payment'});">Payment</li>
 		<li onClick="showContent('company',{'show':'shipping'});">Shipping</li>
 		<li onClick="showContent('company',{'show':'return'});">Returns</li>
-<!--		<li onClick="showContent('company',{'show':''});">Your Security</li> -->
 		<li onClick="showContent('company',{'show':'privacy'});">Your Security/Privacy</li>
 		<li onClick="showContent('company',{'show':'contact'});">Customer Service</li>
 	</ul>
-	
-</div>	
+		</td>
+	</tr>
+	</table>
+	</div>
 	</td>
 	<td class='alignRight'>
-<section class='cartSummary'>
-
-	<div data-bind="var: cart(data.order_subtotal); format:money; className:orderSubtotal; hideZero:false; currencySign: $; pretext:Subtotal: ; "></div>
+<div class='cartSummary cartBorder marginBottom marginLeft'>
 	
 	<div data-bind='var: cart(data.tax_total); format:money; className:orderTax; hideZero:true;currencySign: $; pretext:Tax: ; '></div>
 
@@ -1338,7 +1355,7 @@ So the cart template should contain these two elements and the extension should 
 	<div data-bind='var: cart(chkout.giftcard_total); format:money; className:orderGiftcardTotal; hideZero:false; currencySign: $; pretext:Giftcard(s): ; '></div>
 	<div data-bind='var: cart(data.balance_due); format:orderBalance; className:orderBalanceDue; hideZero:false; currencySign: $; pretext:Estimated Total: ; extension:store_cart;'></div>
 
-</section>
+</div>
 
 <div>
 
@@ -1386,7 +1403,7 @@ So the cart template should contain these two elements and the extension should 
 	<div data-bind="var: product(full_product.is:preorder); format:addClass; className:preorder spriteBG;"></div>
 	<div data-bind="var: product(full_product.is:user4); format:addClass; className:backorder spriteBG;"></div>
 	<div data-bind="var: product(full_product.is:user6); format:addClass; className:soldOut spriteBG;"></div>
-	<div data-bind="var: product(full_product.is:user5); format:addClass; className:inStock spriteBG;"></div>
+	<div class='inStock spriteBG'></div>
 </div>
 		</td>
 		<td><span data-bind='var: product(price); format:money; currencySign: $;  hideZero:false;' ></span></td>
@@ -1397,9 +1414,9 @@ So the cart template should contain these two elements and the extension should 
 
 		</td>
 		<td><span data-bind='var: product(extended); format:money; currencySign: $; hideZero:false;'></span></td>
-		<td>
+		<td class='alignCenter'>
 
-<span class='ui-state-default ui-corner-all floatRight removeButton' data-bind='var: product(stid); format:removeItemBtn; extension:store_cart;' >
+<span class='ui-state-default ui-corner-all floatRight removeButton center' data-bind='var: product(stid); format:removeItemBtn; extension:store_cart;' >
 	<span class='ui-icon ui-icon-closethick'></span>
 </span>		
 		

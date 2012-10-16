@@ -10,7 +10,7 @@ app.vars.extensions = [
 	{"namespace":"store_navcats","filename":"extensions/gkworld_navcats.js"},
 	{"namespace":"store_search","filename":"extensions/store_search.js"},
 	{"namespace":"store_product","filename":"extensions/store_product.js"},
-	{"namespace":"store_cart","filename":"extensions/store_cart.js"},
+	{"namespace":"store_cart","filename":"extensions/gkworld_cart.js"}, /* updateCartSummary tweaked */
 //	{"namespace":"analytics_google","filename":"extensions/analytics_google.js","callback":"addTriggers"},
 //	{"namespace":"bonding_buysafe","filename":"extensions/bonding_buysafe.js","callback":"addTriggers"},
 	{"namespace":"store_crm","filename":"extensions/store_crm.js"},
