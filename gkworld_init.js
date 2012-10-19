@@ -124,6 +124,17 @@ app.u.appInitComplete = function()	{
 		app.ext.myRIA.u.handleToolTip('#'+P.parentID);
 		}) 
 
+//get an elastic list of similar items (ugenre) and throw them into a carousel.
+	app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
+		var ugenre = app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_ugenre'];
+		app.u.dump(" -> ugenre: "+ugenre);
+		if(ugenre)	{
+			$('#prodTemplateUgenreCarousel').append("<h2 class='greyGradient marginBottom'>Similar "+ugenre+" Items</h2><div class='jCarouselLite clearfix'><ul id='prodpageUgenreSearch' class='productList' data-bind='var: elastic-native({'size':'25','mode':'elastic-native','filter':{'term':{'prod_name':'halo'}}}); format: productSearch; extension: myRIA; loadsTemplate: productListTemplateResults;'></ul><div class='nav'><a href='#' class='prev greenGradient'>&#171;</a><a href='#' class='next greenGradient'>&#187;</a></div></div>");
+			
+			app.ext.store_search.calls.appPublicProductSearch.init({"size":"20","mode":"elastic-native","filter":{"term":{"prod_ugenre":ugenre}}},{'datapointer':'appPublicSearch|prodTemplateUgenreCarousel','parentID':'prodTemplateUgenreCarousel','callback':'handleCustomSearch','extension':'myRIA'});
+			app.model.dispatchThis();
+			}
+		}) 
 
 /* code for obtaining and displaying the dropdowns for the top level nav */
 	var topCats = new Array('.genre.anime_categories','.genre.cartoon_categories','.genre.comic_series_-_marvel','.genre.comic_series_-_dc','.genre.disney_categories','.genre.disney','.genre.movie_categories','.genre.music_categories','.genre.tv_series_categories','.genre.tv_series','.genre.video_game_categories','.genre.zmore');

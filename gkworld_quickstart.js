@@ -488,6 +488,20 @@ else	{
 				}
 			}, //showList
 
+
+//a call back to be used to show a specific list of product in a specific element.
+//requires templateID and targetID to be passed on the tag object.
+		handleCustomSearch : {
+			onSuccess : function(tagObj)	{
+				app.u.dump("BEGIN myRIA.callbacks.handleCustomSearch");
+//				app.u.dump(app.data[tagObj.datapointer]);
+				app.ext.myRIA.renderFormats.productSearch($('#'+tagObj.parentID),{value:app.data[tagObj.datapointer]});
+				app.u.dump(" RUN CAROUSEL CODE HERE");
+				}
+			}, //showList
+
+
+
 //a call back to be used to show a specific list of product in a specific element.
 //requires templateID and targetID to be passed on the tag object.
 		showProdList : {
@@ -667,22 +681,26 @@ need to be customized on a per-ria basis.
 // this function gets executed after the request has been made, in the showPageContent response. for this reason it should NOT BE MOVED to store_search
 // ## this needs to be upgraded to use app.ext.store_search.u.getElasticResultsAsJQObject
 			productSearch : function($tag,data)	{
-//				app.u.dump("BEGIN myRIA.renderFormats.productSearch");
+				app.u.dump("BEGIN myRIA.renderFormats.productSearch");
 				data.bindData = app.renderFunctions.parseDataBind($tag.attr('data-bind'));
 //				app.u.dump(data);
 				
 				var parentID = $tag.attr('id');
 				var L = data.value.hits.hits.length;
-				var templateID = data.bindData.loadsTemplate ? data.bindData.loadsTemplate : 'productListTemplateResults';
-				var pid;
-				for(var i = 0; i < L; i += 1)	{
-					pid = data.value.hits.hits[i]['_id'];
-					$tag.append(app.renderFunctions.transmogrify({'id':parentID+'_'+pid,'pid':pid},templateID,data.value.hits.hits[i]['_source']));
+//only proceed if there are results.
+				app.u.dump(" -> L: "+L);
+
+				if(L)	{
+					var templateID = data.bindData.loadsTemplate ? data.bindData.loadsTemplate : 'productListTemplateResults';
+					var pid;
+					for(var i = 0; i < L; i += 1)	{
+						pid = data.value.hits.hits[i]['_id'];
+						$tag.append(app.renderFunctions.transmogrify({'id':parentID+'_'+pid,'pid':pid},templateID,data.value.hits.hits[i]['_source']));
+						}
+					if(data.bindData.before) {$tag.before(data.bindData.before)} //used for html
+					if(data.bindData.after) {$tag.after(data.bindData.after)}
+					if(data.bindData.wrap) {$tag.wrap(data.bindData.wrap)}
 					}
-				
-				if(data.bindData.before) {$tag.before(data.bindData.before)} //used for html
-				if(data.bindData.after) {$tag.after(data.bindData.after)}
-				if(data.bindData.wrap) {$tag.wrap(data.bindData.wrap)}		
 				},
 
 /*
