@@ -23,7 +23,7 @@ var myCreole;
 
 
 var app = {vars:{
-	"release":"20121015050600",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20121022074600",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"baseURL":"",
 	"httpsURL":"https://secure.gkworld.com/s=app.gkworld.com/",
 	"httpURL":"http://app.gkworld.com/"
@@ -855,11 +855,11 @@ Intl. Express Mail – This mail service takes about 3-5 business days to arrive
 
 <!-- must be outside table, otherwise width goes way wide -->
 <div id='prodlistRelatedContainer'>
-	<ul id='prodlistRelated' class='listStyleNone fluidList clearfix noPadOrMargin productList' data-bind="var: product(zoovy:related_products); format:productList; extension:store_prodlist;loadsTemplate:productListTemplate;hide_multipage_controls:true;hide_multipage:true; before:<h2 class='greyGradient marginBottom'>Similar Items</h2>; withReviews:1;"></ul>
+	<ul id='prodlistRelated' class='listStyleNone fluidList clearfix noPadOrMargin productList' data-bind="var: product(zoovy:related_products); format:productList; extension:store_prodlist;loadsTemplate:productListTemplate;hide_multipage_controls:true;hide_multipage:true; before:<h2 class='greyGradient marginBottom'>Similar Items</h2>; withReviews:1; withInventory:1; withVariations:1;"></ul>
 </div>
 
 <!-- gets populated in an onCompletes if ugenre is set -->
-<div id='prodTemplateUgenreCarousel' class='homeCarouselContainer'></div>
+<div id='prodTemplateUgenreCarousel'></div>
 
 
 

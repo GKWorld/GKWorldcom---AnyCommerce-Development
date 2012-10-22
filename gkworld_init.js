@@ -129,7 +129,7 @@ app.u.appInitComplete = function()	{
 		var ugenre = app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_ugenre'];
 		app.u.dump(" -> ugenre: "+ugenre);
 		if(ugenre)	{
-			$('#prodTemplateUgenreCarousel').append("<h2 class='greyGradient marginBottom'>Similar "+ugenre+" Items</h2><div class='jCarouselLite clearfix'><ul id='prodpageUgenreSearch' class='productList' data-bind='var: elastic-native({'size':'25','mode':'elastic-native','filter':{'term':{'prod_name':'halo'}}}); format: productSearch; extension: myRIA; loadsTemplate: productListTemplateResults;'></ul><div class='nav'><a href='#' class='prev greenGradient'>&#171;</a><a href='#' class='next greenGradient'>&#187;</a></div></div>");
+			$('#prodTemplateUgenreCarousel').append("<h2 class='greyGradient marginBottom'>More "+ugenre+" Items</h2><div class='jCarouselLite clearfix'><ul id='prodpageUgenreSearch' class='listStyleNone fluidList clearfix noPadOrMargin productList' data-bind='var: elastic-native({'size':'25','mode':'elastic-native','filter':{'term':{'prod_name':'halo'}}}); format: productSearch; extension: myRIA; loadsTemplate: productListTemplateResults;'></ul><div class='nav'><a href='#' class='prev greenGradient'>&#171;</a><a href='#' class='next greenGradient'>&#187;</a></div></div>");
 			
 			app.ext.store_search.calls.appPublicProductSearch.init({"size":"20","mode":"elastic-native","filter":{"term":{"prod_ugenre":ugenre}}},{'datapointer':'appPublicSearch|prodTemplateUgenreCarousel','parentID':'prodTemplateUgenreCarousel','callback':'handleCustomSearch','extension':'myRIA'});
 			app.model.dispatchThis();
