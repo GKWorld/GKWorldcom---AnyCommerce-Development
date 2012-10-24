@@ -34,7 +34,7 @@ h6	{font-size:.9em}
 .spriteBG	{background-image:url(images/sprites-500x500.png); background-repeat: no-repeat;}
 
 
-.contentWidth	{width:90%; max-width:1100px; min-width:768px; margin:0 auto;}
+.contentWidth	{width:90%; max-width:1100px; min-width:750px; margin:0 auto;}
 .reverse	{color:#ffffff;} /* class to apply to text on the dark bg. prodlist headers and such. */
 
 .basePrice	{color:#d62d02; font-size:1.8em; font-weight:normal;}
@@ -175,6 +175,8 @@ ul.twoColList	{
 
 .nav ul	{display:inline-block;} /* allows for centering menu inside parent */
 .nav ul, .nav li	{list-style:none; padding:0; margin:0;}
+
+.topCat	{font-family: "Helvetica Condensed", Helvetica, "Arial Narrow", arial, sans-serif}
 
 #nav{
 	list-style:none;
@@ -569,18 +571,28 @@ fieldset.qtyInput	{line-height:33px;}
 
 
 /* http://codepad.co/s/7cca38#select */
-
-@media screen and (max-width: 1180px) {
-	#nav a	{padding:0 20px;}
+@media screen and (max-width: 1280px) {
+	#nav a	{padding:0 20px; font-size:.94em;}
 	#nav ul li a	{font-size:.8em;  font-weight:normal; padding:5px 5px 5px 20px; margin:0;}
 	}
 
 @media screen and (max-width: 1080px) {
-	#nav a	{font-size:.9em;}
+	#nav a	{font-size:.89em;}
+	.mpControls {line-height:40px;}
+	.mpControls	.paging {width:40px; height:40px;}
+	.mpControls .paging .ui-icon	{margin:12px 0 0 12px;}
 	}
 @media screen and (max-width: 1020px) {
-	#nav a	{font-size:.85em;}
-	#nav a	{padding:0 15px;}
+	#nav a	{font-size:.88em;}
+	#nav a	{padding:0 14px;}
 	#nav ul li a	{font-size:.7em;  font-weight:normal; padding:4px 5px 4px 20px; margin:0;}
 	#headerKeywords	{width:300px;}
+	}
+@media screen and (max-width: 920px) {
+	#nav a	{font-size:.75em;}
+	#nav a	{padding:0 12px;}
+	#headerKeywords	{width:280px;}
+	#mastFooter .section	{width:20%;}
+	#mastFooter .columnFour	{width:220px;}
+	#mastFooter h4	{font-size:1.2em; color:#ffffff;}
 	}

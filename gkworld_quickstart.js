@@ -824,6 +824,8 @@ fallback is to just output the value.
 // -> unshift is used in the case of 'recent' so that the 0 spot always holds the most recent and also so the length can be maintained (kept to a reasonable #).
 			showContent : function(pageType,infoObj)	{
 //				app.u.dump("BEGIN showContent.");
+				$('.subcatListContainer').hide(); //make sure menus are closed.
+				$('.toolTip').hide(); //close any open tooltips.
 /*
 what is returned. is set to true if pop/pushState NOT supported. 
 if the onclick is set to return showContent(... then it will return false for browser that support push/pop state but true
@@ -1235,9 +1237,10 @@ P.listID (buyer list id)
 					$('.tipify',container).each(function(){
 						var $this = $(this);
 						$this.parent().css('position','relative'); //this is what makes the tooltip appear next to the link instead of off in space.
-						$this.click(function(event){event.preventDefault();}).unbind('.thisToolTip').bind('mouseover.thisToolTip',function(){
-							$('.toolTip',$this.parent()).show();
-							}).mouseout(function(){	$('.toolTip',$this.parent()).hide();});
+						$('.toolTip',$this.parent()).prepend("<span onClick='$(\".toolTip\",\""+container+"\").hide();' class='ui-state-default ui-corner-all floatRight marginLeft marginBottom pointer' ><span class='ui-icon ui-icon-closethick'></span></span>");
+						$this.click(function(event){event.preventDefault();}).unbind('.thisToolTip').bind('click.thisToolTip',function(){
+							$('.toolTip',$this.parent()).toggle();
+							})
 						});
 					}
 				else	{
@@ -2260,7 +2263,7 @@ else	{
 //obj currently supports one param w/ two values:  action: modal|message
 			handleAddToCart : function(formID,obj)	{
 
-
+$('.toolTip').hide(); //close any open tooltips
 if(typeof obj != 'object')	{
 	obj = {'action':'message'}
 	}

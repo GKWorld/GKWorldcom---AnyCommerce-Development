@@ -116,6 +116,8 @@ app.u.appInitComplete = function()	{
 		$('.subcatListContainer').hide(); //closes all open menus
 		$('.subcatListContainer',$(this).parent()).css('display','block'); //opens active menu.
 	})
+
+	
 	$('.subcatListContainer').append("<span class='ui-state-default ui-corner-all floatRight removeButton center' onClick='$(\".subcatListContainer\",$(\"#nav\")).hide();' ><span class='ui-icon ui-icon-closethick'></span></span>");
 	
 //display product blob fields in tabbed format.
