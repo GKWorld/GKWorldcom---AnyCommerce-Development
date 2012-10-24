@@ -138,15 +138,17 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 		<a href='#category?navcat=.genre.anime_categories' class='topCat'>Anime<span class='spriteBG'></span></a>
 		<div class='subcatListContainer'>
 			<ul class="child_menu subcatContainer ">
-				<li class='col1'>
-				<h6>Anime by Series</h6>
+				<li>
+				<div class='clearfix topRow'>
+				<h6>Anime by Series:</h6>
 					<a href='#category?navcat=.genre.anime_miscellaneous' class='bindByAnchor'>Anime A-G</a>
 					<a href='#category?navcat=.genre.anime_n' class='bindByAnchor'>Anime H-N</a>
 					<a href='#category?navcat=.genre.anime_o' class='bindByAnchor'>Anime O-Z</a>
-				</li>
-				<li class='col2' id='subcats_genreanime_categories'>
+				</div>
+				<hr />
+				<div class='clearfix' id='subcats_genreanime_categories'>
 				<h6>Anime by Category</h6>
-				</li>
+				</div>
 			</ul>
 		</div>
 		</li>

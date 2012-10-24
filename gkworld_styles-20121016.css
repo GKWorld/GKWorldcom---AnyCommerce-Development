@@ -256,14 +256,18 @@ ul.twoColList	{
 
 #nav li li ul	{position:relative;
 	left:0px;
-	-webkit-column-count: 3;
-	-moz-column-count: 3;
-	column-count: 3;
+	width:100%;
+	-webkit-column-count: 5;
+	-moz-column-count: 5;
+	column-count: 5;
 	} /* third level is visible */
+
 
 
 #nav .subcatContainer	{padding:10px 0;}
 #nav .subcatContainer h6	{font-size:1.1em; padding:6px 0;padding:0 0 12px 20px;}
+
+#nav .subcatContainer .topRow h6, #nav .subcatContainer .topRow a	{float:left; display:inline-block; width:20%;}
 
 /* used for dd's where there's a slim column on left and a wider col on right w/ 3 cols of cats. (ex: anime) */
 
