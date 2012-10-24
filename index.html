@@ -1432,9 +1432,13 @@ So the cart template should contain these two elements and the extension should 
 
 		<td>
 <div class="cartStockContainer">
+	
 	<div data-bind="var: product(full_product.is:user6); format:addClass; className:soldOut spriteBG;"></div>
+	
 	<div data-bind="var: product(full_product.is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
+	
 	<div data-bind="var: product(full_product.is:preorder); format:addClass; className:preorder spriteBG;"></div>
+	
 	<div data-bind="var: product(full_product.is:specialorder); format:addClass; className:specialorder spriteBG pointer;"  onClick="$('#invMessage_is_specialorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_specialorder').dialog('open');"></div>
 
 	<div class='inStock spriteBG'></div>
