@@ -4,8 +4,8 @@ var app = app || {vars:{},u:{}}; //make sure app exists.
 //if an extension is 'required' for any page within the store to load properly, the extension should be added as a dependency within quickstart.js
 app.vars.extensions = [
 	{"namespace":"store_prodlist","filename":"extensions/store_prodlist.js"},
-	{"namespace":"convertSessionToOrder","filename":"extensions/checkout_passive/extension.js"},  /* checkout_passive does not require buyer to login */
-//	{"namespace":"convertSessionToOrder","filename":"extensions/checkout_nice/extension.js"},	/* checkout_nice prompts buyer to login */
+//	{"namespace":"convertSessionToOrder","filename":"extensions/checkout_passive/extension.js"},  /* checkout_passive does not require buyer to login */
+	{"namespace":"convertSessionToOrder","filename":"extensions/checkout_nice/extension.js"},	/* checkout_nice prompts buyer to login */
 	{"namespace":"store_checkout","filename":"extensions/store_checkout.js"},
 	{"namespace":"store_navcats","filename":"extensions/store_navcats.js"},
 	{"namespace":"store_search","filename":"extensions/store_search.js"},
