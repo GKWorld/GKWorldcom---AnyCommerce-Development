@@ -495,8 +495,13 @@ else	{
 			onSuccess : function(tagObj)	{
 				app.u.dump("BEGIN myRIA.callbacks.handleCustomSearch");
 //				app.u.dump(app.data[tagObj.datapointer]);
-				app.ext.myRIA.renderFormats.productSearch($('#'+tagObj.parentID),{value:app.data[tagObj.datapointer]});
-				app.u.dump(" RUN CAROUSEL CODE HERE");
+				if(app.data[tagObj.datapointer].hits.total)	{
+					app.ext.myRIA.renderFormats.productSearch($('#'+tagObj.parentID),{value:app.data[tagObj.datapointer]});
+					app.u.dump(" RUN CAROUSEL CODE HERE");
+					}
+				else	{
+//					$('#'+tagObj.parentID).closest('.carouselParent').hide(); //hides container, including title.
+					}
 				}
 			}, //showList
 
