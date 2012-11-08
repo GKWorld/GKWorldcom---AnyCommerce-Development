@@ -628,7 +628,7 @@ need to remove duplicate code from this and the renderFormat. ###
 //				app.u.dump("BEGIN app.ext.store_prodlist.u.mpJumpToPage");
 //				app.u.dump(" -> parentID = "+parentID);
 //				app.u.dump(" -> page = "+page);
-
+				$('html, body').animate({scrollTop : 0},200);
 //update the vars object to reflect the new page that will be in focus.
 				app.ext.store_prodlist.vars[parentID].page_in_focus = page;
 //once page is set, setProdlistVars will automatically recompute the start and end points.

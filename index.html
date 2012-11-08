@@ -215,15 +215,18 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 
 		<li><a href='#category?navcat=.genre.movie_categories' class='topCat'>Music<span class='spriteBG'></span></a>
 		<div class='subcatListContainer'>
-		<ul class="child_menu subcatContainer ">
-				<li class='col1'>
+			<ul class="child_menu subcatContainer ">
+				<li>
+				<div class='clearfix topRow'>
 				<h6>Music by Series</h6>
 					<a href='#category?navcat=.genre.music_series_a-g' class='bindByAnchor'>Music A-G</a>
 					<a href='#category?navcat=.genre.music_series_h-n' class='bindByAnchor'>Music H-N</a>
 					<a href='#category?navcat=.genre.music_series_o-z' class='bindByAnchor'>Music O-Z</a>
-				</li>
-				<li class='col2' id='subcats_genremusic_categories'>
+				</div>
+				<hr />
+				<div class='clearfix' id='subcats_genremovie_categories'>
 				<h6>Music by Category</h6>
+				</div>
 				</li>
 			</ul>
 		</div>
@@ -232,15 +235,18 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 		
 		<li><a href='#category?navcat=.genre.video_game_categories' class='topCat'>Video Games<span class='spriteBG'></span></a>
 		<div class='subcatListContainer'>
-		<ul class="child_menu subcatContainer ">
-				<li class='col1'>
-				<h6>Video Games by Series</h6>
+			<ul class="child_menu subcatContainer ">
+				<li>
+				<div class='clearfix topRow'>
+				<h6>Games by Series</h6>
 					<a href='#category?navcat=.genre.video_game_series_a-g' class='bindByAnchor'>Video Games A-G</a>
 					<a href='#category?navcat=.genre.video_game_series_h-n' class='bindByAnchor'>Video Games H-N</a>
 					<a href='#category?navcat=.genre.video_game_series_o-z' class='bindByAnchor'>Video Games O-Z</a>
-				</li>
-				<li class='col2' id='subcats_genrevideo_game_categories'>
+				</div>
+				<hr />
+				<div class='clearfix' id='subcats_genrevideo_game_categories'>
 				<h6>Video Games by Category</h6>
+				</div>
 				</li>
 			</ul>
 		</div>
@@ -692,7 +698,7 @@ this will likely become more flexible in the future. ###
 	<div class='prodViewerReviewSummary marginBottom cleafix'>
 		<span data-bind='var: reviews(average); format:addClass; className:review_;' class='reviewSprite'></span>
 		<span data-bind='var: reviews(total); format:text;pretext: (;posttext: reviews); className:numReviews;'></span>
-		<span><a href='#' onClick='app.ext.store_crm.u.showReviewFrmInModal({"pid":$(this).closest(["data-pid"]).attr("data-pid"),"templateID":"reviewFrmTemplate"}); return false;'>Write Review</a></span>
+		<span><a href='#' onClick='app.ext.store_crm.u.showReviewFrmInModal({"pid":$(this).attr("data-pid"),"templateID":"reviewFrmTemplate"});' data-bind='var:product(pid);format:assignAttribute; attribute:data-pid;'>Write Review</a></span>
 	</div>
 
 	<div class='priceContainer clearfix'>
@@ -1041,7 +1047,7 @@ adding classes is not likely to have any bad effects.
 				<div><label for='contactFormSender'>Email Address: </label><input type='email' name='sender' required='required' id='contactFormSender' /></div>
 				<div><label for='contactFormSubject'>Subject: </label><input type='text' name='subject' id='contactFormSubject' /></div>
 				<div><label for='contactFormOID'>Order ID: </label><input type='text' name='OID' id='contactFormOID' /></div>
-				<div><label for='contactFormBody'>Message: </label><textarea name='body' required='required' id='contactFormBody'></textarea></div>
+				<div><label for='contactFormBody'>Message: </label><textarea name='body' required='required' id='contactFormBody' rows='20'></textarea></div>
 				<div class='alignRight'><input type='submit' class='ui-button-text ui-button ui-state-default ui-corner-all' value='Send Message' />
 				</div>
 			</fieldset>

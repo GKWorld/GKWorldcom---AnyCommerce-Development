@@ -1108,6 +1108,7 @@ P.listID (buyer list id)
 //optional params include: qty, priority, note, and replace. see API docs for explanation.
 			add2BuyerList : function(P){
 				var authState = app.u.determineAuthentication();
+				app.u.dump(" -> authState: "+authState);
 				if(typeof P != 'object' || !P.pid || !P.listid)	{
 					app.u.throwMessage("Uh Oh! Something went wrong. Please try that again or contact the site administrator if error persists. err: required param for add2buyerList was missing. see console for details.");
 					app.u.dump("ERROR! params missing for add2BuyerList. listid and pid required. params: "); app.u.dump(P);
@@ -1125,7 +1126,7 @@ P.listID (buyer list id)
 					var parentID = 'listUpdateMsgContainer';
 					var $parent = $('#'+parentID)
 					if($parent.length == 0)	{
-						$parent = $("<div \/>").attr({'id':parentID,'title':'List Activity'}).appendTo('body');
+						$parent = $("<div><div class='appMessaging'></div></div>").attr({'id':parentID,'title':'List Activity'}).appendTo('body');
 						$parent.dialog({'autoOpen':false});
 						}
 					$parent.dialog('open');
