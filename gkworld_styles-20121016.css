@@ -508,7 +508,8 @@ ul.checkmarkList, .checkmarkList li	{list-style:none; margin:0; padding:0;}
 .soldOut	{background-position: -255px -295px; width: 188px; height:35px; }
 .specialorder	{background-position: -255px -253px; width: 198px; height:35px; }
 
-.priceContainer	{height:30px; line-height:30px;}
+.priceContainer	{height:auto; line-height:30px;}
+.latency  {margin-bottom: 4px;}
 
 fieldset.qtyInput	{line-height:33px;}
 
