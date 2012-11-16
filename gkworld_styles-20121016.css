@@ -1,4 +1,7 @@
-
+html {
+	-webkit-font-smoothing: antialiased;
+}
+/* above fixes issues in Chrome */
 body	{background:url(images/body_bg-9x7.gif); padding:0; margin:0; font-family: MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', Helvetica, Arial, sans-serif; color:#333333;}
 
 a	{color:#ffffff;}
