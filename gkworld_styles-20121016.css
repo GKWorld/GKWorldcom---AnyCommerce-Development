@@ -154,12 +154,18 @@ ul.twoColList	{
 	background: linear-gradient(to bottom,  #444b51 0%,#444b51 47%,#21262a 100%); /* W3C */
 	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444b51', endColorstr='#21262a',GradientType=0 ); /* IE6-8 */
 	}
+	
+.greyGradient {	
+	background: #444b51\9; /* IE8 and below */
+}
+	
 
 .nav	{
 	height:44px; line-height:44px;
 	position:relative;
 	margin-bottom:6px;
 	text-align:center;
+
 	}
 
 
