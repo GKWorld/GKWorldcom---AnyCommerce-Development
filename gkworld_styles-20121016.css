@@ -269,7 +269,7 @@ ul.twoColList	{
 
 
 
-#nav .subcatContainer	{padding:10px 0; width: 100%}
+#nav .subcatContainer	{padding:10px 0; width: 100%; display: block;}
 #subcats_genrezmore_ul  { width: 80%;}
 #nav .subcatContainer h6	{font-size:1.1em; padding:6px 0;padding:0 0 12px 20px;}
 
