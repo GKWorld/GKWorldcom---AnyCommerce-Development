@@ -152,7 +152,7 @@ ul.twoColList	{
 	background: -o-linear-gradient(top,  #444b51 0%,#444b51 47%,#21262a 100%); /* Opera 11.10+ */
 	background: -ms-linear-gradient(top,  #444b51 0%,#444b51 47%,#21262a 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #444b51 0%,#444b51 47%,#21262a 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444b51', endColorstr='#21262a',GradientType=0 ); /* IE6-8 */
+	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444b51', endColorstr='#21262a',GradientType=0 ); /* IE6-8 */
 	}
 
 .nav	{
