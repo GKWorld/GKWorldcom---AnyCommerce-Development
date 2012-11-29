@@ -479,7 +479,7 @@ h1.greyGradient, h2.greyGradient	{font-size: 1.3em; font-weight:normal; line-hei
 .borderTable td	{vertical-align:middle; font-size:.85em; background:#ffffff;}
 .cartSummary	{font-size:.75em;}
 #cartStuffList	{width:100%; }
-
+#cartStuffList  thead  tr  th {border-bottom: 2px solid #999;}
 /* ensure that only 1 'available' graphic shows up, even if multiple tags are present - avoids confusion */
 .cartStockContainer	{width:70px; height:70px; overflow:hidden;}
 

@@ -32,7 +32,7 @@ var myCreole;
 
 
 var app = {vars:{
-	"release":"20121120110800",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20121129020000",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"baseURL":"",
 	"httpsURL":"https://secure.gkworld.com/s=app.gkworld.com/",
 	"httpURL":"http://app.gkworld.com/"
@@ -1354,7 +1354,7 @@ So the cart template should contain these two elements and the extension should 
 <table id='cartStuffList' data-bind="var: cart(stuff); format:stuffList; loadsTemplate:productListTemplateCart;" class='borderTable marginBottom'>
 <thead>
 <tr>
-	<th colspan="2">product information</th>
+	<th colspan="2"></th>
 	<th>availability</th>
 	<th>unit price</th>
 	<th>qty</th>
@@ -1365,7 +1365,7 @@ So the cart template should contain these two elements and the extension should 
 <tfoot>
 <tr>
 	<td colspan='3'>
-	<label for='coupon'>Voucher Code:</label>
+	<label for='coupon'>Coupon Code:</label>
 	<input type='text' name='coupon' size='8' id='cartCouponCode' onKeyPress="if(event.keyCode==13){$('#addCouponBtn').click();}" />
 	<button class='loadingButton ui-state-default ui-corner-all' onClick="app.ext.store_cart.u.handleCouponSubmit($('#cartCouponCode').val(),'cartMessaging'); app.model.dispatchThis('immutable'); return false;">add</button>
 	</td>
