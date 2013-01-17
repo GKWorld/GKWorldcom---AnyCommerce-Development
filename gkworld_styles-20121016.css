@@ -1,0 +1,611 @@
+html {
+	-webkit-font-smoothing: antialiased;
+}
+/* above fixes issues in Chrome */
+body	{background:url(images/body_bg-9x7.gif); padding:0; margin:0; font-family: MyriadPro-Regular, 'Myriad Pro Regular', MyriadPro, 'Myriad Pro', Helvetica, Arial, sans-serif; color:#333333;}
+
+a	{color:#ffffff;}
+.contentContainer a, .plContainer a	{color:#316bca;}
+a:hover, .headerMenu a:hover, #mastFooter a:hover, .contentContainer a:hover, .plContainer a:hover	{color:#7dbf10; text-decoration:underline;}
+
+
+h1, h2, h3, h4, h5, h6	{padding:0; margin:0;}
+h1	{font-size:1.4em}
+h2	{font-size:1.3em}
+h3	{font-size:1.2em}
+h4	{font-size:1.1em}
+h5	{font-size:1.0em}
+h6	{font-size:.9em}
+
+
+
+#appPreView	{position:relative; background:#2c2a32; border:2px solid #abaaad; width:650px; margin-top:100px;
+	-webkit-border-radius: 6px;
+    border-radius: 6px;
+	padding:5px;
+	color:#cccccc;
+	}
+
+#appPreView td	{text-align:center; width:50%; padding:20px 0; vertical-align:middle;}
+
+
+/* a few app overrides */
+.fluidList	{display:inline-block; margin:0 auto;}
+
+
+
+.spriteBG	{background-image:url(images/sprites-500x500.png); background-repeat: no-repeat;}
+
+
+.contentWidth	{width:90%; max-width:1100px; min-width:750px; margin:0 auto;}
+.reverse	{color:#ffffff;} /* class to apply to text on the dark bg. prodlist headers and such. */
+
+.basePrice	{color:#d62d02; font-size:1.8em; font-weight:normal;}
+
+
+
+ul.fourColList	{
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	column-count: 4;
+	}
+
+
+
+ul.threeColList	{
+	-webkit-column-count: 3;
+	-moz-column-count: 3;
+	column-count: 3;
+	}
+ul.twoColList	{
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+	}
+
+.headerMenu	{background:url(images/tophead_bg-1x62.png) repeat-x; height:62px; position:relative; z-index:11;
+	font-family: 'Abel', 'arial narrow', helvetica, sans-serif;
+	}
+	
+.headerMenu .section	{  font-size:.9em; color:#666666; float:right; margin-left:20px; padding-top: 20px; display: block;}
+
+.headerMenu .socialIcons span	{
+	height:40px; display:block; float:left; margin-right:3px; cursor:pointer; text-indent:-20000px; 
+	margin-top:12px;
+	filter: alpha(opacity=60);
+	opacity:0.6;
+	}
+
+.headerMenu .socialIcons span:hover	{
+	filter: alpha(opacity=100);
+	opacity:1;
+	}
+
+.headerMenu .socialIcons .facebook	{background-position: 0 -121px; width:25px;}
+.headerMenu .socialIcons .googleplus	{background-position: -29px -121px; width:27px;}
+.headerMenu .socialIcons .pinterest	{background-position: -59px -121px; width:27px;}
+
+.headerMenu a	{color:#efefef; text-decoration:none; padding:0 21px;}
+.headerMenu a:last-child	{padding-right:0}
+
+#mastHead	{position:relative; height:107px; z-index:10;}
+#mastHead .logo	{position:absolute; left:-55px;}
+
+
+.minicart	{position:absolute; top:-8px; right:0; height:28px; line-height:28px; width:360px;}
+.minicart .cartIcon	{background-position:-223px -120px; width:31px; height:27px; display:inline-block; margin-right:5px; float:left;}
+.minicart .checkoutButton	{background-position:-104px -120px; width:92px; height:27px; display:inline-block; float:right; margin-right:5px;}
+
+.phoneContainer	{
+	position:absolute;
+	right:80px;
+	top:40px;
+	background-position:0 -8px;
+	font-weight:normal;
+	width:270px;
+	height:29px;
+	line-height:29px;
+	text-transform:uppercase;
+	font-size:1em;
+	font-family: 'Abel', 'arial narrow', helvetica, sans-serif;
+	padding-left:10px;
+	}
+
+.chatContainer	{
+	cursor:pointer;
+	position:absolute;
+	right:0;
+	top:32px;
+	height:41px;
+	background-position: -385px 0;
+	width:105px;
+	line-height:44px;
+	text-transform:uppercase;
+	font-size:1.2em;
+	text-indent:13px;
+	font-weight:bold;
+	font-family: 'Abel', 'arial narrow', helvetica, sans-serif;
+	}
+/* IE filters removed because they caused rounded corners to not appear in IE */
+.bevelBox	{
+	-webkit-border-radius: 0px 0px 6px 6px;
+	border-radius: 0px 0px 6px 6px;
+	background: #f0f9ff; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f0f9ff 0%, #efefef 47%, #e0e0e0 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f9ff), color-stop(47%,#efefef), color-stop(100%,#e0e0e0)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #f0f9ff 0%,#efefef 47%,#e0e0e0 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #f0f9ff 0%,#efefef 47%,#e0e0e0 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #f0f9ff 0%,#efefef 47%,#e0e0e0 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #f0f9ff 0%,#efefef 47%,#e0e0e0 100%); /* W3C */
+	-webkit-box-shadow:  1px 2px 5px 1px rgba(0, 0, 0, .6);
+	box-shadow:  1px 2px 5px 1px rgba(0, 0, 0, .6);
+	}
+
+/* used for the main nav and also within some pages */
+.greyGradient	{
+	background: #444b51; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ0NGI1MSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjQ3JSIgc3RvcC1jb2xvcj0iIzQ0NGI1MSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMTI2MmEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #444b51 0%, #444b51 47%, #21262a 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#444b51), color-stop(47%,#444b51), color-stop(100%,#21262a)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #444b51 0%,#444b51 47%,#21262a 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #444b51 0%,#444b51 47%,#21262a 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #444b51 0%,#444b51 47%,#21262a 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #444b51 0%,#444b51 47%,#21262a 100%); /* W3C */
+	/*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#444b51', endColorstr='#21262a',GradientType=0 ); /* IE6-8 */
+	}
+	
+.greyGradient {	
+	background: #444b51\9; /* IE8 and below */
+}
+	
+
+.nav	{
+	height:44px; line-height:44px;
+	position:relative;
+	margin-bottom:6px;
+	text-align:center;
+
+	}
+
+
+
+
+/*------------------------------------*\
+	NAV
+	http://csswizardry.com/2011/02/creating-a-pure-css-dropdown-menu/
+\*------------------------------------*/
+
+/* these help control the location of the subcat menus */
+.nav	{
+	position:relative;
+	z-index:500;
+	} 
+
+.nav ul	{display:inline-block;} /* allows for centering menu inside parent */
+.nav ul, .nav li	{list-style:none; padding:0; margin:0;}
+
+.topCat	{font-family: "Helvetica Condensed", Helvetica, "Arial Narrow", arial, sans-serif}
+
+#nav{
+	list-style:none;
+	font-weight:bold;
+	margin-bottom:10px;
+	/* Clear floats */
+/*	float:left; */
+
+	}
+#nav li{
+	float:left;
+	border-right:1px solid #383e43;
+	}
+#nav li:last-child	{border-right:0}
+/* tier 1 links */
+#nav a{
+	font-size:1.1em;
+	color:#ffffff; padding:0 24px; font-weight:bold;
+	display:block;
+	color:#fff;
+	text-decoration:none;
+	}
+	
+#nav a:hover{
+	color:#fff;
+	background:#cccccc;
+	text-decoration:underline;
+}
+
+#nav a span	{background-position: -251px -91px; width:16px; height:12px; display:inline-block;} /* down arrow class */
+
+#nav .subcatListContainer	{
+	position:absolute;
+	background:#333333; 
+	display:none;
+	left:0;
+	width:100%;
+	}
+
+#nav .subcatListContainer .removeButton {
+	position:absolute;
+	top:5px;
+	right:5px;
+	z-index:10001;
+	cursor:pointer;
+	}
+/*--- DROPDOWN ---*/
+#nav .subcatContainer{
+	color:#ffffff;
+	width:100%;
+	list-style:none;
+
+	}
+
+#nav ul li a	{font-size:.9em;  font-weight:normal; padding:3px 5px 3px 20px; margin:0;}
+#nav ul li{
+	float:none;
+	padding-top:1px; /* Introducing a padding between the li and the a give the illusion spaced items */
+	text-align:left;
+	padding:0; margin:0;
+	border:0;
+	line-height:.9em; height:auto;
+	}
+
+/* http://css-tricks.com/forums/discussion/13745/lists-split-into-2-columns-regardless-of-list-length/p1 */
+#nav ul a{
+	white-space:nowrap; /* Stop text wrapping and creating multi-line dropdown items */
+}
+#nav li:hover a{ /* These create persistent hover states, meaning the top-most link stays 'hovered' even when your cursor has moved down the list. */
+	background:#333;
+	text-decoration:underline;
+}
+#nav li:hover ul a{ /* The persistent hover state does however create a global style for links even before they're hovered. Here we undo these effects. */
+	text-decoration:none;
+}
+#nav li:hover ul li a:hover{ /* Here we define the most explicit hover states--what happens when you hover each individual link. */
+	background:#666;
+	}
+
+#nav li li ul	{position:relative;
+	left:0px;
+	width:100%;
+	-webkit-column-count: 5;
+	-moz-column-count: 5;
+	column-count: 5;
+	} /* third level is visible */
+
+
+
+#nav .subcatContainer	{padding:10px 0; width: 100%; display: block;}
+#subcats_genrezmore_ul  { width: 80%;}
+#nav .subcatContainer h6	{font-size:1.1em; padding:6px 0;padding:0 0 12px 20px;}
+
+#nav .subcatContainer .topRow h6, #nav .subcatContainer .topRow a	{float:left; display:inline-block; width:20%; font-size:1.3em; padding:0; margin:0; line-height:1.3em;}
+#nav .subcatContainer .topRow h6	{padding-left:20px;}
+
+/* used for dd's where there's a slim column on left and a wider col on right w/ 3 cols of cats. (ex: anime) */
+
+#nav .subcatContainer .col1	{float:left; width:20%;}
+#nav .subcatContainer .col2	{float:right; width:75%; border-left:1px dotted #666;}
+#nav .subcatContainer .col1, #nav .subcatContainer .col2	{padding:5px;}
+
+/* used for two columns of lists, each list with two columns (ex: comics) */
+#nav .twoCols .col1	{float:left; width:47%; border-right:1px dotted  #666666;}
+#nav .twoCols .col2	{float:right; width:47%; border:none;}
+#nav .twoCols ul	{
+	-webkit-column-count: 2;
+	-moz-column-count: 2;
+	column-count: 2;
+	}
+
+/* used for 'more' dd */
+#nav .fourCols ul	{
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	column-count: 4;
+	}
+
+
+.searchBar	{margin-bottom:6px;}
+#headerKeywords	{width:360px; background:#2c2a32; color:#87868a; font-size:18px; border:1px solid #87868a; padding:4px 8px; font-weight:normal; font-size:1.2em;}
+
+#headerSearchSubmit	{
+	font-size:18px; padding:4px 8px; font-weight:normal;
+	margin-left:5px;
+	text-shadow: 1px 1px 2px #000000;
+    filter: dropshadow(color=#000000, offx=1, offy=1);
+	}
+
+
+.greenGradient	{
+	background: #bfd255; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2JmZDI1NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzhlYjkyYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iIzcyYWEwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5ZWNiMmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bfd255), color-stop(50%,#8eb92a), color-stop(51%,#72aa00), color-stop(100%,#9ecb2d)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ); /* IE6-8 */
+	color:#ffffff;
+	border:1px solid #469d08;
+	cursor:pointer;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	}
+
+
+.shopByCatContainer	{float:right; cursor:pointer; background-position: 0 -45px; width:350px; height:32px;}
+
+#breadcrumb	{font-size:.85em; color:#666666;}
+#breadcrumb a	{color:#ffffff; text-decoration:none;}
+
+#mastFooter	{border:1px solid #ffffff; border-left-width:0; border-right-width:0; margin:12px 0; padding:12px 0;}
+#mastFooter .section	{width:25%; float:left;}
+#mastFooter h4	{font-size:1.2em; color:#ffffff;}
+#mastFooter a	{display:block; padding:2px 0; color:#cccccc; text-decoration:none;}
+
+#mastFooter .faceBook	{display:block; background-position:0 -177px; height:75px; text-indent:-20000px;}
+
+.afterFooter	{font-size:.8em;}
+.afterFooter, .afterFooter a	{color:#CCCCCC; text-decoration:none;}
+
+
+
+/* tier 1 cats (shop by category) modal */
+
+#tier1categories li	{padding-bottom:6px;}
+#tier1categories li span	{line-height:35px;}
+
+
+
+
+
+
+/* tool tip */
+.toolTip	{
+	display:none;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	-webkit-box-shadow: 0px 0px 8px 2px #666666;
+	box-shadow: 0px 0px 8px 2px #666666; 
+	background:#ffffff;
+	padding:6px;
+	position:absolute;
+	width:440px;
+	left:-210px;
+	z-index:10001;
+	text-align:left;
+	font-size:14px;
+	}
+.toolTip p	{margin:6px 0;}
+
+
+
+
+
+/* product list styles */
+
+.productList li.plContainer, .lineItemProdlist li.plContainer	{background:url(images/prodlist_prod_bg-212x372.png) no-repeat; width:212px !important; height:372px !important; margin:4px; text-align:center; border-bottom:none;padding:0;}
+.productList .prodThumbContainer, .lineItemProdlist .prodThumbContainer	{margin:0px 0 8px 8px;}
+.productList .prodName {width:auto; margin:8px; font-weight:normal; padding:0; height:40px; overflow:hidden; font-size:1.2em;}
+.lineItemProdlist .prodName	{width:auto; margin:8px; font-weight:normal; padding:0; height:40px; overflow:hidden; /*font-size:1.2em;*/}
+.productList .priceContainer, .lineItemProdlist .priceContainer	{margin:0 8px;}
+.productList .basePrice, .lineItemProdlist .basePrice	{
+	font-family: 'Abel', 'arial narrow', helvetica, sans-serif;
+	display:inline;
+	width:auto; margin:8px; font-weight:bold; padding:0; height:40px; overflow:hidden; font-size:1.4em;
+
+	}
+.mpControls	{position:relative;}
+.mpControls .ddUlMenu .ui-widget-content 	{
+	width:400px;
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	column-count: 4;	
+	}
+
+.ddUlMenu li:hover ul {
+	right: 0px;
+	}
+
+.quickView	{background-position:-370px -125px; width:125px; height:34px; position:absolute; top:100px; right:-10px;}
+/* page styles */
+
+.contentContainer	{background:#ffffff; padding:12px;}
+
+
+
+
+/* homepage */
+
+.bannerContainer	{position:relative; height:400px; margin-bottom:12px; overflow:hidden; width:100%;}
+.bannerContainer .topRight	{position:absolute; top:0; right:0; z-index:6;}
+.bannerContainer .bottomRight	{position:absolute; bottom:0; right:0; z-index:6;}
+
+#slideshowContainer  {position:relative; z-index:10; height:400px; width:900px; overflow:hidden; z-index:5; } /* setting height/width and overflow hidden keeps banners from showing up, then hiding once slideshow() is executed */
+#slideshowContainer  ul, .slideshow li	{list-style:none; margin:0; padding:0; display:inline; float:left; } /* the slides */
+
+#slideshowNav { z-index: 50; position: absolute; bottom: 10px; left: 10px; width:100%; text-align:left; }
+#slideshowNav a {
+	margin: 0 8px; font-size:.01em; 
+	text-decoration: none;
+	display:inline-block;
+	padding: 6px 8px;
+	border: 1px solid #c0b3ad;
+	color:#ffffff;
+	background: #ffffff;
+	cursor:pointer;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	}
+
+#slideshowNav a:hover, #slideshowNav a.activeSlide {
+	color:#bfd255;
+	background: #bfd255; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2JmZDI1NSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzhlYjkyYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iIzcyYWEwMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM5ZWNiMmQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #bfd255 0%, #8eb92a 50%, #72aa00 51%, #9ecb2d 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#bfd255), color-stop(50%,#8eb92a), color-stop(51%,#72aa00), color-stop(100%,#9ecb2d)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #bfd255 0%,#8eb92a 50%,#72aa00 51%,#9ecb2d 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bfd255', endColorstr='#9ecb2d',GradientType=0 ); /* IE6-8 */
+	border-color:#bfbebf;
+	}
+
+#slideshowNav a:focus { outline: none; }
+
+
+/* category page */
+
+h1.greyGradient, h2.greyGradient	{font-size: 1.3em; font-weight:normal; line-height:32px; height:32px; text-indent:20px; color:#ffffff; margin:0; padding:0;}
+
+
+/* results prodlist */
+#resultsProdlist	{width:890px;}
+#mainContentArea_search .sideline	{margin:0}
+
+
+
+
+/* cartTemplate */
+.cartContainer section	{margin:0;}
+
+.cartBorder	{border:1px solid #efefef;} /* for divs and other elements that need a border to match the table style. if table bgcolor changes, change this border color */
+.borderTable	{border-collapse: separate; border-spacing: 1px; background:#efefef;width:100%;}
+.borderTable td, .borderTable th	{padding:2px 8px;}
+.borderTable th, .borderTable th		{background:#f3f3f3; font-weight:normal; text-align:left; font-size:.75em;}
+.borderTable td	{vertical-align:middle; font-size:.85em; background:#ffffff;}
+.cartSummary	{font-size:.75em;}
+#cartStuffList	{width:100%; }
+#cartStuffList  thead  tr  th {border-bottom: 2px solid #999;}
+/* ensure that only 1 'available' graphic shows up, even if multiple tags are present - avoids confusion */
+.cartStockContainer	{width:70px; height:70px; overflow:hidden;}
+
+.cartStockContainer	.inStock	{background-position: 0 -390px; width:70px; height:70px; } /* shown by default */
+.cartStockContainer	.backorder	{background-position: -210px -390px; width:70px; height:70px;}
+.cartStockContainer	.preorder	{background-position: -328px -390px; width:70px; height:70px;}
+.cartStockContainer	.specialorder	{background-position: -421px -390px; width:70px; height:70px;}
+.cartStockContainer	.soldOut	{background-position: -91px -390px; width:70px; height:70px;}
+
+
+.cartRow	{font-size:.8em;}
+
+.summaryAndShippingContainer	{width:100%;}
+
+
+
+
+
+
+
+/* product template */
+
+.prodSummaryContainer	{width:40%}
+.prodSummaryContainer h1	{margin-bottom:12px;}
+
+.prodViewerReviewSummary span	{float:left; margin:0 12px 12px 0; line-height:22px;}
+
+.prodGuarantee	{border:1px solid #cccccc; padding:6px;}
+ul.checkmarkList, .checkmarkList li	{list-style:none; margin:0; padding:0;}
+.checkmarkList li	{background:url(images/green_checkmark-25x24.png) no-repeat left top; padding-left:32px; line-height:24px; margin-bottom:6px;}
+
+.prodGuarantee .header	{margin-bottom:6px; width:225px;}
+.inStock	{background-position: 0 -295px; width: 121px; height:35px; }
+.backorder	{background-position: 0 -340px; width: 181px; height:35px; }
+.preorder	{background-position: -255px -340px; width: 131px; height:35px; }
+.soldOut	{background-position: -255px -295px; width: 188px; height:35px; }
+.specialorder	{background-position: -255px -253px; width: 198px; height:35px; }
+
+.priceContainer	{height:auto; line-height:30px;}
+.latency  {margin-bottom: 4px;}
+
+fieldset.qtyInput	{line-height:33px;}
+
+.addToCartButton.ui-button	{	padding:2px 6px; line-height:1.0em;}
+
+.addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton	{
+	font-size:1.3em;
+
+	font-weight:bold;
+	color:#ffffff;
+	border:none;
+	-webkit-box-shadow:  0px 2px 4px 1px rgba(0, 0, 0, 50);
+	box-shadow:  0px 2px 4px 1px rgba(0, 0, 0, 50);
+	text-shadow: 1px 1px 1px #050561;
+	filter: dropshadow(color=#050561, offx=1, offy=1);
+	background: #1e5799; /* Old browsers */
+	/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+	background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzFlNTc5OSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzI5ODlkOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjUxJSIgc3RvcC1jb2xvcj0iIzIwN2NjYSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3ZGI5ZTgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+	background: -moz-linear-gradient(top,  #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1e5799), color-stop(50%,#2989d8), color-stop(51%,#207cca), color-stop(100%,#7db9e8)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-8 */
+	
+	}
+
+.plContainer .addToCartButton, .chooseOptionsButton	{font-size:1.0em; padding:3px 6px; margin:2px auto 6px auto;}
+
+.jCarouselLite {
+	margin: 0 auto;
+	overflow: hidden;
+	position:relative;
+	}
+	
+.jCarouselLite ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	}
+.jCarouselLite li {
+	float: left;
+	padding: 0px;
+	}
+
+.jCarouselLite .nav	{display:none; z-index:10001;}
+.jCarouselLite .nav a {display:block; padding:0 8px; text-decoration:none; font-weight:bold; font-size:1.8em; line-height:1.2em;}
+.jCarouselLite .nav a:hover	{color:#006633;}
+.jCarouselLite .prev{position:absolute; top:140px; left:0px; 
+	display:inline-block;
+	}
+.jCarouselLite .next{position:absolute; top:140px; right:0px;
+	display:inline-block;
+	}
+
+
+#googleCheckoutButton {display: none;}
+
+
+
+
+/* http://codepad.co/s/7cca38#select */
+@media screen and (max-width: 1280px) {
+	#nav a	{padding:0 20px; font-size:.94em;}
+	#nav ul li a	{font-size:.8em;  font-weight:normal; padding:5px 5px 5px 20px; margin:0;}
+	}
+
+@media screen and (max-width: 1080px) {
+	#nav a	{font-size:.89em;}
+	.mpControls {line-height:40px;}
+	.mpControls	.paging {width:40px; height:40px;}
+	.mpControls .paging .ui-icon	{margin:12px 0 0 12px;}
+	}
+@media screen and (max-width: 1020px) {
+	#nav a	{font-size:.88em;}
+	#nav a	{padding:0 14px;}
+	#nav ul li a	{font-size:.7em;  font-weight:normal; padding:4px 5px 4px 20px; margin:0;}
+	#headerKeywords	{width:300px;}
+	}
+@media screen and (max-width: 920px) {
+	#nav a	{font-size:.75em;}
+	#nav a	{padding:0 12px;}
+	#headerKeywords	{width:280px;}
+	#mastFooter .section	{width:20%;}
+	#mastFooter .columnFour	{width:220px;}
+	#mastFooter h4	{font-size:1.2em; color:#ffffff;}
+	}
