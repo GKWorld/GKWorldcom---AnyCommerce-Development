@@ -20,7 +20,7 @@ var _gaq = _gaq || {'push':function(){}} //here for testing. REPLACE BEFORE DEPL
 var myCreole;
 
 var app = {vars:{
-	"release":"201301171501",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"201301190242",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"_clientid":"zmvc",
 	"baseURL":"",
 	"httpsURL":"https://ssl.zoovy.com/s=www.9c0a9a.snap.zoovy.net/",
@@ -111,10 +111,12 @@ app.u.loadScript(app.vars.baseURL+"gkworld_init.js");
 		</span>  -->
 		
 <!-- AddThis Button BEGIN -->
+<!--
 <span class='section socialIcons'>
 <a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=300&amp;pubid=xa-50aa833d60ad63aa"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a>
 <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=xa-50aa833d60ad63aa"></script>
 </span>
+-->
 <!-- AddThis Button END -->
 
 	</div>
@@ -148,127 +150,37 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 	<ul id='nav'>
 		
 		<li>
-		<a href='#category?navcat=.genre.anime_categories' class='topCat'>Anime<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer ">
-				<li>
-				<div class='clearfix topRow'>
-				<h6>Anime by Series:</h6>
-					<a href='#category?navcat=.genre.anime_miscellaneous' class='bindByAnchor'>Anime A-G</a>
-					<a href='#category?navcat=.genre.anime_n' class='bindByAnchor'>Anime H-N</a>
-					<a href='#category?navcat=.genre.anime_o' class='bindByAnchor'>Anime O-Z</a>
-				</div>
-				<hr />
-				<div class='clearfix' id='subcats_genreanime_categories'>
-				<h6>Anime by Category</h6>
-				</div>
-				</li>
-			</ul>
-		</div>
+			<a href='#top' class='topCat' onClick="showContent('category',{'navcat':'.buy.anime'});">Anime</a>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.cartoon_categories' class='topCat'>Cartoons<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer ">
-				<li>
-				<div class='clearfix topRow'>
-				<h6>Cartoon by Series</h6>
-					<a href='#category?navcat=.genre.cartoon_merchandise' class='bindByAnchor'>Cartoon A-G</a>
-					<a href='#category?navcat=.genre.cartoon_series_h-n' class='bindByAnchor'>Cartoon H-N</a>
-					<a href='#category?navcat=.genre.cartoon_series_n-z' class='bindByAnchor'>Cartoon O-Z</a>
-				</div>
-				<hr />
-				<div class='clearfix' id='subcats_genrecartoon_categories'>
-				<h6>Cartoon by Category</h6>
-				</div>
-				</li>
-			</ul>
-		</div>
+		<li>
+			<a href='#top' class='topCat' onClick="showContent('category',{'navcat':'.buy.cartoons'});">Cartoons</a>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.comic_series_-_marvel' class='topCat'>Comics<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer twoCols ">
-				<li class='col1' id='subcats_genrecomic_series__marvel'>
-				<h6>Marvel Universe</h6>
-				</li>
-				<li class='col2' id='subcats_genrecomic_series__dc'>
-				<h6>DC Universe</h6>
-				</li>
-			</ul>
-		</div>
+		<li>
+			<a href='#top' class='topCat' onClick="return showContent('category',{'navcat':'.buy.comics'});">Comics</a>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.disney_categories' class='topCat'>Disney<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer twoCols ">
-				<li class='col1' id='subcats_genredisney'>
-				<h6>Shop Disney by Series</h6>
-				</li>
-				<li class='col2' id='subcats_genredisney_categories'>
-				<h6>Shop Disney by Category</h6>
-				</li>
-			</ul>
-		</div>
+		<li>
+			<a href='#top' class='topCat' onClick="return showContent('category',{'navcat':'.buy.disney'});">Disney</a>
 		</li>
 
 		
-		<li><a href='#category?navcat=.genre.tv_series_categories' class='topCat'>Movie / TV<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer twoCols ">
-				<li class='col1' id='subcats_genretv_series'>
-				<h6>Shop TV by Series</h6>
-				</li>
-				<li class='col2' id='subcats_genretv_series_categories'>
-				<h6>Shop TV by Category</h6>
-				</li>
-			</ul>
-		</div>
+		<li>
+			<a href='#top' class='topCat' onClick="return showContent('category',{'navcat':'.buy.movies'});">Movie / TV</a>
 		</li>
 
-		<li><a href='#category?navcat=.genre.movie_categories' class='topCat'>Music<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer ">
-				<li>
-				<div class='clearfix topRow'>
-				<h6>Music by Series</h6>
-					<a href='#category?navcat=.genre.music_series_a-g' class='bindByAnchor'>Music A-G</a>
-					<a href='#category?navcat=.genre.music_series_h-n' class='bindByAnchor'>Music H-N</a>
-					<a href='#category?navcat=.genre.music_series_o-z' class='bindByAnchor'>Music O-Z</a>
-				</div>
-				<hr />
-				<div class='clearfix' id='subcats_genremovie_categories'>
-				<h6>Music by Category</h6>
-				</div>
-				</li>
-			</ul>
-		</div>
+		<li>
+			<a href='#top' class='topCat' onClick="return showContent('category',{'navcat':'.buy.music'});">Music</a>
 		</li>
 
 		
-		<li><a href='#category?navcat=.genre.video_game_categories' class='topCat'>Video Games<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<ul class="child_menu subcatContainer ">
-				<li>
-				<div class='clearfix topRow'>
-				<h6>Games by Series</h6>
-					<a href='#category?navcat=.genre.video_game_series_a-g' class='bindByAnchor'>Video Games A-G</a>
-					<a href='#category?navcat=.genre.video_game_series_h-n' class='bindByAnchor'>Video Games H-N</a>
-					<a href='#category?navcat=.genre.video_game_series_o-z' class='bindByAnchor'>Video Games O-Z</a>
-				</div>
-				<hr />
-				<div class='clearfix' id='subcats_genrevideo_game_categories'>
-				<h6>Video Games by Category</h6>
-				</div>
-				</li>
-			</ul>
-		</div>
+		<li>
+			<a href='#top' class='topCat' onClick="return showContent('category',{'navcat':'.buy.video-games'});">Video Games</a>
 		</li>
 		
-		<li><a href='#category?navcat=.genre.zmore' class='noRightBorder topCat'>More<span class='spriteBG'></span></a>
-		<div class='subcatListContainer'>
-			<span id='subcats_genrezmore' class='fourCols subcatContainer'></span>
-		</div>
+		<li>
+			<a href='#top' class='noRightBorder topCat' onClick="return showContent('category',{'navcat':'.buy.more'});">More</a>
 		</li>
 	</ul>
 	
@@ -438,7 +350,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 	<img data-bind="var: category(%page.banner1); format: banner; editor: banner; height:250; width:750; extension: myRIA;" />
 	<div class='contentContainer marginBottom'>
 
-		<h2 data-bind="var: category(%page.header); format:text; editor:text; pretext:Shop ;" class='greyGradient'></h2>
+		<h2 data-bind="var: category(pretty); format:text; editor:text; pretext:Shop ;" class='greyGradient'></h2>
 
 	<p data-bind="var: category(%page.description); format:wiki; wikiFormats:myRIA; editor: textarea;"></p>
 	
@@ -734,48 +646,22 @@ this will likely become more flexible in the future. ###
 <div class='header center' data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
 <div class='header center' data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
 <div class='header center' data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
-<div class='header center' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="$('#invMessage_is_specialorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_specialorder').dialog('open');"></div>
+<div class='header center' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="return showContent('company',{'show':'shipping'});"></div>
+<div class='header center' data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></div>
 
 	<ul class='checkmarkList'>
 		<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
-		No billing occurs until shipping (<a href='#' class='tipify'>?</a>)
-		<div class='toolTip'>
-		<p>Payments will be "authorized" by our credit card processor, PayPal and Google checkout at the time of checkout. This means that the authorized amount will not be available to you, it will be held in reserve by your bank.</p>
-
-<p>If you pre-order or back order an item and pay with a credit card, the authorization for that purchase usually expires in seven days for Visa, or 30 days for MasterCard, American Express, Discover and PayPal. For items that arrive in more than 30 days, we may need to obtain another authorization from your credit card company. Your credit card is charged only at the time we ship the product.</p>
-		</div>
-		
+			No billing occurs until shipping (<a onClick="app.u.showBillShipModal(); return false;" class='tipify'>?</a>)
 		</li>
 		
-		<li>60-Day return policy  (<a href='#' class='tipify'>?</a>)
-		<div class='toolTip'>
-<p>Orders are carefully inspected before shipping. We accept returns that are unused and unopened only unless the item itself is broken. Products must be in there original condition and packaging.</p>
-<p>You must contact us first to receive an authorization before any return is able to be sent back. When we receive the return back your form of payment will be credited for the price of the item(s) and any taxes. This credit will not include shipping, unless the products were damaged upon arrival.</p>
-<p>Your credit will be authorized after we receive and process your return, as long as the item meets the above criteria.</p>
-		</div></li>
+		<li>60-Day return policy  (<a onClick="app.u.showReturnPolModal(); return false;" class='tipify'>?</a>)
+		</li>
 		
-
-		
-		<li class='displayNone' data-bind="var: product(is:user5); format:showIfSet;">
-Ships in 1-2 days  (<a href='#' class='tipify'>?</a>)
-<div class='toolTip'>
-<p>All of our In-Stock items usually ship within 1 business day, depending on how busy we are, some In-Stock items may take up to 2 business days to ship.</p>
-<p>In-Stock items ordered with back orders and pre-orders may cause delays in the shipping of In-Stock items.</p>
-</div>
+		<li class='displayNone' data-bind="var: product(is:user5); format:showIfSet;">Ships in 1-2 days  (<a onClick="app.u.showStockShipModal(); return false;" class='tipify'>?</a>)
 		</li>
 
 		<li>100% Secure checkout</li>
-		<li>YES, we ship worldwide! (<a href='#' class='tipify'>?</a>)
-<div class='toolTip'>
-<p>We ship worldwide via U.S. Postal Service. We ship to nearly every country. After adding an item to your shopping cart, specify your country in the shopping cart and it will calculate shipping based on country.</p>
-<p>Please note that shipping costs may be high for 1-2 items, as more items are added to the cart you will not see shipping costs increase much.</p>
-<p>
-Intl. First Class Mail – This mail service takes about 2-3 weeks to arrive.<br />
-Intl. Priority Mail – This mail service takes about 5-10 business days to arrive.<br />
-Intl. Express Mail – This mail service takes about 3-5 business days to arrive.<br />
-(Orders may take longer if held or delayed by customs).<br />
-</p>
-</div>
+		<li>YES, we ship worldwide! (<a onClick="app.u.showWorldShipModal(); return false;" class='tipify'>?</a>)
 		</li>
 	</ul>
 
@@ -881,7 +767,7 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 		</span>
 	</div>
 
-	<div data-bind='var: product(zoovy:ship_latency); format:text;pretext:Normally ships in ;posttext: day(s);' class='latency'></div>
+	<div data-bind='var: product(zoovy:ship_latency); format:shippingLatency;' class='latency'></div>
 	
 	<form data-bind='var: product(pid); format:atcForm; extension:store_product;' class='prodViewerAddToCartForm clearfix' id='prodQuickViewAddToCartFrm' action='#' onSubmit="app.ext.myRIA.u.handleAddToCart($(this),{'action':'modal'}); return false;">
 
@@ -1384,6 +1270,19 @@ So the cart template should contain these two elements and the extension should 
 		<span class='ui-state-default ui-corner-all floatRight removeButton' data-bind='var: product(stid); format:removeItemBtn; extension:store_cart;' >
 		<span class='ui-icon ui-icon-closethick'></span>
 		</span>
+		<div class="cartStockContainer">
+			<!-- TODO: I changed databinds from 'full_product.is:' since that isn't showing up in DOM -- was that right? -->
+			<div data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
+			
+			<div data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
+			
+			<div data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
+			
+			<div data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;"  onClick="return showContent('company',{'show':'shipping'});"></div>
+
+			<div class='inStock spriteBG'></div>
+			<div data-bind='var: product(zoovy:ship_latency); format:shippingLatency;' class='latency'></div>
+		</div>
 
 		<div class='floatLeft'><img src='blank.gif' class='prodThumb' data-bind='var: product(zoovy:prod_image1); defaultVar: product(%attribs.zoovy:prod_image1); format:imageURL;' width='75' height='75' /></div>
 
@@ -1760,6 +1659,39 @@ The 'data-action' attribute is used to assign an onclick.
 
 </div>
 
-
+<!-- Product Page Popups -->
+			<div id='shipBillingTip' class='displayNone'>
+			<p>Payments will be "authorized" by our credit card processor, PayPal and Google checkout at the time of checkout. This means that the authorized amount will not be available to you, it will be held in reserve by your bank.</p>
+			<p>If you pre-order or back order an item and pay with a credit card, the authorization for that purchase usually expires in seven days for Visa, or 30 days for MasterCard, American Express, Discover and PayPal. For items that arrive in more than 30 days, we may need to obtain another authorization from your credit card company. Your credit card is charged only at the time we ship the product.</p>
+			</div>
+			
+			<div id='returnPolicyTip' class='displayNone''>
+			<p>Orders are carefully inspected before shipping. We accept returns that are unused and unopened only unless the item itself is broken. Products must be in there original condition and packaging.</p>
+			<p>You must contact us first to receive an authorization before any return is able to be sent back. When we receive the return back your form of payment will be credited for the price of the item(s) and any taxes. This credit will not include shipping, unless the products were damaged upon arrival.</p>
+			<p>Your credit will be authorized after we receive and process your return, as long as the item meets the above criteria.</p>
+			</div>
+			
+			<div id='stockShipTip' class='displayNone'>
+			<p>All of our In-Stock items usually ship within 1 business day, depending on how busy we are, some In-Stock items may take up to 2 business days to ship.</p>
+			<p>In-Stock items ordered with back orders and pre-orders may cause delays in the shipping of In-Stock items.</p>
+			</div>			
+			
+			<div id='worldShipTip' class='displayNone'>
+			<p>We ship worldwide via U.S. Postal Service. We ship to nearly every country. After adding an item to your shopping cart, specify your country in the shopping cart and it will calculate shipping based on country.</p>
+			<p>Please note that shipping costs may be high for 1-2 items, as more items are added to the cart you will not see shipping costs increase much.</p>
+			<p>
+			Intl. First Class Mail – This mail service takes about 2-3 weeks to arrive.<br />
+			Intl. Priority Mail – This mail service takes about 5-10 business days to arrive.<br />
+			Intl. Express Mail – This mail service takes about 3-5 business days to arrive.<br />
+			(Orders may take longer if held or delayed by customs).<br />
+			</p>
+			</div>
+			<div id='invMessage_is_backorder' title="GKWorld.com 'back order' details" class='displayNone'>
+			<p>GKWorld has over 30,000 items available so we are not able to stock all of our items. We do work very closely with our suppliers and receive weekly shipments in for back orders placed.</p>
+			<p>Most back orders arrive to us within 2-3 weeks from when they are ordered. We will notify you once your back order has arrived and is ready to ship. We only charge back orders once they are shipped. Back orders can be cancelled at anytime.</p>
+			<p><b>USA Orders:</b> Ordering items both In-Stock and on Back Order. In most cases we will ship the In-Stock items in 1-2 business days and the back ordered items separately. There is NEVER additional shipping; we cover all shipping charges on back orders.</p>
+			<p><b>International Orders:</b> Ordering items both In-Stock and on Back Order. In most cases we will HOLD the In-Stock items until the back ordered items are re-stocked.</p>
+			<p>If we ship the in-stock items first, do not worry there is NEVER additional shipping; we cover all shipping charges on back orders.</p>
+			</div>			
 </body>
 </html>

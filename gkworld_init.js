@@ -203,11 +203,101 @@ app.u.appInitComplete = function(P)	{
 		}
 
 		}]); //addThis productTemplate code	
-//	app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
-//		app.ext.myRIA.u.handleToolTip('#'+P.parentID);
-//	}]);
 
-}
+	//Ship Latency messaging - yes it's ugly but client wanted a custom message for _every_value_
+	app.renderFormats.shippingLatency = function ($tag, data){
+		var latVal = data.value;
+		app.u.dump(latVal);
+		if(latVal == 2){
+			var latString = 'Ships in 1-2 days';
+			$tag.text(latString);
+		} else if(latVal == 3){
+			var latString = 'Ships in 2-4 days';
+			$tag.text(latString);
+		} else if(latVal == 4){
+			var latString = 'Ships in 3-5 days';
+			$tag.text(latString);
+		} else if(latVal == 5){
+			var latString = 'Ships in 5-10 days';
+			$tag.text(latString);
+		} else if(latVal == 7){
+			var latString = 'Ships in 7-10 days';
+			$tag.text(latString);
+		} else if(latVal == 10){
+			var latString = 'Ships in 10-14 days';
+			$tag.text(latString);
+		} else if(latVal == 14){
+			var latString = 'Ships in 4+ weeks';
+			$tag.text(latString);
+		} else if(latVal == 20){
+			var latString = 'Pre-Order January/February';
+			$tag.text(latString);
+		} else if(latVal == 21){
+			var latString = 'Pre-Order February/March';
+			$tag.text(latString);
+		} else if(latVal == 22){
+			var latString = 'Pre-Order March/April';
+			$tag.text(latString);
+		} else if(latVal == 23){
+			var latString = 'Pre-Order April/May';
+			$tag.text(latString);
+		} else if(latVal == 24){
+			var latString = 'Pre-Order May/June';
+			$tag.text(latString);
+		} else if(latVal == 25){
+			var latString = 'Pre-Order June/July';
+			$tag.text(latString);
+		} else if(latVal == 26){
+			var latString = 'Pre-Order July/August';
+			$tag.text(latString);
+		} else if(latVal == 27){
+			var latString = 'Pre-Order August/September';
+			$tag.text(latString);
+		} else if(latVal == 28){
+			var latString = 'Pre-Order September/October';
+			$tag.text(latString);
+		} else if(latVal == 29){
+			var latString = 'Pre-Order October/November';
+			$tag.text(latString);
+		} else if(latVal == 30){
+			var latString = 'Pre-Order November/December';
+			$tag.text(latString);
+		} else if(latVal == 31){
+			var latString = 'Pre-Order December/January';
+			$tag.text(latString);
+		} else if(latVal == 50){
+			var latString = 'Not Available. Re-stock TBD';
+			$tag.text(latString);
+		} else {
+			//do not render
+		}
+	}
+// michael's modal popup, see if it offers something different from neal's -- okay in init	
+	app.u.showBillShipModal = function(){
+		$('#shipBillingTip').dialog({
+			title : "No Billing Occurs Until Shipping",
+			width : 600
+		});
+	}
+	app.u.showReturnPolModal = function(){
+		$('#returnPolicyTip').dialog({
+			title : "60-Day Return Policy",
+			width : 600
+		});
+	}
+	app.u.showStockShipModal = function(){
+		$('#stockShipTip').dialog({
+			title : "In-Stock Items and Shipping",
+			width : 600
+		});
+	}
+	app.u.showWorldShipModal = function(){
+		$('#worldShipTip').dialog({
+			title : "Worldwide Shipping",
+			width : 600
+		});
+	}	
+};
 
 
 

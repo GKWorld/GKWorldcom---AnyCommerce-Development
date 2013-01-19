@@ -482,13 +482,14 @@ h1.greyGradient, h2.greyGradient	{font-size: 1.3em; font-weight:normal; line-hei
 #cartStuffList	{width:100%; }
 #cartStuffList  thead  tr  th {border-bottom: 2px solid #999;}
 /* ensure that only 1 'available' graphic shows up, even if multiple tags are present - avoids confusion */
-.cartStockContainer	{width:70px; height:70px; overflow:hidden;}
+.cartStockContainer	{width:100px; height:auto; overflow:hidden;float:right;}
 
-.cartStockContainer	.inStock	{background-position: 0 -390px; width:70px; height:70px; } /* shown by default */
-.cartStockContainer	.backorder	{background-position: -210px -390px; width:70px; height:70px;}
-.cartStockContainer	.preorder	{background-position: -328px -390px; width:70px; height:70px;}
-.cartStockContainer	.specialorder	{background-position: -421px -390px; width:70px; height:70px;}
-.cartStockContainer	.soldOut	{background-position: -91px -390px; width:70px; height:70px;}
+.cartStockContainer	.inStock	{background-position: 0 -390px; width:70px; height:70px; margin:0 auto; } /* shown by default */
+.cartStockContainer	.backorder	{background-position: -210px -390px; width:70px; height:70px;margin:0 auto;}
+.cartStockContainer	.preorder	{background-position: -328px -390px; width:70px; height:70px;margin:0 auto;}
+.cartStockContainer	.specialorder	{background-position: -421px -390px; width:70px; height:70px;margin:0 auto;}
+.cartStockContainer	.soldOut	{background-position: -91px -390px; width:70px; height:70px;margin:0 auto;}
+.cartStockContainer .latency {font-size:11px;color:#999999;margin:4px 0 0;text-align:center;}
 
 
 .cartRow	{font-size:.8em;}
