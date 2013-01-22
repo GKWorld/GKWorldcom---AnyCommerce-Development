@@ -5,10 +5,10 @@ input.ui-button-text, button{
     font-weight: bold;
 }
 
-ul.productList li.resultsPLContainer {
-	height: 200px;
-	padding: 15px;
-	text-align: center;
-	background: white;
-	box-shadow: 3px 3px 8px rgba(0,0,0,.75);
+.sideline {
+	width: 18%
+}
+
+.mainColumn {
+	width: 81%;
 }
