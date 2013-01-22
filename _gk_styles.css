@@ -16,3 +16,7 @@ input.ui-button-text, button{
 .chatLink {
 	color: #333333;
 }
+
+.clear {
+	clear: both;
+}
