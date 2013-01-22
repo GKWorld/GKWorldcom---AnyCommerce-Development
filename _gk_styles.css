@@ -12,3 +12,7 @@ input.ui-button-text, button{
 .mainColumn {
 	width: 81%;
 }
+
+.chatLink {
+	color: #333333;
+}
