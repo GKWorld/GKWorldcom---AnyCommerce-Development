@@ -486,9 +486,9 @@ it has no inventory AND inventory matters to merchant
 //["appProductGet|PID"]["@inventory"].PID.inv where both instances of PID are subbed with the product id
 // ex: app.data["appProductGet|"+PID]["@inventory"][PID].inv
 // also avail is ...[PID].res (reserved)
-					app.u.dump(app.data['appProductGet|'+pid]);
-					app.u.dump(app.data['appProductGet|'+pid]['@inventory']);
-					app.u.dump(app.data['appProductGet|'+pid]['@variations']);
+					//app.u.dump(app.data['appProductGet|'+pid]);
+					//app.u.dump(app.data['appProductGet|'+pid]['@inventory']);
+					//app.u.dump(app.data['appProductGet|'+pid]['@variations']);
 					if(typeof app.data['appProductGet|'+pid]['@inventory'] === 'undefined' || typeof app.data['appProductGet|'+pid]['@variations'] === 'undefined')	{
 						app.u.dump(" -> inventory ("+typeof app.data['appProductGet|'+pid]['@inventory']+") and/or variations ("+typeof app.data['appProductGet|'+pid]['@variations']+") object(s) not defined for : "+ pid);
 						r = false;
