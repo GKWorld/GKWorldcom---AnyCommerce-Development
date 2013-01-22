@@ -24,24 +24,24 @@ app.rq.push(['extension',1,'analytics_google','extensions/analytics_google.js','
 //spec_LLTRSHIRT017_0
 //add tabs to product data.
 //tabs are handled this way because jquery UI tabs REALLY wants an id and this ensures unique id's between product
-app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
-	var safePID = app.u.makeSafeHTMLId(P.pid); //can't use jqSelector because productTEmplate_pid still used makesafe. planned Q1-2012 update ###
-	var $tabContainer = $( ".tabbedProductContent",$('#productTemplate_'+safePID));
-		if($tabContainer.length)	{
-			if($tabContainer.data("tabs")){} //tabs have already been instantiated. no need to be redundant.
-			else	{
-				$("div.tabContent",$tabContainer).each(function (index) {
-					$(this).attr("id", "spec_"+safePID+"_" + index.toString());
-					})
-				$(".tabs li a",$tabContainer).each(function (index) {
-					$(this).attr('id','href_'+safePID+"_" + index.toString());
-					$(this).attr("href", "app://#spec_"+safePID+"_" + index.toString());
-					});
-				$tabContainer.localtabs();
-				}
-			}
-		else	{} //couldn't find the tab to tabificate.
-	}]);
+//app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
+//	var safePID = app.u.makeSafeHTMLId(P.pid); //can't use jqSelector because productTEmplate_pid still used makesafe. planned Q1-2012 update ###
+//	var $tabContainer = $( ".tabbedProductContent",$('#productTemplate_'+safePID));
+//		if($tabContainer.length)	{
+//			if($tabContainer.data("tabs")){} //tabs have already been instantiated. no need to be redundant.
+//			else	{
+//				$("div.tabContent",$tabContainer).each(function (index) {
+//					$(this).attr("id", "spec_"+safePID+"_" + index.toString());
+//					})
+//				$(".tabs li a",$tabContainer).each(function (index) {
+//					$(this).attr('id','href_'+safePID+"_" + index.toString());
+//					$(this).attr("href", "app://#spec_"+safePID+"_" + index.toString());
+//					});
+//				$tabContainer.localtabs();
+//				}
+//			}
+//		else	{} //couldn't find the tab to tabificate.
+//	}]);
 
 app.rq.push(['script',0,(document.location.protocol == 'file:') ? app.vars.httpURL+'jquery/config.js' : app.vars.baseURL+'jquery/config.js']); //The config.js is dynamically generated.
 app.rq.push(['script',0,app.vars.baseURL+'model.js']); //'validator':function(){return (typeof zoovyModel == 'function') ? true : false;}}
@@ -65,20 +65,20 @@ app.rq.push(['script',0,app.vars.baseURL+'cycle-2.9998.js']);//','validator':fun
 //renders AddThis block on product pages
 app.rq.push(['script',5,(document.location.protocol == 'https:' ? 'https:' : 'http:')+'//s7.addthis.com/js/250/addthis_widget.js#pubid=gkworld', function(P) {var addthis_config = {"data_track_clickback":false,"ui_click":true,"ui_use_image_picker": true};}]);//	'validator':function(){return (typeof addthis == 'object') ? true : false;}
 
-//app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
-//	var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
-//	//update the openGraph and meta content. mostly for social/addThis.
-//	$('#ogTitle').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_name']);
-//	$('#ogImage').attr('content',app.u.makeImage({"name":app.data[P.datapointer]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
-//	$('#ogDescription, #metaDescription').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_desc']);
-//			addthis.toolbox('#socialLinks');
-//	if(typeof addthis == 'object' && addthis.update)	{
-//		addthis.update('share','url',url);
-//		$("#socialLinks .addthis_button_facebook_like").attr("fb:like:href",url);
-//		$("#socialLinks .addthis_button_pinterest_pinit").attr({"pi:pinit:media":app.u.makeImage({"h":"300","w":"300","b":"ffffff","name":app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_image1'],"tag":0}),"pi:pinit:url":url});	
-//		}
-//
-//		}]); //addThis productTemplate code	
+app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
+	var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
+	//update the openGraph and meta content. mostly for social/addThis.
+	$('#ogTitle').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_name']);
+	$('#ogImage').attr('content',app.u.makeImage({"name":app.data[P.datapointer]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
+	$('#ogDescription, #metaDescription').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_desc']);
+			addthis.toolbox('#socialLinks');
+	if(typeof addthis == 'object' && addthis.update)	{
+		addthis.update('share','url',url);
+		$("#socialLinks .addthis_button_facebook_like").attr("fb:like:href",url);
+		$("#socialLinks .addthis_button_pinterest_pinit").attr({"pi:pinit:media":app.u.makeImage({"h":"300","w":"300","b":"ffffff","name":app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_image1'],"tag":0}),"pi:pinit:url":url});	
+		}
+
+		}]); //addThis productTemplate code	
 
 /*
 This function is overwritten once the controller is instantiated. 
