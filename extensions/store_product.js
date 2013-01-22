@@ -302,6 +302,9 @@ addToCart : function (pid){
 
 			atcForm : function($tag,data)	{
 				$tag.append("<input type='hidden' name='add' value='yes' /><input type='hidden' name='product_id' value='"+data.value+"' />");
+				var id = $tag.attr("id");
+				id+="_"+data.value;
+				$tag.attr("id",id);
 				},
 			
 			reviewList : function($tag,data)	{
