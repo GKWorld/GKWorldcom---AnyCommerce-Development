@@ -1,0 +1,6 @@
+input.ui-button-text, button.ui-button-text{
+	background: url("images/ui-bg_glass_75_7cbf0d_1x400.png") repeat-x scroll 50% 50% #7CBF0D;
+    border: 1px solid #72AA13;
+    color: #FFFFFF;
+    font-weight: bold;
+}
