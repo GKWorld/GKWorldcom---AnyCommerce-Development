@@ -56,7 +56,7 @@ app.rq.push(['templateFunction','homepageTemplate','onDeparts',function(P) {app.
 //group any third party files together (regardless of pass) to make troubleshooting easier.
 app.rq.push(['script',0,(document.location.protocol == 'https:' ? 'https:' : 'http:')+'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js']);
 //for homepage and product slideshows
-app.rq.push(['script',1,app.vars.baseURL+'cycle-2.9998.js']);//','validator':function(){return (jQuery().cycle) ? true : false;}});
+app.rq.push(['script',0,app.vars.baseURL+'cycle-2.9998.js']);//','validator':function(){return (jQuery().cycle) ? true : false;}});
 //app.rq.push(['script':2,'location':app.vars.baseURL+'jcarousellite.min.js']);//,'validator':function(){return (jQuery.cycle) ? true : false;}})
 //renders AddThis block on product pages
 app.rq.push(['script',5,(document.location.protocol == 'https:' ? 'https:' : 'http:')+'//s7.addthis.com/js/250/addthis_widget.js#pubid=gkworld', function(P) {var addthis_config = {"data_track_clickback":false,"ui_click":true,"ui_use_image_picker": true};}]);//	'validator':function(){return (typeof addthis == 'object') ? true : false;}
