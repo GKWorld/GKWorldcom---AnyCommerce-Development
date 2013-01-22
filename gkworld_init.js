@@ -137,74 +137,8 @@ app.u.loadApp = function() {
 		var tmp = new zController(app);
 //instantiate wiki parser.
 		myCreole = new Parse.Simple.Creole();
-}
-
-
-//Any code that needs to be executed after the app init has occured can go here.
-//will pass in the page info object. (pageType, templateID, pid/navcat/show and more)
-app.u.appInitComplete = function(P)	{
-	app.u.dump("Executing myAppIsLoaded code...");
-	$('.subcatListContainer a',$('#nav')).click(function(){$('.subcatListContainer',$('#nav')).hide();}); //make sure hard coded links close the nav
-	$('.topCat').click(function(event){
-		event.preventDefault();
-		$('.subcatListContainer').hide(); //closes all open menus
-		$('.subcatListContainer',$(this).parent()).css('display','block'); //opens active menu.
-	})
-	$('.subcatListContainer').append("<span class='ui-state-default ui-corner-all floatRight removeButton center' onClick='$(\".subcatListContainer\",$(\"#nav\")).hide();' ><span class='ui-icon ui-icon-closethick'></span></span>");
-	// code for obtaining and displaying the dropdowns for the top level nav 
-	var topCats = new Array('.genre.anime_categories','.genre.cartoon_categories','.genre.comic_series_-_marvel','.genre.comic_series_-_dc','.genre.disney_categories','.genre.disney','.genre.movie_categories','.genre.music_categories','.genre.tv_series_categories','.genre.tv_series','.genre.video_game_categories','.genre.zmore');
-	var tcl = topCats.length
-	var safeid; //recycled.
-	for(var i = 0; i < tcl; i +=1){
-		safeid = app.u.makeSafeHTMLId(topCats[i])
-		$('#subcats_'+safeid).append(app.renderFunctions.createTemplateInstance('topLevelSubs',"subcats_"+safeid+"_ul"));
-		app.ext.store_navcats.calls.appCategoryDetailMax.init(topCats[i],{'callback':'translateSelector','selector':'#subcats_'+safeid},'mutable');
-		}
-	
-	app.model.dispatchThis('mutable');
-	//Homepage Slideshow
-	app.rq.push(['templateFunction','homepageTemplate','onCompletes',function(P) {
-		var $target=$('#wideSlideshow');
-//		$target.cycle({fx:'fade',speed:'slow',timeout:5000,pager:'#slideshowNav',pagerAnchorBuilder:function(index,el){return'<a href="#"> </a>';},slideExpr:'li'});	
-		$target.cycle({fx:'fade',speed:'slow',timeout:5000,slideExpr:'li'});
-		}]);
-	//Product Page Slideshow	
-//	app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
-//		if($("#prodTemplateRelatedCarousel ul li").length > 4)	{
-//			$('#prodTemplateRelatedCarousel .nav').show();
-//			$('.jCarouselLite').jCarouselLite({
-				// auto: true,
-//				visible: 5,
-//				scroll: 5,
-//				speed: 1000,
-//				pause: true,
-//				btnPrev: function() {
-//					return $(this).find('.prev');
-//					},
-//				btnNext: function() {
-//					return $(this).find('.next');
-//					}
-//				});
-//			}		
-//		}]);
 		
-	//addthis code for productTemplate
-	app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
-	var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
-	//update the openGraph and meta content. mostly for social/addThis.
-	$('#ogTitle').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_name']);
-	$('#ogImage').attr('content',app.u.makeImage({"name":app.data[P.datapointer]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
-	$('#ogDescription, #metaDescription').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_desc']);
-			addthis.toolbox('#socialLinks');
-	if(typeof addthis == 'object' && addthis.update)	{
-		addthis.update('share','url',url);
-		$("#socialLinks .addthis_button_facebook_like").attr("fb:like:href",url);
-		$("#socialLinks .addthis_button_pinterest_pinit").attr({"pi:pinit:media":app.u.makeImage({"h":"300","w":"300","b":"ffffff","name":app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_image1'],"tag":0}),"pi:pinit:url":url});	
-		}
-
-		}]); //addThis productTemplate code	
-
-	//Ship Latency messaging - yes it's ugly but client wanted a custom message for _every_value_
+		//Ship Latency messaging - yes it's ugly but client wanted a custom message for _every_value_
 	app.renderFormats.shippingLatency = function ($tag, data){
 		var latVal = data.value;
 		app.u.dump(latVal);
@@ -272,6 +206,74 @@ app.u.appInitComplete = function(P)	{
 			//do not render
 		}
 	}
+}
+
+
+//Any code that needs to be executed after the app init has occured can go here.
+//will pass in the page info object. (pageType, templateID, pid/navcat/show and more)
+app.u.appInitComplete = function(P)	{
+	app.u.dump("Executing myAppIsLoaded code...");
+	$('.subcatListContainer a',$('#nav')).click(function(){$('.subcatListContainer',$('#nav')).hide();}); //make sure hard coded links close the nav
+	$('.topCat').click(function(event){
+		event.preventDefault();
+		$('.subcatListContainer').hide(); //closes all open menus
+		$('.subcatListContainer',$(this).parent()).css('display','block'); //opens active menu.
+	})
+	$('.subcatListContainer').append("<span class='ui-state-default ui-corner-all floatRight removeButton center' onClick='$(\".subcatListContainer\",$(\"#nav\")).hide();' ><span class='ui-icon ui-icon-closethick'></span></span>");
+	// code for obtaining and displaying the dropdowns for the top level nav 
+	var topCats = new Array('.genre.anime_categories','.genre.cartoon_categories','.genre.comic_series_-_marvel','.genre.comic_series_-_dc','.genre.disney_categories','.genre.disney','.genre.movie_categories','.genre.music_categories','.genre.tv_series_categories','.genre.tv_series','.genre.video_game_categories','.genre.zmore');
+	var tcl = topCats.length
+	var safeid; //recycled.
+	for(var i = 0; i < tcl; i +=1){
+		safeid = app.u.makeSafeHTMLId(topCats[i])
+		$('#subcats_'+safeid).append(app.renderFunctions.createTemplateInstance('topLevelSubs',"subcats_"+safeid+"_ul"));
+		app.ext.store_navcats.calls.appCategoryDetailMax.init(topCats[i],{'callback':'translateSelector','selector':'#subcats_'+safeid},'mutable');
+		}
+	
+	app.model.dispatchThis('mutable');
+	//Homepage Slideshow
+	app.rq.push(['templateFunction','homepageTemplate','onCompletes',function(P) {
+		var $target=$('#wideSlideshow');
+//		$target.cycle({fx:'fade',speed:'slow',timeout:5000,pager:'#slideshowNav',pagerAnchorBuilder:function(index,el){return'<a href="#"> </a>';},slideExpr:'li'});	
+		$target.cycle({fx:'fade',speed:'slow',timeout:5000,slideExpr:'li'});
+		}]);
+	//Product Page Slideshow	
+//	app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
+//		if($("#prodTemplateRelatedCarousel ul li").length > 4)	{
+//			$('#prodTemplateRelatedCarousel .nav').show();
+//			$('.jCarouselLite').jCarouselLite({
+				// auto: true,
+//				visible: 5,
+//				scroll: 5,
+//				speed: 1000,
+//				pause: true,
+//				btnPrev: function() {
+//					return $(this).find('.prev');
+//					},
+//				btnNext: function() {
+//					return $(this).find('.next');
+//					}
+//				});
+//			}		
+//		}]);
+		
+	//addthis code for productTemplate
+	app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
+	var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
+	//update the openGraph and meta content. mostly for social/addThis.
+	$('#ogTitle').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_name']);
+	$('#ogImage').attr('content',app.u.makeImage({"name":app.data[P.datapointer]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
+	$('#ogDescription, #metaDescription').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_desc']);
+			addthis.toolbox('#socialLinks');
+	if(typeof addthis == 'object' && addthis.update)	{
+		addthis.update('share','url',url);
+		$("#socialLinks .addthis_button_facebook_like").attr("fb:like:href",url);
+		$("#socialLinks .addthis_button_pinterest_pinit").attr({"pi:pinit:media":app.u.makeImage({"h":"300","w":"300","b":"ffffff","name":app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_image1'],"tag":0}),"pi:pinit:url":url});	
+		}
+
+		}]); //addThis productTemplate code	
+
+	
 // michael's modal popup, see if it offers something different from neal's -- okay in init	
 	app.u.showBillShipModal = function(){
 		$('#shipBillingTip').dialog({

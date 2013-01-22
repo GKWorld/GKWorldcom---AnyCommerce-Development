@@ -486,8 +486,11 @@ it has no inventory AND inventory matters to merchant
 //["appProductGet|PID"]["@inventory"].PID.inv where both instances of PID are subbed with the product id
 // ex: app.data["appProductGet|"+PID]["@inventory"][PID].inv
 // also avail is ...[PID].res (reserved)
+					app.u.dump(app.data['appProductGet|'+pid]);
+					app.u.dump(app.data['appProductGet|'+pid]['@inventory']);
+					app.u.dump(app.data['appProductGet|'+pid]['@variations']);
 					if(typeof app.data['appProductGet|'+pid]['@inventory'] === 'undefined' || typeof app.data['appProductGet|'+pid]['@variations'] === 'undefined')	{
-						app.u.dump(" -> inventory ("+typeof app.data['appProductGet|'+pid]['@inventory']+") and/or variations ("+typeof app.data['appProductGet|'+pid]['@variations']+") object(s) not defined.");
+						app.u.dump(" -> inventory ("+typeof app.data['appProductGet|'+pid]['@inventory']+") and/or variations ("+typeof app.data['appProductGet|'+pid]['@variations']+") object(s) not defined for : "+ pid);
 						r = false;
 						}
 					else	{
@@ -602,7 +605,7 @@ NOTES
 						} //if no parent is specified, this is a 'recycled' modal window. empty any old product data.
 					
 					$parent.append(app.renderFunctions.createTemplateInstance(P.templateID,"productViewer_"+parentID));
-					$parent.dialog({modal: true,width:'86%',height:$(window).height() - 100,autoOpen:false});
+					$parent.dialog({title:app.data["appProductGet|"+P.pid]['%attribs']['zoovy:prod_name'],modal: true,width:'86%',height:$(window).height() - 100,autoOpen:false});
 					$parent.dialog('open');
 					
 					var tagObj = {};

@@ -2407,6 +2407,17 @@ $tmp.empty().remove();
 				}
 			$tag.html(o);
 			}, //text
+			
+		prettyName : function($tag,data){
+			var o = '';
+			if(jQuery.isEmptyObject(data.bindData))	{o = data.value}
+			else	{
+				o += data.value;
+				}
+			if(o.charAt(0) === "!")
+				o = o.split("!")[1];
+			$tag.html(o);
+			}, //text
 
 //for use on inputs. populates val() with the value
 		popVal : function($tag,data){
