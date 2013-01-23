@@ -20,3 +20,7 @@ input.ui-button-text, button{
 .clear {
 	clear: both;
 }
+
+.quickviewSpecial {
+	text-align: left;
+}

@@ -770,9 +770,12 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 			<span class='savingsPercentage' data-bind='var: product(pid); format:priceRetailSavingsPercentage; extension:myRIA; pretext: (; posttext:);'></span>
 		</span>
 	</div>
-
-	<div data-bind='var: product(zoovy:ship_latency); format:shippingLatency;' class='latency'></div>
 	
+	<div data-bind='var: product(zoovy:ship_latency); format:shippingLatency;' class='latency'></div>
+	<div class="quickviewSpecial">
+		<div class='header center floatLeft' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="return showContent('company',{'show':'shipping'});"></div>
+	</div>
+
 	<form data-bind='var: product(pid); format:atcForm; extension:store_product;' class='prodViewerAddToCartForm clearfix' id='prodQuickViewAddToCartFrm' action='#' onSubmit="app.ext.myRIA.u.handleAddToCart($(this),{'action':'modal'}); return false;">
 
 		<fieldset data-bind='var: product(pid); format:atcVariations; extension:store_product;' class='borderNone'></fieldset>
