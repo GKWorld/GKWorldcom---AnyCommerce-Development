@@ -353,7 +353,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 	<img data-bind="var: category(%page.banner1); format: banner; editor: banner; height:250; width:750; extension: myRIA;" />
 	<div class='contentContainer marginBottom'>
 
-		<h2 data-bind="var: category(pretty); format:text; editor:text; pretext:Shop ;" class='greyGradient'></h2>
+		<h2 data-bind="var: category(pretty); format:prettyName; editor:text; pretext:Shop ;" class='greyGradient'></h2>
 
 	<p data-bind="var: category(%page.description); format:wiki; wikiFormats:myRIA; editor: textarea;"></p>
 	
@@ -377,7 +377,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 <li id='categoryListTemplate'>
 	<div onClick="showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" class='pointer'>
 		<div class='thumbContainer'><img src='blank.gif' class='catThumb' data-bind='var: category(%meta.CAT_THUMB); format:imageURL;' width='150' height='150' /></div>
-		<div class='catName white2LGray'><span data-bind='var: category(pretty); format:text;'></span></div>
+		<div class='catName white2LGray'><span data-bind='var: category(pretty); format:prettyName;'></span></div>
 	</div>
 </li>
 
@@ -385,7 +385,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 <li id='categoryListTemplateRootCats'>
 	<div onClick="showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" class='pointer'>
 		<div class='thumbContainer'><img src='blank.gif' class='catThumb' data-bind='var: category(%meta.CAT_THUMB); format:imageURL;' width='35' height='35' /></div>
-		<div class='catName'><span data-bind='var: category(pretty); format:text;'></span></div>
+		<div class='catName'><span data-bind='var: category(pretty); format:prettyName;'></span></div>
 	</div>
 </li>
 
@@ -1293,7 +1293,7 @@ Amazon is not currently functional
 			
 			<div data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;"  onClick="return showContent('company',{'show':'shipping'});"></div>
 
-			<div class='inStock spriteBG'></div>
+			<!--<div class='inStock spriteBG'></div>-->
 			<div data-bind='var: product(zoovy:ship_latency); format:shippingLatency;' class='latency'></div>
 		</div>
 
