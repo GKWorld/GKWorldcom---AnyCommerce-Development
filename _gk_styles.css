@@ -24,3 +24,7 @@ input.ui-button-text, button{
 .quickviewSpecial {
 	text-align: left;
 }
+
+.tipify {
+	cursor: pointer;
+}
