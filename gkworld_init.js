@@ -68,9 +68,9 @@ app.rq.push(['script',0,(document.location.protocol == 'https:' ? 'https:' : 'ht
 app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
 	var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
 	//update the openGraph and meta content. mostly for social/addThis.
-	$('#ogTitle').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_name']);
-	$('#ogImage').attr('content',app.u.makeImage({"name":app.data[P.datapointer]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
-	$('#ogDescription, #metaDescription').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_desc']);
+	$('#ogTitle').attr('content',app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_name']);
+	$('#ogImage').attr('content',app.u.makeImage({"name":app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
+	$('#ogDescription, #metaDescription').attr('content',app.data['appProductGet|'+P.pid]['%attribs']['zoovy:prod_desc']);
 			addthis.toolbox('#socialLinks');
 	if(typeof addthis == 'object' && addthis.update)	{
 		addthis.update('share','url',url);
