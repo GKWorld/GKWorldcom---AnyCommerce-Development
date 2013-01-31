@@ -28,3 +28,11 @@ input.ui-button-text, button{
 .tipify {
 	cursor: pointer;
 }
+
+.shiplatency {
+	text-align: center;
+	width: 100%;
+	font-weight: bold;
+	margin: 10px 0px;
+	font-size: 1.2em;
+}

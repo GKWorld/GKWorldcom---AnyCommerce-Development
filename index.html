@@ -20,7 +20,7 @@ var _gaq = _gaq || {'push':function(){}} //here for testing. REPLACE BEFORE DEPL
 var myCreole;
 
 var app = {vars:{
-	"release":"20130131093300",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20130131102400",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"_clientid":"zmvc",
 	"baseURL":"",
 	"httpsURL":"https://ssl.zoovy.com/s=www.9c0a9a.snap.zoovy.net/",
@@ -653,7 +653,7 @@ this will likely become more flexible in the future. ###
 <div class='header center' data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
 <div class='header center' data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
 <div class='header center' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="return showContent('company',{'show':'shipping'});"></div>
-<div class='header center' data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></div>
+<div class='header center shiplatency' data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></div>
 
 	<ul class='checkmarkList'>
 		<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
