@@ -156,6 +156,15 @@ app.u.loadApp = function() {
 		myCreole = new Parse.Simple.Creole();
 		
 		//Ship Latency messaging - yes it's ugly but client wanted a custom message for _every_value_
+	app.renderFormats.shippingLatencyAddClass = function ($tag, data){
+		if(data.value == 2 || data.value == 4 || data.value == 4){
+			//do nothing, already has green circle
+		} else {
+			$tag.addClass('backorder');
+			$tag.removeClass('inStock');
+		}
+		
+	}
 	app.renderFormats.shippingLatency = function ($tag, data){
 		var latVal = data.value;
 		var latString = "";
