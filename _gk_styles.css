@@ -33,7 +33,6 @@ input.ui-button-text, button{
 	text-align: center;
 	width: 100%;
 	font-weight: bold;
-	margin: 10px 0px;
 	font-size: 1.2em;
 }
 
@@ -76,4 +75,9 @@ input.ui-button-text, button{
 	margin-top: -20px;
 	vertical-align: middle;
 	text-align: center;
+}
+
+.bannerContainer {
+	height: 47px;
+	margin-bottom: 0px;
 }
