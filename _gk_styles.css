@@ -36,3 +36,44 @@ input.ui-button-text, button{
 	margin: 10px 0px;
 	font-size: 1.2em;
 }
+
+#contactForm {
+	float: left;
+	width: 500px;
+}
+
+#contactForm input, 
+#contactForm textarea {
+	width: 350px;
+}
+#contactForm input[type='submit'] {
+	width: 150px;
+}
+
+#contactSeparator, #contactChat {
+	float: left;
+	height: 300px;
+}
+
+#contactSeparator {
+	width: 50px;
+	line-height: 300px;
+	font-size: 2em;
+	color: #87868A;
+	opacity: .7;
+	margin: 0px 20px;
+}
+
+#contactChat {
+	width: 200px;
+	position: relative;
+}
+
+#contactChat a {
+	display: block;
+	position: absolute;
+	top: 50%;
+	margin-top: -20px;
+	vertical-align: middle;
+	text-align: center;
+}

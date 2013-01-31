@@ -259,24 +259,28 @@ app.u.appInitComplete = function(P)	{
 	app.u.showBillShipModal = function(){
 		$('#shipBillingTip').dialog({
 			title : "No Billing Occurs Until Shipping",
+			modal:"true",
 			width : 600
 		});
 	}
 	app.u.showReturnPolModal = function(){
 		$('#returnPolicyTip').dialog({
 			title : "60-Day Return Policy",
+			modal:"true",
 			width : 600
 		});
 	}
 	app.u.showStockShipModal = function(){
 		$('#stockShipTip').dialog({
 			title : "In-Stock Items and Shipping",
+			modal:"true",
 			width : 600
 		});
 	}
 	app.u.showWorldShipModal = function(){
 		$('#worldShipTip').dialog({
 			title : "Worldwide Shipping",
+			modal:"true",
 			width : 600
 		});
 	}	

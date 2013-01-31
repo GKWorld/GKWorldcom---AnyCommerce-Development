@@ -906,6 +906,14 @@ adding classes is not likely to have any bad effects.
 				</div>
 			</fieldset>
 			</form>
+			<div id="contactSeparator">OR</div>
+			<div id="contactChat">
+				<div>
+					<a class="chatLink" href="http://messenger.providesupport.com/messenger/1po7j2ubozcbl1v7nfcwgmz4fc.html" target="_blank">
+						Click Here for Live Customer Support!
+					</a>
+				</div>
+			</div>
 			<div data-bind='var: profile(zoovy:contact); format:wiki; wikiFormats:myRIA;' id='contactContent'></div>
 		</div>
 
@@ -1204,7 +1212,7 @@ So the cart template should contain these two elements and the extension should 
 
 	<div data-bind="var: cart(sum/items_total); format:money; className:orderSubtotal; hideZero:false; currencySign: $; pretext:Subtotal: ; "></div>
 
-	<div data-bind='var: cart(sum/tax_total); format:money; className:orderTax; hideZero:true;currencySign: $; pretext:Tax: ; '></div>
+	<div data-bind='var: cart(sum/tax_total); format:money; className:orderTax; hideZero:true;currencySign: $; pretext:Tax: ; posttext: (PA or NY only);'></div>
 
 	<div data-bind='var: cart(want/shipping_id); format:shipInfoById; className:orderShipping; hideZero:false; extension:store_cart;'></div>
 
