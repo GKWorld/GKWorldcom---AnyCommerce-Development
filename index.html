@@ -20,7 +20,7 @@ var _gaq = _gaq || {'push':function(){}} //here for testing. REPLACE BEFORE DEPL
 var myCreole;
 
 var app = {vars:{
-	"release":"20130131162200",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20130131163400",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"_clientid":"zmvc",
 	"baseURL":"",
 	"httpsURL":"https://ssl.zoovy.com/s=www.9c0a9a.snap.zoovy.net/",
@@ -298,14 +298,14 @@ the homepageTemplate template is loaded into mainContentArea by default when the
 <div id='homepageTemplate' class='homeTemplate'>
 	<div class="bannerContainer">
 
-		<div class="topRight"><a title="Click here for Sale Items" href="#category?navcat" class="bannerBind"><img alt="Click here for Sale Items" src="images/sale.jpg" height="200" width="300"></a></div>
+		<div class="topRight pointer"><a title="Click here for Sale Items" onClick="return showContent('category',{'navcat':'.weekly_special.clearance'});"><img alt="Click here for Sale Items" src="images/sale.jpg" height="200" width="300"></a></div>
 
-		<div class="bottomRight"><img src="images/free_shipping.jpg" alt="Free Shipping on All Orders over $75" height="200" width="300"></div>
+		<div class="bottomRight pointer"><a title="New Arrivals" onClick="return showContent('category',{'navcat':'.weekly_special.new'});"><img src="images/newArrivals_banner.jpg" alt="New Arrivals" height="200" width="300"></a></div>
 
 		<div id="slideshowContainer">
 			<div id="slideshowNav"></div>
-			<ul id="wideSlideshow" class="pics slideshow">
-				<a title="Shop Anime" href="#category?navcat" class="bannerBind"><li><img alt="Shop Anime" src="images/shop_anime_by_collection.jpg" height="400" width="900"></li></a>
+			<ul id="wideSlideshow" class="pics slideshow pointer">
+				<a title="Shop Anime" onClick="return showContent('category',{'navcat':'.buy.anime'})"><li><img alt="Shop Anime" src="images/shop_anime_by_collection.jpg" height="400" width="900"></li></a>
 				<!-- Blank slide to copy/paste
 				<a title=" " href="URL HERE" class="bannerBind"><li><img alt=" " src="IMAGES/FOO" height="400" width="900"></li></a>
 				-->
