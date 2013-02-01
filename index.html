@@ -353,7 +353,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 	<img data-bind="var: category(%page.banner1); format: banner; editor: banner; height:250; width:750; extension: myRIA;" />
 	<div class='contentContainer marginBottom'>
 
-		<h2 data-bind="var: category(pretty); format:prettyName; editor:text; pretext:Shop ;" class='greyGradient'></h2>
+		<h2 data-bind="var: category(pretty); format:catText; extension: myRIA; editor:text; pretext:Shop ;" class='greyGradient'></h2>
 
 	<p data-bind="var: category(%page.description); format:wiki; wikiFormats:myRIA; editor: textarea;"></p>
 	
@@ -378,7 +378,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 	<div onClick="showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" class='pointer'>
 		<div class='thumbContainer'><img src='blank.gif' class='catThumb' data-bind='var: category(%meta.CAT_THUMB); format:imageURL;' width='150' height='150' /></div>
 		<div class='catName white2LGray alignCenter'>
-			<span data-bind='var: category(pretty); format:prettyName;'></span>
+			<span data-bind='var: category(pretty); format:catText; extension: myRIA;;'></span>
 			<span data-bind='var: category(@products); format: numProduct; extension:store_navcats; pretext: (; posttext:) ;'></span>
 		</div>
 	</div>
@@ -387,7 +387,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 
 <li id='categoryListTemplateRootCats' onClick="showContent('category',{'navcat':$(this).attr('data-catsafeid')});" class='pointer'>
 	<img src='blank.gif' class='catThumb' data-bind='var: category(%meta.CAT_THUMB); format:imageURL;' width='45' height='45' />
-	<span data-bind='var: category(pretty); format:prettyName;'></span>
+	<span data-bind='var: category(pretty); format:catText; extension: myRIA;;'></span>
 	<span data-bind='var: category(@products); format: numProduct; extension:store_navcats; pretext: (; posttext:) ;'></span>
 </li>
 
@@ -865,7 +865,7 @@ adding classes is not likely to have any bad effects.
 <!--  used in breadcrumb -->
 <ul>
 	<li id='breadcrumbTemplate'>
-	<a href='#' onClick="return showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" data-bind='var: category(pretty); format:prettyName;'></a>
+	<a href='#' onClick="return showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" data-bind='var: category(pretty); format:catText; extension: myRIA;;'></a>
 	</li>
 </ul>
 
