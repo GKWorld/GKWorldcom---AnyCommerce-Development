@@ -697,6 +697,7 @@ fallback is to just output the value.
 
 			banner : function($tag, data)	{
 //				app.u.dump("begin myRIA.renderFormats.banner");
+				app.u.dump(data.value);
 				var obj = app.u.kvp2Array(data.value); //returns an object LINK, ALT and IMG
 				var hash; //used to store the href value in hash syntax. ex: #company?show=return
 				var pageInfo = {};
