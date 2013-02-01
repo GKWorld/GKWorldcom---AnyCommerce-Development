@@ -20,7 +20,7 @@ var _gaq = _gaq || {'push':function(){}} //here for testing. REPLACE BEFORE DEPL
 var myCreole;
 
 var app = {vars:{
-	"release":"20130131132800",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20130131162200",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"_clientid":"zmvc",
 	"baseURL":"",
 	"httpsURL":"https://ssl.zoovy.com/s=www.9c0a9a.snap.zoovy.net/",
@@ -319,7 +319,7 @@ the homepageTemplate template is loaded into mainContentArea by default when the
 	<ul data-bind="var: category(@subcategoryDetail); format: categoryList; extension: store_navcats; loadsTemplate: categoryListTemplate; detail:max;" class='listStyleNone fluidList clearfix noPadOrMargin categoryList'></ul>
 	-->
 	<div class='prodlistContainerReversed clearfix'>
-		<ul data-bind="var: category(@products); format: productList; withInventory: 1; withVariations: 1; editor: finder; extension: store_prodlist; loadsTemplate: productListTemplate; hide_summary:1; before:<h2 class='greyGradient marginBottom'>Featured Items</h2>; withReviews:1;" id='homepageFeaturedItems' class='listStyleNone fluidList clearfix noPadOrMargin lineItemProdlist'></ul>
+		<ul data-bind="var: list($supplylist.@products); format: productList; withInventory: 1; withVariations: 1; editor: finder; extension: store_prodlist; loadsTemplate: productListTemplate; hide_summary:1; before:<h2 class='greyGradient marginBottom'>Featured Items</h2>; withReviews:1;" id='homepageFeaturedItems' class='listStyleNone fluidList clearfix noPadOrMargin lineItemProdlist'></ul>
 	</div>
 	<p data-bind="var: category(%page.description); format:wiki; wikiFormats:myRIA; editor: textarea;"></p>
 	<!--
@@ -651,7 +651,7 @@ this will likely become more flexible in the future. ###
 	<div class='marginLeft'>
 	
 <div class='floatRight prodGuarantee'>
-	<div class="bannerContainer">
+	<div class="prodBannerContainer">
 		<div class='header center' data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
 		<div class='header center' data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
 		<div class='header center' data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
