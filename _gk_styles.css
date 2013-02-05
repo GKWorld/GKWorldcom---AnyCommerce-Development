@@ -80,4 +80,5 @@ input.ui-button-text, button{
 .prodBannerContainer {
 	height: 47px;
 	margin-bottom: 0px;
+	overflow: hidden;
 }
