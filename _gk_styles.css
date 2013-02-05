@@ -82,3 +82,7 @@ input.ui-button-text, button{
 	margin-bottom: 0px;
 	overflow: hidden;
 }
+
+.priceContainer {
+	width: 180px;
+}

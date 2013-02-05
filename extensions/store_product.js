@@ -611,7 +611,7 @@ NOTES
 						} //if no parent is specified, this is a 'recycled' modal window. empty any old product data.
 					
 					$parent.append(app.renderFunctions.createTemplateInstance(P.templateID,"productViewer_"+parentID));
-					$parent.dialog({modal: true,width:'86%',height:$(window).height() - 100,autoOpen:false, title : app.data["appProductGet|"+P.pid]['%attribs']['zoovy:prod_name']});
+					$parent.dialog({modal: true,width:750,height:600,autoOpen:false, title : app.data["appProductGet|"+P.pid]['%attribs']['zoovy:prod_name']});
 					$parent.dialog('open');
 					
 					var tagObj = {};
