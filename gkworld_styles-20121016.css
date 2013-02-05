@@ -527,7 +527,7 @@ fieldset.qtyInput	{line-height:33px;}
 
 .addToCartButton.ui-button	{	padding:2px 6px; line-height:1.0em;}
 
-.addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton	{
+.addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton, .createAccountButton	{
 	font-size:1.3em;
 
 	font-weight:bold;
