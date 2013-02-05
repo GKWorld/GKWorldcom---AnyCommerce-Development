@@ -489,7 +489,7 @@ h1.greyGradient, h2.greyGradient	{font-size: 1.3em; font-weight:normal; line-hei
 .cartStockContainer	.preorder	{background-position: -328px -390px; width:70px; height:70px;margin:0 auto;}
 .cartStockContainer	.specialorder	{background-position: -421px -390px; width:70px; height:70px;margin:0 auto;}
 .cartStockContainer	.soldOut	{background-position: -91px -390px; width:70px; height:70px;margin:0 auto;}
-.cartStockContainer .latency {font-size:11px;color:#999999;margin:4px 0 0;text-align:center;}
+.cartStockContainer .latency {font-size:11px;color:#999999;margin:4px 0 0;text-align:center;font-weight: bold;}
 
 
 .cartRow	{font-size:.8em;}
