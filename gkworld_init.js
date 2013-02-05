@@ -80,6 +80,14 @@ app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
 
 		}]); //addThis productTemplate code	
 
+app.rq.push(['templateFunction','companyTemplate','onCompletes',function(P) {
+	$('#contactChat div').empty();
+	$('#contactChat div').html('<div id="ciJDde" style="z-index:100;position:absolute"></div><div id="scJDde" style="display:inline"></div><div id="sdJDde" style="display:none"></div><script type="text/javascript">var seJDde=document.createElement("script");seJDde.type="text/javascript";var seJDdes=(location.protocol.indexOf("https")==0?"https":"http")+"://image.providesupport.com/js/1po7j2ubozcbl1v7nfcwgmz4fc/safe-textlink.js?ps_h=JDde&ps_t="+new Date().getTime()+"&online-link-html=Click%20Here%20for%20Live%20Customer%20Support%21&offline-link-html=Live%20Customer%20Support%20Currently%20Offline.";setTimeout("seJDde.src=seJDdes;document.getElementById(\'sdJDde\').appendChild(seJDde)",1)</script><noscript><div style="display:inline"><a href="http://www.providesupport.com?messenger=1po7j2ubozcbl1v7nfcwgmz4fc">Live Assistance Chat</a></div></noscript>');
+}]);
+
+
+
+
 /*
 This function is overwritten once the controller is instantiated. 
 Having a placeholder allows us to always reference the same messaging function, but not impede load time with a bulky error function.
