@@ -83,6 +83,10 @@ input.ui-button-text, button{
 	overflow: hidden;
 }
 
+.quickviewProdBannerContainer {
+	padding-left: 24px;
+}
+
 .priceContainer {
 	width: 180px;
 }
