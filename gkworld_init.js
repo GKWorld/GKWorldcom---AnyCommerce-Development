@@ -168,7 +168,7 @@ app.u.loadApp = function() {
 		if(data.value == 2 || data.value == 4 || data.value == 4){
 			//do nothing, already has green circle
 		} else {
-			$tag.addClass('backorder');
+			$tag.addClass('specialorder');
 			$tag.removeClass('inStock');
 		}
 		
