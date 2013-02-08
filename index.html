@@ -408,7 +408,7 @@ remember to NOT put the button inside the 'onclick' container or two events will
 	<span class='floatRight pointer quickView displayNone spriteBG' onClick="quickView('product',{'templateID':'productTemplateQuickView','pid':$(this).closest('[data-pid]').attr('data-pid')});">&nbsp;</span>
 
 	<div onClick="return showContent('product',{'pid':$(this).attr('data-pid')})" data-bind='var:product(pid);format:assignAttribute; attribute:data-pid;' class='pointer'>
-		<h5 data-bind='var: product(zoovy:prod_name); format:text;' class='prodName'></h5>
+		<h5 data-bind='var: product(zoovy:prod_seo_title); format:text;' class='prodName'></h5>
 		<div class='prodThumbContainer' data-bind='var:product(pid); format:addPicSlider; extension:myRIA;'>
 		<img src='blank.gif' class='prodThumb' data-bind='var: product(zoovy:prod_image1); format:imageURL;' width='190' height='190' />
 		</div>
@@ -493,7 +493,7 @@ container ul should have lineItemProdlist class on it instead of productList
 		</div>
 		<span data-bind='var: reviews(reviews.average); format:addClass; className:review_;' class='reviewSprite floatRight' ></span>
 
-		<h5 data-bind='var: product(zoovy:prod_name); format:text;'></h5>
+		<h5 data-bind='var: product(zoovy:prod_seo_title); format:text;'></h5>
 
 		<h6 data-bind='var: product(zoovy:base_price); format:money; currencySign: $;  hideZero:true; className:price; pretext: Our Price: ;'></h6>
 
@@ -1385,7 +1385,7 @@ used on a product layout. Some product have 'children' which may represent the s
 <ul>
 <li id='productListTemplateChildren' onClick="showContent('product',{'pid':$(this).attr('data-pid')})" class='floatLeft pointer'>
 	<img src='blank.gif' class='prodThumb' data-bind='var: product(zoovy:prod_image1); format:imageURL;' width='75' height='75' />
-	<div data-bind='var: product(amz:grp_varvalue); defaultVar: product(zoovy:prod_name); format:text;'></div>
+	<div data-bind='var: product(amz:grp_varvalue); defaultVar: product(zoovy:prod_seo_title); format:text;'></div>
 </li>
 </ul>
 
