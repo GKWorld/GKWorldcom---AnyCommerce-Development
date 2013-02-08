@@ -87,6 +87,8 @@ input.ui-button-text, button{
 	padding-left: 24px;
 }
 
-.priceContainer {
-	width: 180px;
+.quickviewScroll {
+	max-height: 300px;
+	overflow: scroll;
+	padding-top: 20px;
 }
