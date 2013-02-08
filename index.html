@@ -524,6 +524,9 @@ remember to NOT put the button inside the 'onclick' container or two events will
 		<div class="priceContainer">
 			<h6 class="basePrice marginLeft" data-bind='var: product(base_price); format:money; isElastic:1; currencySign: $;  hideZero:true; className:price;'></h6>
 		</div>
+
+		<input type='submit' value='View Details' class='displayNone ui-button ui-button-text ui-corner-all ui-state-default addToCartButton atcButton' />
+
 	</div>
 </li>
 </ul>
@@ -667,14 +670,23 @@ this will likely become more flexible in the future. ###
 			No billing occurs until shipping (<a onClick="app.u.showBillShipModal(); return false;" class='tipify'>?</a>)
 		</li>
 		
-		<li>60-Day return policy  (<a onClick="app.u.showReturnPolModal(); return false;" class='tipify'>?</a>)
+		<li>60-Day return policy  
+		<!--
+			(<a onClick="app.u.showReturnPolModal(); return false;" class='tipify'>?</a>)
+		-->
 		</li>
 		
-		<li class='displayNone' data-bind="var: product(is:user5); format:showIfSet;">Ships in 1-2 days  (<a onClick="app.u.showStockShipModal(); return false;" class='tipify'>?</a>)
+		<li class='displayNone' data-bind="var: product(is:user5); format:showIfSet;">Ships in 1-2 days   
+		<!--
+			(<a onClick="app.u.showStockShipModal(); return false;" class='tipify'>?</a>)
+		-->
 		</li>
 
 		<li>100% Secure checkout</li>
-		<li>YES, we ship worldwide! (<a onClick="app.u.showWorldShipModal(); return false;" class='tipify'>?</a>)
+		<li>We ship worldwide!  
+		<!--
+			(<a onClick="app.u.showWorldShipModal(); return false;" class='tipify'>?</a>)
+		-->
 		</li>
 	</ul>
 
