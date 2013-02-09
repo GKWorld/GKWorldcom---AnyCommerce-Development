@@ -92,3 +92,11 @@ input.ui-button-text, button{
 	overflow: scroll;
 	padding-top: 20px;
 }
+
+.lineItemProdlist li {
+	border-bottom: 1px dotted #999999;
+}
+
+.checkoutProdInfoContainer {
+	width: 50%;
+}
