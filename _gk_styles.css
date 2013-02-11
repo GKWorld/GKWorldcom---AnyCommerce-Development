@@ -100,3 +100,11 @@ input.ui-button-text, button{
 .checkoutProdInfoContainer {
 	width: 50%;
 }
+
+#cartTemplateCostSummary div {
+	margin: 8px 0px;
+}
+
+#cartTemplateCostSummary {
+	margin-bottom: 30px;
+}

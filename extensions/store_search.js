@@ -226,7 +226,24 @@ P.parentID - The parent ID is used as the pointer in the multipage controls obje
 				qObj.type = 'product';
 				qObj.mode = 'elastic-native';
 				qObj.size = 250;
-				qObj.query =  {"query_string" : {"query" : keywords}};
+				
+				//qObj.query =  {"query_string" : {"query" : keywords}};
+				qObj.query = {
+					"filtered" : {
+						"query": {"query_string" : {"query" : keywords}},
+						"filter" : {
+							"bool" : {
+								"must_not" : {
+									"term" : {
+										"tags" : "IS_BESTSELLER"
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				
 				if(typeof tagObj != 'object')	{tagObj = {}};
 				tagObj.datapointer = "appPublicSearch|"+keywords
 				app.ext.store_search.calls.appPublicSearch.init(qObj,tagObj);

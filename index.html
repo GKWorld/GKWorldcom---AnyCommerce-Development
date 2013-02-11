@@ -75,16 +75,27 @@ app.u.loadScript(app.vars.baseURL+"gkworld_init.js");
 	<td>
 
 	<div id="loader">
-		<h3>Loading GKWorld App...</h3>
-
+		<h3 class="loadingNonSecure">Loading GKWorld App...</h3>
+		<h3 class="loadingSecure">Upgrading to a Secure Session...</h3>
+		
+		
+		<script type="text/javascript">
+			$(".loadingSecure, .loadingNonSecure").hide();
+			if(document.location.protocol == 'https:') {
+				$(".loadingSecure").show();
+			} else if(document.location.protocol == "http:" || document.location.protocol == "file:") {
+				$(".loadingNonSecure").show();
+			} else {
+				//Dude, what's your location protocol?
+			}
+		</script>
+		
+		
 		<div class='alignCenter'>
 		<progress id="appPreViewProgressBar" max="100" value="0" /><br />
 		</div>
 		<div id='appPreViewProgressText'>0% Complete</div>
 	</div>
-	<div id="clickToLoad" class="displayNone pointer">
-		Click here to load your totally kickass shopping experience!
-	<div>
 	<div class='appMessaging'></div>
 	</td>
 </tr>
@@ -1288,17 +1299,17 @@ So the cart template should contain these two elements and the extension should 
 	<div data-bind='var: cart(want/shipping_id); format:shipInfoById; className:orderShipping; hideZero:false; extension:store_cart;'></div>
 
 	<div data-bind='var: cart(sum/order_total); format:money; className:orderTotal; hideZero:false; currencySign: $; pretext:Order Total: ; '></div>
-
+<!--
 	<div data-bind='var: cart(sum/gfc_total); format:money; className:orderGiftcardTotal; hideZero:false; currencySign: $; pretext:Giftcard(s): ; '></div>
 	<div data-bind='var: cart(sum/pnt_total); format:money; className:rewardPointsTotal; hideZero:false; currencySign: $; pretext:Reward Points: ; '></div>
 	<div data-bind='var: cart(sum/rmc_total); format:money; className:returnsCreditTotal; hideZero:false; currencySign: $; pretext:Returns Credit: ; '></div>
 
 	<div data-bind='var: cart(sum/balance_due_total); format:orderBalance; className:orderBalanceDue; hideZero:false; currencySign: $; pretext:Estimated Total: ; extension:store_cart;'></div>
-
+-->
 </section>
 
 <section id='cartTemplateShippingContainer'>
-	<h3>Shipping:</h3>
+	<h4>Shipping:</h4>
 	<ul class='noPadOrMargin listStyleNone cartShipMethods' data-bind='var: cart(@SHIPMETHODS); format:shipMethodsAsRadioButtons; extension:store_cart;'></ul>
 </section>
 
