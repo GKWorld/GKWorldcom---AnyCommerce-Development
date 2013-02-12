@@ -88,9 +88,9 @@ input.ui-button-text, button{
 }
 
 .quickviewScroll {
-	max-height: 300px;
+	height: 180px;
 	overflow: scroll;
-	padding-top: 20px;
+	margin-top: 20px;
 }
 
 .lineItemProdlist li {

@@ -875,11 +875,11 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 	</td>
 </tr>
 <tr>
-	<td class="quickviewScroll" colspan='2'>
-	<div id="prodDesc" data-bind='var: product(zoovy:prod_desc); format:wiki; wikiFormats:myRIA;'></div>
-
-	<ul class='listStyleNone clearfix productReviewsList' id='prodViewerReviews' data-bind="var: reviews(reviews.@reviews); format:processList; loadsTemplate:productReviewsTemplateDetail;"></ul>
-
+	<td colspan='2'>
+		<div class="quickviewScroll">
+			<div id="prodDesc" data-bind='var: product(zoovy:prod_desc); format:wiki; wikiFormats:myRIA;'></div>
+			<ul class='listStyleNone clearfix productReviewsList' id='prodViewerReviews' data-bind="var: reviews(reviews.@reviews); format:processList; loadsTemplate:productReviewsTemplateDetail;"></ul>
+		</div>
 	</td>
 </tr>
 </table>
