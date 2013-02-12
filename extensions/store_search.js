@@ -235,7 +235,7 @@ P.parentID - The parent ID is used as the pointer in the multipage controls obje
 							"bool" : {
 								"must_not" : {
 									"term" : {
-										"tags" : "IS_BESTSELLER"
+										"tags" : "IS_USER16"
 									}
 								}
 							}
