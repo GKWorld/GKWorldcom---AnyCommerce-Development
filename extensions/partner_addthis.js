@@ -74,7 +74,7 @@ var partner_addthis = function() {
 							});
 						app.ext.myRIA.template.productTemplate.onDeparts.push(function(P) {
 							$(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).empty();
-						}
+						});
 					} else	{
 						setTimeout(function(){app.ext.partner_addthis.callbacks.startExtension.onSuccess()},250);
 					}
