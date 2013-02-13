@@ -26,7 +26,10 @@ This extension is untested.
 */
 
 //Global object that will be updated before addThis code is rendered.
-
+var addthis_share = {
+	url : "",
+	title : ""
+};
 
 var partner_addthis = function() {
 	var r= {
@@ -53,22 +56,25 @@ var partner_addthis = function() {
 					if(app.ext.myRIA && app.ext.myRIA.template){
 						app.u.dump("Loading Addthis Extension");
 						app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
-							
+
 							$(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).append(
 									'<div id="socialLinks" class="addthis_toolbox addthis_default_style">'
-								+		'<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>'
-								+		'<a class="addthis_button_tweet"></a>'
-								+		'<a class="addthis_button_pinterest_pinit"></a>'
-								+		'<a class="addthis_counter addthis_pill_style" onClick="return false;"></a>'
+								+		'<a class="addthis_button_preferred_1"></a>'
+								+		'<a class="addthis_button_preferred_2"></a>'
+								+		'<a class="addthis_button_preferred_3"></a>'
+								+		'<a class="addthis_button_preferred_4"></a>'
+								+		'<a class="addthis_button_compact"></a>'
 								+	'</div>');
-							var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
-							//console.log("URL: "+url);
-							addthis_share.url = url;
-							if(typeof app.data[P.datapointer]['%attribs']['zoovy:prod_seo_title'] !== 'undefined')
-								addthis_share.title = app.data[P.datapointer]['%attribs']['zoovy:prod_seo_title'];
-							else
-								delete addthis_share.title;
 							
+							//Set URL+title for most sharing code
+							var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
+							addthis_share.url = url;
+							addthis_share.title = app.data[P.datapointer]['%attribs']['zoovy:prod_name'];
+							//Set URL+title for Facebook
+							$('#ogURL').attr('content',url);
+							$('#ogTitle').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_name']);
+							$('#ogImage').attr('content',app.u.makeImage({"name":app.data[P.datapointer]['%attribs']['zoovy:prod_image1'],"w":150,"h":150,"b":"FFFFFF","tag":0}));
+							$('#ogDescription, #metaDescription').attr('content',app.data[P.datapointer]['%attribs']['zoovy:prod_desc']);
 							
 							addthis.toolbox('#socialLinks');
 							});
