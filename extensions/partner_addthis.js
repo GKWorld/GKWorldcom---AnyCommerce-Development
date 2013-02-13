@@ -46,13 +46,11 @@ var partner_addthis = function() {
 		callbacks : {
 			init : {
 				onSuccess : function(){
-					app.u.dump(addthis_share);
-					var url = (document.location.protocol == 'https:' ? 'https:' : 'http:')+'//s7.addthis.com/js/250/addthis_widget.js';
+					var scriptPath = (document.location.protocol == 'https:' ? 'https:' : 'http:')+'//s7.addthis.com/js/250/addthis_widget.js';
 					if(typeof addthis_id !== 'undefined'){
-						url+= '#pubid='+addthis_id;
+						scriptPath+= '#pubid='+addthis_id;
 					}
-					app.u.loadScript();
-					app.u.dump(addthis_share);
+					app.u.loadScript(scriptPath);
 					
 					return true;
 				},
