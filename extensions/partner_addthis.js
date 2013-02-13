@@ -53,9 +53,8 @@ var partner_addthis = function() {
 					if(app.ext.myRIA && app.ext.myRIA.template){
 						app.u.dump("Loading Addthis Extension");
 						app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
-							app.u.dump(app.ext.partner_addthis.vars.selector+', #productTemplate_'+app.u.makeSafeHTMLId(P.pid));
-							app.u.dump($(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).length);
-						
+							
+							$(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).append("<div id='socialLinks'></div>")
 							var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
 							//console.log("URL: "+url);
 							addthis_share.url = url;
@@ -65,8 +64,11 @@ var partner_addthis = function() {
 								delete addthis_share.title;
 							
 							
-							addthis.toolbox('#productTemplate_'+app.u.makeSafeHTMLId(P.pid)+" "+app.ext.partner_addthis.vars.selector);
+							addthis.toolbox('#socialLinks');
 							});
+						app.ext.myRIA.template.productTemplate.onDeparts.push(function(P) {
+							$(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).empty();
+						}
 					} else	{
 						setTimeout(function(){app.ext.partner_addthis.callbacks.startExtension.onSuccess()},250);
 					}
