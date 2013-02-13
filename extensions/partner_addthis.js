@@ -26,22 +26,20 @@ This extension is untested.
 */
 
 //Global object that will be updated before addThis code is rendered.
-//var addthis_share = {
-//	url : "",
-//	title : ""
-//};
+
 
 var partner_addthis = function() {
 	var r= {
 		vars : {
-			target : ".socialLinks"
+			selector : ".socialLinks"
 		},
 		
 		callbacks : {
 			init : {
 				onSuccess : function(){
-					app.u.dump("Loading Addthis");
+					app.u.dump(addthis_share);
 					app.u.loadScript((document.location.protocol == 'https:' ? 'https:' : 'http:')+'//s7.addthis.com/js/250/addthis_widget.js');
+					app.u.dump(addthis_share);
 					
 					return true;
 				},
@@ -53,7 +51,11 @@ var partner_addthis = function() {
 			startExtension : {
 				onSuccess : function (){
 					if(app.ext.myRIA && app.ext.myRIA.template){
-						app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
+						app.u.dump("Loading Addthis Extension");
+						app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
+							app.u.dump(app.ext.partner_addthis.vars.selector+', #productTemplate_'+app.u.makeSafeHTMLId(P.pid));
+							app.u.dump($(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).length);
+						
 							var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
 							//console.log("URL: "+url);
 							addthis_share.url = url;
@@ -63,8 +65,8 @@ var partner_addthis = function() {
 								delete addthis_share.title;
 							
 							
-							addthis.toolbox('#productTemplate_'+app.u.makeSafeHTMLId(P.pid)+' '+app.ext.partner_addthis.vars.selector);
-							}]);
+							addthis.toolbox('#productTemplate_'+app.u.makeSafeHTMLId(P.pid)+" "+app.ext.partner_addthis.vars.selector);
+							});
 					} else	{
 						setTimeout(function(){app.ext.partner_addthis.callbacks.startExtension.onSuccess()},250);
 					}
