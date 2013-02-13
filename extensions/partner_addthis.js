@@ -54,7 +54,13 @@ var partner_addthis = function() {
 						app.u.dump("Loading Addthis Extension");
 						app.ext.myRIA.template.productTemplate.onCompletes.push(function(P) {
 							
-							$(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).append("<div id='socialLinks'></div>")
+							$(app.ext.partner_addthis.vars.selector, '#productTemplate_'+app.u.makeSafeHTMLId(P.pid)).append(
+									'<div id="socialLinks" class="addthis_toolbox addthis_default_style">'
+								+		'<a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>'
+								+		'<a class="addthis_button_tweet"></a>'
+								+		'<a class="addthis_button_pinterest_pinit"></a>'
+								+		'<a class="addthis_counter addthis_pill_style" onClick="return false;"></a>'
+								+	'</div>');
 							var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
 							//console.log("URL: "+url);
 							addthis_share.url = url;
