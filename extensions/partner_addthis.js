@@ -1,0 +1,79 @@
+/* **************************************************************
+
+   Copyright 2011 Zoovy, Inc.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+************************************************************** */
+
+/*
+Adds AddThis social sharing code to the product page.
+
+For AddThis API docs, go here: http://support.addthis.com/customer/portal/articles/381263-addthis-client-api
+
+This extension is untested.
+
+*/
+
+//Global object that will be updated before addThis code is rendered.
+//var addthis_share = {
+//	url : "",
+//	title : ""
+//};
+
+var partner_addthis = function() {
+	var r= {
+		vars : {
+			target : ".socialLinks"
+		},
+		
+		callbacks : {
+			init : {
+				onSuccess : function(){
+					app.u.dump("Loading Addthis");
+					app.u.loadScript((document.location.protocol == 'https:' ? 'https:' : 'http:')+'//s7.addthis.com/js/250/addthis_widget.js');
+					
+					return true;
+				},
+				onError : function() {
+					app.u.dump('BEGIN app.ext.partner_addthis.callbacks.init.onError');
+				}
+			},
+			
+			startExtension : {
+				onSuccess : function (){
+					if(app.ext.myRIA && app.ext.myRIA.template){
+						app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
+							var url = zGlobals.appSettings.http_app_url+"product/"+P.pid+"/";
+							//console.log("URL: "+url);
+							addthis_share.url = url;
+							if(typeof app.data[P.datapointer]['%attribs']['zoovy:prod_seo_title'] !== 'undefined')
+								addthis_share.title = app.data[P.datapointer]['%attribs']['zoovy:prod_seo_title'];
+							else
+								delete addthis_share.title;
+							
+							
+							addthis.toolbox('#productTemplate_'+app.u.makeSafeHTMLId(P.pid)+' '+app.ext.partner_addthis.vars.selector);
+							}]);
+					} else	{
+						setTimeout(function(){app.ext.partner_addthis.callbacks.startExtension.onSuccess()},250);
+					}
+				},
+				onError : function (){
+					app.u.dump('BEGIN app.ext.partner_addthis.callbacks.startExtension.onError');
+				}
+			}
+		}
+	}
+	return r;
+}

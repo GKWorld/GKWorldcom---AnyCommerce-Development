@@ -34,9 +34,9 @@ input.ui-button-text, button{
 	width: 100%;
 	font-weight: bold;
 	font-size: 1em;
-	text-indent: -20px;
-	/*
 	background: url(images/gk09_icon_shipping-42x25.png) left center no-repeat;
+	/*
+	text-indent: -20px;
 	*/
 }
 
