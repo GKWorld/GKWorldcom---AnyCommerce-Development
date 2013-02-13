@@ -674,14 +674,15 @@ this will likely become more flexible in the future. ###
 		<div class='header center' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="return showContent('company',{'show':'shipping'});"></div>
 		<div class='header center spriteBG inStock'></div>
 	</div>
-<div class='header center shiplatency' data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></div>
-
+<div class="header shiplatency">
+	<img src="images/gk09_icon_shipping-42x25.png" /><span data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></span>
+</div>
 	<ul class='checkmarkList'>
 		<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
 			No billing occurs until shipping (<a onClick="app.u.showBillShipModal(); return false;" class='tipify'>?</a>)
 		</li>
 		
-		<li>60-Day return policy  
+		<li>60 Day Return Policy  
 		<!--
 			(<a onClick="app.u.showReturnPolModal(); return false;" class='tipify'>?</a>)
 		-->
@@ -693,8 +694,9 @@ this will likely become more flexible in the future. ###
 		-->
 		</li>
 
-		<li>100% Secure checkout</li>
-		<li>We ship worldwide!  
+		<li>100% Secure Checkout</li>
+		
+		<li>We Ship Worldwide!  
 		<!--
 			(<a onClick="app.u.showWorldShipModal(); return false;" class='tipify'>?</a>)
 		-->
@@ -836,7 +838,9 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 			<div class='header' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="return showContent('company',{'show':'shipping'});"></div>
 			<div class='header spriteBG inStock'></div>
 		</div>
-	<div class='header shiplatency' data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></div>
+	<div class="header shiplatency">
+		<img src="images/gk09_icon_shipping-42x25.png" /><span data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></span>
+	</div>
 
 		<ul class='checkmarkList'>
 			<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
@@ -846,7 +850,7 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 				-->
 			</li>
 			
-			<li>60-Day return policy  
+			<li>60 Day Return Policy  
 				<!--
 					(<a onClick="app.u.showReturnPolModal(); return false;" class='tipify'>?</a>)
 				-->
@@ -858,8 +862,8 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 				-->
 			</li>
 
-			<li>100% Secure checkout</li>
-			<li>We ship worldwide! 
+			<li>100% Secure Checkout</li>
+			<li>We Ship Worldwide! 
 				<!--
 					(<a onClick="app.u.showWorldShipModal(); return false;" class='tipify'>?</a>)
 				-->

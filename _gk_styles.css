@@ -33,7 +33,11 @@ input.ui-button-text, button{
 	text-align: center;
 	width: 100%;
 	font-weight: bold;
-	font-size: 1.2em;
+	font-size: 1em;
+	text-indent: -20px;
+	/*
+	background: url(images/gk09_icon_shipping-42x25.png) left center no-repeat;
+	*/
 }
 
 #contactForm {
