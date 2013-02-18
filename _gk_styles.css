@@ -112,3 +112,8 @@ input.ui-button-text, button{
 #cartTemplateCostSummary {
 	margin-bottom: 30px;
 }
+
+#cartTemplateCostSummary {
+	border: 1px dotted #999999;
+	padding: 5px;
+}
