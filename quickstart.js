@@ -907,7 +907,7 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 						else if('https:' != document.location.protocol)	{
 							app.u.dump(" -> nonsecure session. switch to secure for checkout.");
 // if we redirect to ssl for checkout, it's a new url and a pushstate isn't needed, so a param is added to the url.
-							$('#mainContentArea').addClass('loadingBG').html("<h1>Transferring you to a secure session for checkout.<\/h1><h2>Our app will reload shortly...<\/h2>");
+							$('#mainContentArea').addClass('loadingBG').html("<div class='contentContainer marginBottom'><h1>Transferring you to a secure session for checkout.<\/h1><h2>Our app will reload shortly...<\/h2></div>");
 							var SSLlocation = app.vars.secureURL+"?sessionId="+app.sessionId+"#checkout?show=checkout";
 							_gaq.push(['_link', SSLlocation]); //for cross domain tracking.
 							document.location = SSLlocation;
