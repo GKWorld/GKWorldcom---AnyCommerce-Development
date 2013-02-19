@@ -693,9 +693,6 @@ this will likely become more flexible in the future. ###
 	<span data-bind="var:product(zoovy:ship_latency); format:shippingLatency;"></span>
 </div>
 	<ul class='checkmarkList'>
-		<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
-			No billing occurs until shipping (<a onClick="app.u.showBillShipModal(); return false;" class='tipify'>?</a>)
-		</li>
 		
 		<li>30 Day Return Policy  
 		<!--
@@ -861,12 +858,6 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 	</div>
 
 		<ul class='checkmarkList'>
-			<li class='displayNone' data-bind="var: product(is:preorder); defaultVar: product(is:user4); format:showIfSet;">
-				No billing occurs until shipping 
-				<!--
-					(<a onClick="app.u.showBillShipModal(); return false;" class='tipify'>?</a>)
-				-->
-			</li>
 			
 			<li>30 Day Return Policy  
 				<!--
