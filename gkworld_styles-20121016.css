@@ -511,7 +511,7 @@ h1.greyGradient, h2.greyGradient	{font-size: 1.3em; font-weight:normal; line-hei
 
 .prodGuarantee	{border:1px solid #cccccc; padding:6px;}
 ul.checkmarkList, .checkmarkList li	{list-style:none; margin:0; padding:0;}
-.checkmarkList li	{background:url(images/green_checkmark-25x24.png) no-repeat left top; padding-left:32px; line-height:24px; margin-bottom:6px;}
+.checkmarkList li	{background:url(images/green_checkmark-25x24.png) no-repeat 10px top; padding-left:44px; line-height:24px; margin-bottom:6px;}
 
 .prodGuarantee .header	{margin-bottom:6px; width:225px;}
 .inStock	{background-position: 0 -295px; width: 121px; height:35px; }

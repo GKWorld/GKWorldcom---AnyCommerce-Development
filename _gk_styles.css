@@ -30,8 +30,8 @@ input.ui-button-text, button{
 }
 
 .shiplatency {
-	text-align: center;
-	padding-left: 42px;
+	text-align: left;
+	padding-left: 44px;
 	font-weight: bold;
 	font-size: 1em;
 	background: url(images/gk09_icon_shipping-42x25.png) left center no-repeat;
