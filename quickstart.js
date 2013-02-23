@@ -2131,11 +2131,13 @@ buyer to 'take with them' as they move between  pages.
 						}
 						
 					else if(catSafeID == zGlobals.appSettings.rootcat || infoObj.pageType == 'homepage')	{
-						infoObj.templateID = 'homepageTemplate'
+						infoObj.templateID = 'homepageTemplate';
 						}
-					else	{
-						infoObj.templateID = 'categoryTemplate'
-						}
+					else if(catSafeID.indexOf(".buy") >= 0){
+						infoObj.templateID = 'categoryTemplate';
+					} else {
+						infoObj.templateID = 'categoryTemplateSubcatNoImg';
+					}
 					infoObj.state = 'onInits';
 					app.ext.myRIA.u.handleTemplateFunctions(infoObj);
 					var parentID = infoObj.parentID || infoObj.templateID+'_'+app.u.makeSafeHTMLId(catSafeID);

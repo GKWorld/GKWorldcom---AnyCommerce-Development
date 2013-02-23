@@ -266,10 +266,10 @@ will get used to populate a list of the category list for the shop by category b
 -->
 <div id='shopByCategoriesList' class='displayNone' title='Shop by Category'>
 	<ul class='listStyleNone fourColList'>
-		<li onClick="showContent('category',{'navcat':'.weekly_special.best_sellers', templateID : 'categoryTemplateSubcatNoImg'});">Best Sellers</li>
-		<li onClick="showContent('category',{'navcat':'.weekly_special.gift_ideas', templateID : 'categoryTemplateSubcatNoImg'});">Gift Ideas</li>
-		<li onClick="showContent('category',{'navcat':'.weekly_special.new', templateID : 'categoryTemplateSubcatNoImg'});">New Arrivals</li>
-		<li onClick="showContent('category',{'navcat':'.weekly_special.clearance', templateID : 'categoryTemplateSubcatNoImg'});">Clearance</li>
+		<li onClick="showContent('category',{'navcat':'.weekly_special.best_sellers'});">Best Sellers</li>
+		<li onClick="showContent('category',{'navcat':'.weekly_special.gift_ideas'});">Gift Ideas</li>
+		<li onClick="showContent('category',{'navcat':'.weekly_special.new'});">New Arrivals</li>
+		<li onClick="showContent('category',{'navcat':'.weekly_special.clearance'});">Clearance</li>
 	</ul>
 	<hr />
 	<ul class='listStyleNone fourColList' id='tier1categories' ></ul>
@@ -430,7 +430,7 @@ don't modify the 'data-templateid' unless you are changing template names and up
 	</div>
 </li>
 
-<li id='categoryListTemplateRootCats' onClick="showContent('category',{'navcat':$(this).attr('data-catsafeid'), templateID : 'categoryTemplateSubcatNoImg'});" class='pointer'>
+<li id='categoryListTemplateRootCats' onClick="showContent('category',{'navcat':$(this).attr('data-catsafeid')});" class='pointer'>
 	<img src='blank.gif' class='catThumb' data-bind='var: category(%meta.CAT_THUMB); format:imageURL;' width='45' height='45' />
 	<span data-bind='var: category(pretty); format:catText; extension: myRIA;;'></span>
 	<span data-bind='var: category(@products); format: numProduct; extension:store_navcats; pretext: (; posttext:) ;'></span>
