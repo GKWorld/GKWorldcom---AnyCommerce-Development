@@ -215,7 +215,7 @@ app.u.loadApp = function() {
 		for(var sku in data.value){
 			inv += parseInt(data.value[sku].inv);
 		}
-		if(inv === 0){
+		if(inv <= 0){
 			$tag.addClass('soldOut');
 			$tag.addClass('spriteBG');
 		}
