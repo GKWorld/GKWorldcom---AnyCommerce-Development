@@ -205,6 +205,21 @@ app.u.loadApp = function() {
 		}
 		$tag.text(latString);
 	}
+	
+	app.renderFormats.addClassInventory = function($tag, data){
+		var className;
+		if(data.bindData.className)	{
+			className = data.bindData.className;
+			}
+		var inv = 0;
+		for(var sku in data.value){
+			inv += parseInt(data.value[sku].inv);
+		}
+		if(inv === 0){
+			$tag.addClass('soldOut');
+			$tag.addClass('spriteBG');
+		}
+	}
 }
 
 

@@ -17,7 +17,10 @@
 
 
 <script type="text/javascript">
-var _gaq = _gaq || {'push':function(){}} //here for testing. REPLACE BEFORE DEPLOYMENT!
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-4297892-1']);
+_gaq.push(['_trackPageview']);
+
 var myCreole;
 
 addthis_id = 'gkworld';
@@ -708,7 +711,7 @@ this will likely become more flexible in the future. ###
 	
 <div class='floatRight prodGuarantee'>
 	<div class="prodBannerContainer">
-		<div class='header center' data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
+		<div class='header center' data-bind="var: product(@inventory); format:addClassInventory;"></div>
 		<div class='header center' data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
 		<div class='header center' data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
 		<div class='header center' data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;" onClick="return showContent('company',{'show':'shipping'});"></div>
