@@ -320,7 +320,7 @@ do NOT change the input name or id or checkout will likely break.
 
 <!-- used after a successful checkout.  -->
 
-<div id='checkoutSuccess' class='checkoutSuccess'>
+<div id='checkoutSuccess' class='checkoutSuccess contentContainer'>
 
 	<div class='floatRight ocmThirdParty'>
 		<h2 id='ocmPrompt'>What would you like to do next?</h2>
@@ -335,7 +335,7 @@ do NOT change the input name or id or checkout will likely break.
 	</div>
 
 
-	<div id='orderSummaryDetails' class='orderSummaryDetails contentContainer'>
+	<div id='orderSummaryDetails' class='orderSummaryDetails '>
 		<h2>Thank you! Your order has been placed.</h2>
 		<h3 data-bind='var: order(orderid); format:text; pretext:Your order id is ;'></h3>
 		<div id='orderSummaryLinkToInvoice' class=' pointer' data-bind='var:order(orderid); format:orderStatusLink; extension: store_checkout;'>
