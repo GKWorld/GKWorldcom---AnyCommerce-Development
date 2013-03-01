@@ -1,6 +1,6 @@
 /* **************************************************************
 
-   Copyright 2011 Zoovy, Inc.
+   Copyright 2013 Zoovy, Inc.
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,9 +14,13 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
+
+
+The intention of this extension is to replace store_checkout and store_cart, since there's a lot of redundant code between them.
+
 ************************************************************** */
 //SCO = Shared Checkout Object
-var store_checkout = function() {
+var cco = function() {
 	var r = {
 					////////////////////////////////////   CALLS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\		
 
@@ -31,31 +35,175 @@ a callback was also added which just executes this call, so that checkout COULD 
 */
 	calls : {
 
-//formerly getCustomerAddresses
-		buyerAddressList : {
-			init : function(callback)	{
-				this.dispatch(callback);
+//formerly getCheckoutDestinations
+		appCheckoutDestinations : {
+			init : function(_tag,Q)	{
+				this.dispatch(_tag,Q);
 				return 1;
 				},
-			dispatch : function(callback)	{
-				app.model.addDispatchToQ({"_cmd":"buyerAddressList","_tag": {"datapointer":"buyerAddressList","callback":callback,"extension":"convertSessionToOrder"}},'immutable');
+			dispatch : function(_tag,Q)	{
+				_tag = _tag || {};
+				_tag.datapointer = 'appCheckoutDestinations';
+				app.model.addDispatchToQ({"_cmd":"appCheckoutDestinations","_tag": _tag},'immutable');
+				}
+			}, //appCheckoutDestinations
+
+		appPaymentMethods : {
+			init : function(obj,_tag,Q)	{
+				this.dispatch(obj,_tag,Q); //obj could contain country (as countrycode) and order total.
+				return 1;
+				},
+			dispatch : function(obj,_tag,Q)	{
+				obj._cmd = "appPaymentMethods";
+				obj._tag = _tag || {};
+				obj._tag.datapointer = 'appPaymentMethods';
+				app.model.addDispatchToQ(obj,Q || 'immutable');
+				}
+			}, //appPaymentMethods
+
+		buyerAddressList : {
+			init : function(_tag,Q)	{
+				var r = 0;
+				_tag = _tag || {};
+				_tag.datapointer = "buyerAddressList";
+				if(app.model.fetchData(_tag.datapointer))	{
+					r = 1;
+					this.dispatch(_tag,Q);
+					}
+				else	{
+					app.u.handleCallback(_tag);
+					}
+				return r;
+				},
+			dispatch : function(_tag,Q)	{
+				app.model.addDispatchToQ({"_cmd":"buyerAddressList","_tag": _tag},Q || 'mutable');
 				}
 			}, //buyerAddressList	
 
-
 		buyerWalletList : {
-			init : function(tagObj,Q)	{
-//always get fresh copy.
-				this.dispatch(tagObj,Q);
+			init : function(_tag,Q)	{
+				var r = 0;
+				_tag = _tag || {};
+				_tag.datapointer = "buyerWalletList";
+				if(app.model.fetchData(_tag.datapointer))	{
+					r = 1;
+					this.dispatch(_tag,Q);
+					}
+				else	{
+					app.u.handleCallback(_tag);
+					}
+				return r;
+				},
+			dispatch : function(_tag,Q)	{
+				app.model.addDispatchToQ({"_cmd":"buyerWalletList","_tag": _tag},Q || 'mutable');
+				}
+			}, //buyerWalletList	
+
+		cartCouponAdd : {
+			init : function(coupon,_tag,Q)	{
+				this.dispatch(coupon,_tag,Q);
+				},
+			dispatch : function(coupon,_tag,Q)	{
+				app.model.addDispatchToQ({"_cmd":"cartCouponAdd","coupon":coupon,"_tag" : _tag},Q || 'immutable');	
+				}			
+			}, //cartCouponAdd
+
+		cartGiftcardAdd : {
+			init : function(giftcard,_tag,Q)	{
+				this.dispatch(giftcard,_tag,Q);
+				},
+			dispatch : function(giftcard,_tag,Q)	{
+				app.model.addDispatchToQ({"_cmd":"cartGiftcardAdd","giftcard":giftcard,"_tag" : _tag},Q || 'immutable');	
+				}			
+			}, //cartGiftcardAdd
+
+//can be used to verify the items in the cart have inventory available.
+		cartItemsInventoryVerify : {
+			init : function(_tag,Q)	{
+				this.dispatch(_tag,Q);
 				return 1;
 				},
-			dispatch : function(tagObj,Q)	{
-				if(!Q)	{Q = 'mutable'}
-				if(typeof tagObj != 'object')	{tagObj = {}}
-				tagObj.datapointer = "buyerWalletList";
-				app.model.addDispatchToQ({"_cmd":"buyerWalletList","_tag": tagObj},Q);
-				}			
-			},
+			dispatch : function(_tag,Q)	{
+				app.model.addDispatchToQ({"_cmd":"cartItemsInventoryVerify","_tag": _tag},Q || 'immutable');
+				}
+			}, //cartItemsInventoryVerify	
+
+// REMOVE from controller when this extension deploys !!!
+		cartItemUpdate : {
+			init : function(stid,qty,_tag)	{
+//				app.u.dump('BEGIN app.calls.cartItemUpdate.');
+				var r = 0;
+				if(stid && Number(qty) >= 0)	{
+					r = 1;
+					this.dispatch(stid,qty,_tag);
+					}
+				else	{
+					app.u.throwGMessage("In calls.cartItemUpdate, either stid ["+stid+"] or qty ["+qty+"] not passed.");
+					}
+				return r;
+				},
+			dispatch : function(stid,qty,_tag)	{
+//				app.u.dump(' -> adding to PDQ. callback = '+callback)
+				app.model.addDispatchToQ({"_cmd":"cartItemUpdate","stid":stid,"quantity":qty,"_tag": _tag},'immutable');
+				app.ext.store_checkout.u.nukePayPalEC(); //nuke paypal token anytime the cart is updated.
+				}
+			 }, //cartItemUpdate
+
+//cmdObj - see http://www.zoovy.com/webdoc/?VERB=DOC&DOCID=51609 for details.
+		cartPaymentQ : 	{
+			init : function(cmdObj,_tag)	{
+//make sure id is set for inserts.
+				if(cmdObj.cmd == 'insert' && !cmdObj.ID)	{cmdObj.ID = app.model.version+app.u.guidGenerator().substring(0,8)}
+				cmdObj['_cmd'] = "cartPaymentQ";
+				cmdObj['_tag'] = _tag;
+				this.dispatch(cmdObj);
+				return 1;
+				},
+			dispatch : function(cmdObj)	{
+				app.model.addDispatchToQ(cmdObj,'immutable');
+				}
+			}, //cartPaymentQ
+			
+// REMOVE from controller when this extension deploys !!!
+		cartSet : {
+			init : function(obj,_tag,Q)	{
+				this.dispatch(obj,_tag,Q);
+				return 1;
+				},
+			dispatch : function(obj,_tag,Q)	{
+				obj["_cmd"] = "cartSet";
+				obj._tag = _tag || {};
+				app.model.addDispatchToQ(obj,Q || 'immutable');
+				}
+			}, //cartSet
+
+//uses the cart ID, which is passed on the parent/headers.
+//always immutable.
+		cartOrderCreate : {
+			init : function(_tag)	{
+				this.dispatch(_tag);
+				return 1;
+				},
+			dispatch : function(_tag)	{
+				_tag = _tag || {};
+				_tag.datapointer = "cartOrderCreate";
+				app.model.addDispatchToQ({'_cmd':'cartOrderCreate','_tag':_tag},'immutable');
+				}
+			},//cartOrderCreate
+
+
+/*
+
+THESE STILL NEED LOVE
+left them be to provide guidance later.
+
+		 ||
+		_||_
+		\  /
+		 \/
+*/
+
+
 //each time the cart changes, so does the google checkout url.
 		cartGoogleCheckoutURL : {
 			init : function()	{
@@ -72,22 +220,6 @@ a callback was also added which just executes this call, so that checkout COULD 
 					},'immutable');
 				}
 			}, //cartGoogleCheckoutURL	
-			
-			
-//cmdObj - see http://www.zoovy.com/webdoc/?VERB=DOC&DOCID=51609 for details.
-		cartPaymentQ : 	{
-			init : function(cmdObj,tagObj)	{
-//make sure id is set for inserts.
-				if(cmdObj.cmd == 'insert' && !cmdObj.ID)	{cmdObj.ID = app.model.version+app.u.guidGenerator().substring(0,8)}
-				cmdObj['_cmd'] = "cartPaymentQ";
-				cmdObj['_tag'] = tagObj;
-				this.dispatch(cmdObj);
-				return 1;
-				},
-			dispatch : function(cmdObj)	{
-				app.model.addDispatchToQ(cmdObj,'immutable');
-				}
-			}, //cartPaymentQ
 
 		cartPaypalSetExpressCheckout : {
 			init : function()	{
@@ -98,136 +230,32 @@ a callback was also added which just executes this call, so that checkout COULD 
 				return 1;
 				},
 			dispatch : function(getBuyerAddress)	{
-				var tagObj = {'callback':'handleCartPaypalSetECResponse',"datapointer":"cartPaypalSetExpressCheckout","extension":"convertSessionToOrder"}
+				var _tag = {'callback':'handleCartPaypalSetECResponse',"datapointer":"cartPaypalSetExpressCheckout","extension":"convertSessionToOrder"}
 				app.model.addDispatchToQ({
 					"_cmd":"cartPaypalSetExpressCheckout",
 					"cancelURL":(app.vars._clientid == '1pc') ? zGlobals.appSettings.https_app_url+"c="+app.sessionId+"/cart.cgis" : zGlobals.appSettings.https_app_url+"?sessionId="+app.sessionId+"#cart?show=cart",
 					"returnURL": (app.vars._clientid == '1pc') ? zGlobals.appSettings.https_app_url+"c="+app.sessionId+"/checkout.cgis" : zGlobals.appSettings.https_app_url+"?sessionId="+app.sessionId+"#checkout?show=checkout",
-					"getBuyerAddress":getBuyerAddress,'_tag':tagObj
+					"getBuyerAddress":getBuyerAddress,'_tag':_tag
 					},'immutable');
 				}
 			}, //cartPaypalSetExpressCheckout	
 
-
-//update will modify the cart. only run this when actually selecting a shipping method (like during checkout). heavier call.
-		cartShippingMethodsWithUpdate : {
-			init : function(callback)	{
-				this.dispatch(callback);
+		cartAmazonPaymentURL : {
+			init : function()	{
+				this.dispatch();
 				return 1;
 				},
-			dispatch : function(callback)	{
-//,"trace":"1"
-				app.model.addDispatchToQ({"_cmd":"cartShippingMethods","update":"1","_tag": {"datapointer":"cartShippingMethods","callback":callback,"extension":"convertSessionToOrder"}},'immutable');
+			dispatch : function()	{
+				var tagObj = {'callback':'',"datapointer":"cartAmazonPaymentURL","extension":"store_cart"}
+				app.model.addDispatchToQ({
+"_cmd":"cartAmazonPaymentURL",
+"shipping":1,
+"CancelUrl":zGlobals.appSettings.https_app_url+"cart.cgis?sessionid="+app.sessionId,
+"ReturnUrl":zGlobals.appSettings.https_app_url,
+"YourAccountUrl": zGlobals.appSettings.https_app_url+"customer/orders/",
+'_tag':tagObj},'immutable');
 				}
-			}, //cartShippingMethodsWithUpdate
-
-
-//formerly getCheckoutDestinations
-		appCheckoutDestinations : {
-			init : function(callback)	{
-				this.dispatch(callback);
-				return 1;
-				},
-			dispatch : function(callback)	{
-				app.model.addDispatchToQ({"_cmd":"appCheckoutDestinations","_tag": {"datapointer":"appCheckoutDestinations","callback":callback,"extension":"convertSessionToOrder"}},'immutable');
-				}
-			}, //appCheckoutDestinations
-
-//this particular call should only be used for checkout.  It implicitely sets the datapointer and uses cart vars for country and balance.
-//payment methods for other use should use an extension specific or generic call.
-//formerly getPaymentMethodsForCheckout 
-		appPaymentMethods : {
-			init : function(callback)	{
-				this.dispatch(callback);
-				return 1;
-				},
-			dispatch : function(callback)	{
-				var total; //send blank (NOT ZERO) by default.
-				var country = $('#data-bill_country').val();
-
-				app.model.fetchData('cartDetail'); //will make sure cart is loaded from localStorage (if present) if not in memory.
-				if(app.data.cartDetail && app.u.isSet(app.data.cartDetail.sum))	{
-					total = app.data.cartDetail.sum.balance_due_total;
-					}
-				if(country != "US")	{
-					// country is defaulted to the form value. If that value is NOT "US", then use it (a country has been selected).
-					// if the value is US, then it may be the default setting and the request should w/ country as cart/session value
-					// (country may have been set elsewhere) though the form 'should' default correctly, we don't rely on that.
-					}
-				else if(!$.isEmptyObject(app.data.cartDetail) && app.data.cartDetail.bill && app.data.cartDetail.bill.countrycode)	{
-					country = app.data.cartDetail['bill/countrycode']; //use the cart, NOT the form. the form defaults to US. Better to send blank.
-					}
-
-				app.model.addDispatchToQ({"_cmd":"appPaymentMethods","_tag": {"datapointer":"appPaymentMethods","callback":callback,"extension":"convertSessionToOrder"},"country":country,"ordertotal":total},'immutable');
-				}
-			}, //appPaymentMethods	
-
-//formerly addGiftcardToCart
-		cartGiftcardAdd : {
-			init : function(giftcard,tagObj)	{
-				this.dispatch(giftcard,tagObj);
-				},
-			dispatch : function(giftcard,tagObj)	{
-				app.model.addDispatchToQ({"_cmd":"cartGiftcardAdd","giftcard":giftcard,"_tag" : tagObj},'immutable');	
-				}			
-			}, //cartGiftcardAdd
-			
-//formerly addCouponToCart
-		cartCouponAdd : {
-			init : function(coupon,tagObj)	{
-				this.dispatch(coupon,tagObj);
-				},
-			dispatch : function(coupon,tagObj)	{
-				app.model.addDispatchToQ({"_cmd":"cartCouponAdd","coupon":coupon,"_tag" : tagObj},'immutable');	
-				}			
-			}, //cartCouponAdd
-
-
-//formerly createOrder
-// !!! this needs to be updated to pass in the formID.
-		cartOrderCreate : {
-			init : function(callback)	{
-//serializes just the payment panel, which is required for payment processing to occur (CC numbers can't be store anywhere, even in the session)
-//seems safari doesn't like serializing a fieldset. capture individually.
-//				var payObj = $('#chkoutPayOptionsFieldset').serializeJSON();
-				
-				this.dispatch(callback);
-				return 1;
-
-				},
-			dispatch : function(callback)	{
-				var payObj = {};
-
-_gaq.push(['_trackEvent','Checkout','App Event','Attempting to create order']);
-//validation has already occured to make sure all the fields are populated and CC# passed checksum.
-				
-
-// initially, was serializing the payment panel only.  Issues here with safari.
-// cc info is saved in memory so that if payment panel is reloaded, cc# is available. so that reference is used for cc and cv.
-
-				payObj['_cmd'] = 'cartOrderCreate';
-				payObj['_tag'] = {"callback":callback,"extension":"convertSessionToOrder","datapointer":"cartOrderCreate"}
-				
-//				app.u.dump("PayObj to follow:");
-//				app.u.dump(payObj);
-
-				app.model.addDispatchToQ(payObj,'immutable');
-				}
-			},//cartOrderCreate
-
-			
-//used when checkout is first loaded and 'should' get used just prior to checkout to ensure
-//all items have available inventory (if needed based on store settings).
-//formerly verifyCartInventory
-		cartItemsInventoryVerify : {
-			init : function(callback)	{
-				this.dispatch(callback);
-				return 1;
-				},
-			dispatch : function(callback)	{
-				app.model.addDispatchToQ({"_cmd":"cartItemsInventoryVerify","_tag": {"datapointer":"cartItemsInventoryVerify","callback":callback,"extension":"convertSessionToOrder"}},'immutable');
-				}
-			} //cartItemsInventoryVerify		
+			}
 
 		}, //calls
 
@@ -235,16 +263,7 @@ _gaq.push(['_trackEvent','Checkout','App Event','Attempting to create order']);
 
 
 
-
-
-
-
 					////////////////////////////////////   CALLBACKS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-
-
-
-
-
 
 
 
@@ -294,17 +313,7 @@ _gaq.push(['_trackEvent','Checkout','App Event','Attempting to create order']);
 		}, //callbacks
 
 		
-//push onto this (store_checkout.checkoutCompletes.push(function(P){});
-//after checkout, these will be iterated thru and executed.
-/*
-Parameters included are as follows:
-P.orderID
-P.sessionID (this would be the sessionID associated w/ the order, not the newly generated session/cart id - reset immediately after checkout )
-P.datapointer - pointer to cartOrderCreate
 
-note - the order object is available at app.data['order|'+P.orderID]
-*/
-		checkoutCompletes : [],
 
 
 //Pass in an object (typically based on $form.serializeJSON) and 
@@ -868,8 +877,8 @@ note - dispatch isn't IN the function to give more control to developer. (you ma
 //value is set to ISO and sent to API that way. however, cart object returned is in 'pretty'.
 //so a check occurs to set selectedCountry to the selected ISO value so it can be 'selected'
 			countriesAsOptions : function($tag,data)	{
-				app.u.dump("BEGIN app.ext.convertSessionToOrder.renderFormats.countriesAsOptions");
-				app.u.dump(" -> Country: "+data.value);
+//				app.u.dump("BEGIN app.ext.convertSessionToOrder.renderFormats.countriesAsOptions");
+//				app.u.dump(" -> Country: "+data.value);
 				var r = '';
 				var L = app.data.appCheckoutDestinations['@destinations'].length;
 //				app.u.dump(" -> number of countries = "+L);
@@ -910,15 +919,16 @@ note - dispatch isn't IN the function to give more control to developer. (you ma
 				var o = '';
 //				app.u.dump('BEGIN app.renderFormats.shipInfo. (formats shipping for minicart)');
 //				app.u.dump(data);
-				var L = app.data.cartShippingMethods['@methods'].length;
+				var shipMethods = app.data.cartDetail['@SHIPMETHODS'],
+				L = shipMethods.length;
 				for(var i = 0; i < L; i += 1)	{
 //					app.u.dump(' -> method '+i+' = '+app.data.cartShippingMethods['@methods'][i].id);
-					if(app.data.cartShippingMethods['@methods'][i].id == data.value)	{
-						var pretty = app.u.isSet(app.data.cartShippingMethods['@methods'][i]['pretty']) ? app.data.cartShippingMethods['@methods'][i]['pretty'] : app.data.cartShippingMethods['@methods'][i]['name'];  //sometimes pretty isn't set. also, ie didn't like .pretty, but worked fine once ['pretty'] was used.
+					if(shipMethods[i].id == data.value)	{
+						var pretty = app.u.isSet(shipMethods[i]['pretty']) ? shipMethods[i]['pretty'] : shipMethods[i]['name'];  //sometimes pretty isn't set. also, ie didn't like .pretty, but worked fine once ['pretty'] was used.
 						o = "<span class='orderShipMethod'>"+pretty+": <\/span>";
 //only show amount if not blank.
-						if(app.data.cartShippingMethods['@methods'][i].amount)	{
-							o += "<span class='orderShipAmount'>"+app.u.formatMoney(app.data.cartShippingMethods['@methods'][i].amount,' $',2,false)+"<\/span>";
+						if(shipMethods[i].amount)	{
+							o += "<span class='orderShipAmount'>"+app.u.formatMoney(shipMethods[i].amount,' $',2,false)+"<\/span>";
 							}
 						break; //once we hit a match, no need to continue. at this time, only one ship method/price is available.
 						}
