@@ -122,9 +122,11 @@ P.query = { 'and':{ 'filters':[ {'term':{'profile':'E31'}},{'term':{'tags':'IS_S
 					$list.parent().find('.resultsHeader').empty().remove(); //remove any previous results multipage headers
 	
 					if(L == 0)	{
-						$list.append("Your query returned zero results.");
+						$list.after("<h2 id='zeroresults' class='contentContainer'>Your query returned zero results.</h2>");
+						
 						}
 					else	{
+						$('#zeroresults').remove();
 						$list.append(app.ext.store_search.u.getElasticResultsAsJQObject(_rtag)); //prioritize w/ getting product in front of buyer
 						if(app.ext.admin)	{
 							$list.hideLoading();
