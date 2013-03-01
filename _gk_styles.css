@@ -117,3 +117,8 @@ input.ui-button-text, button{
 	border: 1px dotted #999999;
 	padding: 5px;
 }
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    color: #666666;
+    text-decoration: none;
+}
