@@ -118,3 +118,7 @@ input.ui-button-text, button{
 	padding: 5px;
 }
 
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+    color: #666666;
+    text-decoration: none;
+}
