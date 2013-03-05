@@ -370,7 +370,7 @@ _gaq.push(['_trackEvent','Checkout','User Event','Create order button pushed']);
 
 		addGiftcardToCart : {
 			onSuccess : function(tagObj)	{
-				app.u.dump('BEGIN convertSessionToOrder.callbacks.addGiftcardToCart.onSuccess');
+				app.u.dump('got to addGiftcardToCart success');
 //after a gift card is entered, update the payment panel as well as the cart/invoice panel.
 				app.ext.convertSessionToOrder.panelContent.cartContents();
 				app.ext.convertSessionToOrder.panelContent.paymentOptions();
@@ -388,7 +388,6 @@ _gaq.push(['_trackEvent','Checkout','User Event','Cart updated - giftcard added'
 
 				},
 			onError : function(responseData,uuid)	{
-				app.u.dump('BEGIN convertSessionToOrder.callbacks.addGiftcardToCart.onError');
 				app.ext.convertSessionToOrder.panelContent.paymentOptions(); //regenerate the panel. need to show something or no payments can be selected.
 				responseData.parentID = 'chkoutPayOptionsFieldsetErrors'
 				app.u.throwMessage(responseData);
@@ -455,7 +454,6 @@ _gaq.push(['_trackEvent','Checkout','App Event','Cart updated - inventory adjust
 					
 					},
 				onError : function(responseData,uuid)	{
-					app.u.dump("handleInventoryUpdate.error");
 					app.ext.convertSessionToOrder.panelContent.paymentOptions();
 //global errors are emptied when 'complete order' is pushed, so do not empty in the responses or any other errors will be lost.
 					app.u.throwMessage(responseData);
@@ -465,12 +463,10 @@ _gaq.push(['_trackEvent','Checkout','App Event','Cart updated - inventory adjust
 
 		updateCheckoutPayOptions : {
 			onSuccess : function(tagObj)	{
-				app.u.dump('BEGIN convertSessionToOrder.callbacks.updateCheckoutPayOptions.success');
-				app.ext.convertSessionToOrder.u.handlePanel('chkoutPayOptions'); //empties panel. //ensures no double content loading.
+//				app.u.dump('BEGIN app.ext.convertSessionToOrder.callbacks.updateCheckoutPayOptions.success');
 				app.ext.convertSessionToOrder.panelContent.paymentOptions();
 				},
 			onError : function(responseData,uuid)	{
-				app.u.dump('BEGIN convertSessionToOrder.callbacks.updateCheckoutPayOptions.onError');
 				app.ext.convertSessionToOrder.panelContent.paymentOptions();  //reload panel or just error shows and user can't proceed.
 				responseData.parentID = 'chkoutPayOptionsFieldsetErrors'
 				app.u.throwMessage(responseData);
@@ -575,7 +571,6 @@ _gaq.push(['_trackEvent','Checkout','App Event','Server side validation failed']
 						app.ext.convertSessionToOrder.panelContent.accountInfo();
 						app.ext.convertSessionToOrder.panelContent.shipAddress();
 						app.ext.convertSessionToOrder.panelContent.shipMethods();
-						app.u.dump(" -> in loadPanelContent");
 						app.ext.convertSessionToOrder.panelContent.paymentOptions();
 //if order notes is on, show panel and populate content.
 						if(zGlobals.checkoutSettings.chkout_order_notes == true)	{
@@ -1221,12 +1216,6 @@ an existing user gets a list of previous addresses they've used and an option to
 				app.renderFunctions.translateTemplate(app.data.cartDetail,'billAddressUL');
 				$('#billAddressUL').addClass(cssClass);
 
-
-//the click on the address needs to be triggered if one is active by default, or the form inputs don't get populated.
-$('.ui-state-active',$panelFieldset).first().trigger('click'); 
-
-
-
 //update form elements based on cart object.
 				if(authState == 'authenticated' && app.ext.store_checkout.u.addressListOptions('ship') != false)	{
 //					app.u.dump(' -> user is logged in and has predefined shipping addresses so bill to ship not displayed.');
@@ -1273,11 +1262,6 @@ $('.ui-state-active',$panelFieldset).first().trigger('click');
 				$panelFieldset.append(app.renderFunctions.createTemplateInstance('checkoutTemplateShipAddress','shipAddressUL'));
 				app.renderFunctions.translateTemplate(app.data.cartDetail,'shipAddressUL');
 				$('#shipAddressUL').addClass(cssClass);
-
-
-//the click on the address needs to be triggered if one is active by default, or the form inputs don't get populated.
-$('.ui-state-active',$panelFieldset).first().trigger('click'); 
-//app.u.dump(" -> shipping: $('.ui-state-active',$panelFieldset).length: "+$('.ui-state-active',$panelFieldset).length);
 
 //from a usability perspective, we don't want a single item select list to show up. so hide if only 1 or 0 options are available.
 				if(app.data.appCheckoutDestinations['@destinations'].length < 2)
@@ -1357,7 +1341,7 @@ two of it's children are rendered each time the panel is updated (the prodlist a
 
 
 			paymentOptions : function()	{
-				app.u.dump('BEGIN convertSessionToOrder.panelContent.paymentOptions');
+				app.u.dump('app.ext.convertSessionToOrder.panelContent.paymentOptions has been executed');
 				var $panelFieldset = $("#chkoutPayOptionsFieldset").toggle(true).removeClass("loadingBG")
 				$panelFieldset.append(app.renderFunctions.createTemplateInstance('checkoutTemplatePayOptionsPanel','payOptionsContainer'));
 				app.renderFunctions.translateTemplate(app.data.appPaymentMethods,'payOptionsContainer');

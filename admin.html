@@ -26,7 +26,7 @@ else {
 
 var app = {vars:{
 	/////////////////////////////////\
-	"release":"201308.f",   ///|> Increment this with each change. should solve caching issues. format: YYYYMMDD.X where X starts at 1 and is incremented w/ each daily change.
+	"release":"20130131.2",   ///|> Increment this with each change. should solve caching issues. format: YYYYMMDD.X where X starts at 1 and is incremented w/ each daily change.
 	//////////////////////////////////
 	"thisSessionIsAdmin": true,
 	"_clientid":"admin",
@@ -107,7 +107,7 @@ app.u.loadScript(app.vars.baseURL+"admin_init.js");
 			<button class='loginbutton floatRight' data-app-event="admin|accountLogin">login</button>
 			<div class="hint">App Release #: <span id="appversion">??</span></div>
 			<label class='hint'><input type='checkbox' name='persitentAuth' value='1' checked='checked' /> Keep me logged in</label>
-			<div class="hint"><b><a href='/app/201304/admin.html'> &#187; Use previous version</a></b></div>
+			<div class="hint"><b><a href='/app/201301/admin.html'> &#187; Use previous version</a></b></div>
 
 		</fieldset>
 		</form>
@@ -186,13 +186,14 @@ app.u.loadScript(app.vars.baseURL+"admin_init.js");
 			<li class='kpiTab' onClick="navigateTo('#:kpi');"><span class='text'>KPI</span><span class='icon'></span></li>
 			<li class='utilitiesTab' onClick="navigateTo('#:utilities');"><span class='text'>Utilities</span><span class='icon'></span></li>
 			<li class='supportTab' onClick="navigateTo('/biz/support/index.cgi');"><span class='text'>Support</span><span class='icon'></span></li>
-<!--			<li class='messagesTab' onClick="navigateTo('#:messages');"><span class='text'>Messages</span><span class='messageCount'></span></li>-->
+<!--			<li class='messagesTab' onClick="navigateTo('#:messages');"><span class='text'>Messages</span><span class='messageCount'>12</span></li>-->
 		</ul>
 		<div id='messagesContent' class='displayNone'></div>
 		</div>
 		<div id='navTabs'></div>
 		<div id='breadcrumb'></div>
 	</div>
+	
 	
 	<div class='positionRelative pageContentContainer'>
 	
@@ -315,35 +316,28 @@ These two pieces of data are used for mapping after the uploads to set what fold
 <div id='debugPanel' class='debug buttonset clearBoth clearAll clearfix'>
 	<div class='debugBG'></div>
 	<div class='debugContent'>
+<button onClick="localStorage.clear();">Nuke LocalStorage</button>
 
-<button onClick="localStorage.clear();">Nuke ALL LocalStorage</button>
-<button onClick="app.ext.admin.u.selectivelyNukeLocalStorage();">Nuke Selective LocalStorage</button>
-
-
-<button onClick="navigateTo('#!supplierManager');">Supplier Manager</button>
 <button onClick="navigateTo('#!appChooser');">App Chooser</button>
-<button onClick="app.model.destroy('adminCustomerDetail|7633554');">destroy customer</button>
-<button onClick="$('#setupContent').empty(); app.ext.admin_customer.a.showCustomerEditor($('#setupContent'),{'CID':'7633554'});">showCustomerEditor</button>
-
-<button onClick="$('#setupContent').empty(); app.ext.admin_customer.a.showCustomerManager($('#setupContent'));">customerManager</button>
-
-
-
 <button onClick="$('#setupContent').empty(); app.ext.admin.a.showAchievementList($('#setupContent'));">showAchievementList</button>
 
-<button onClick="$('#setupContent').empty(); app.ext.admin.a.showHelpInterface($('#setupContent'));">showHelpInterface</button>
+
+<button onClick="app.ext.admin.calls.helpSearch.init('paymentstatus',{},'mutable'); app.model.dispatchThis('mutable');">helpSearch</button>
+<!-- flexedit: info_all_product_fields -->
+<button onClick="app.ext.admin.u.showHelpInDialog('prodmgr_detail_ogoverview');">showHelpInDialog</button>
+
 
 <button onClick="app.ext.admin.calls.adminEmailList.init({},'mutable'); app.model.dispatchThis('mutable');">adminEmailList</button>
 
-
-<!--
 <button onClick="app.ext.admin.calls.appResource.init('email_macros.json',{},'mutable'); app.model.dispatchThis('mutable');">appResource</button>
 <button onClick="app.ext.admin.calls.appResource.init('shipcodes.json',{},'mutable'); app.model.dispatchThis('mutable');">shipcodes.json</button>
 
-<button onClick="app.ext.admin_orders.a.showOrderEditorInDialog('2013-01-550');">orderDetailsInDialog</button>
-<button onClick="app.model.addDispatchToQ({'_cmd':'adminDataQuery','query':'listing-active','since_gmt':app.u.unixNow() - (60*60*24*10)},'mutable'); app.model.dispatchThis('mutable');">adminDataQuery</button>
 
--->
+
+<button onClick="app.ext.admin_orders.a.showOrderEditorInDialog('2013-01-550');">orderDetailsInDialog</button>
+
+
+<button onClick="app.model.addDispatchToQ({'_cmd':'adminDataQuery','query':'listing-active','since_gmt':app.u.unixNow() - (60*60*24*10)},'mutable'); app.model.dispatchThis('mutable');">adminDataQuery</button>
 
 
 <button onClick="app.ext.admin.calls.appConfig.init(); app.model.dispatchThis();">appConfig</button>
@@ -398,29 +392,7 @@ This is content that isn't template worthy, but still necessary (most likely for
 </div>
 
 
-<div id='orderListTab' class='ui-widget ui-widget-content displayNone'>
-	<div class='positionRelative'>
-		<div class='tab ui-state-default ui-corner-right smallPadding'><span>Order&nbsp;Results</span></div><!-- non breaking space to prevent word wrap -->
-		<div class='ordersContainer minimalMode'>
-		<table class='gridTable'>
-			<thead><tr></tr></thead><!-- will get a clone of order list thead -->
-			<tbody></tbody><!-- will get appended w/ the children of the order list -->
-		</table>
-		</div>
-	</div>
-</div>
 
-<div id='productListTab' class='ui-widget ui-widget-content displayNone'>
-	<div class='positionRelative'>
-		<div class='tab ui-state-default ui-corner-right smallPadding'><span>Product&nbsp;Results</span></div><!-- non breaking space to prevent word wrap -->
-		<div class='productContainer minimalMode'>
-		<table class='gridTable'>
-			<thead><tr></tr></thead><!-- will get a clone of order list thead -->
-			<tbody></tbody><!-- will get appended w/ the children of the order list -->
-		</table>
-		</div>
-	</div>
-</div>
 
 
 </body>

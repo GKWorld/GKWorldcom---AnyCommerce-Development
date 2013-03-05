@@ -117,28 +117,13 @@ the defaultVar on prodName & image is for promotions, which have a 'description'
 -->
 <ul>
 <li id='productListTemplateCheckout' class='cartTotalLineItem'>
+	<img class='prodThumb' data-bind='var: product(zoovy:prod_image1); format:imageURL; defaultVar: product(%attribs.zoovy:prod_image1);' width='50' height='50' />
 	<div class='floatLeft '>
-		<img class='prodThumb' data-bind='var: product(zoovy:prod_image1); format:imageURL; defaultVar: product(%attribs.zoovy:prod_image1);' width='50' height='50' />
-		<div class="checkoutProdInfoContainer floatLeft">
-			<div class='prodName' data-bind='var: product(prod_name); format:text; defaultVar: description;'></div>
-			<div class='stid' data-bind='var: product(sku); format:text; className: stid; pretext: Sku: ;'></div>
-			<div><span data-bind='var: product(qty); format:text; pretext: qty: ;'></span><span data-bind='var: product(price); format:money; currencySign: $;  hideZero:false; pretext: x ;'></span><span data-bind='var: product(extended); format:money; currencySign: $; hideZero:false; pretext: = ;'></span></div>
-			<div class='prodOptions' data-bind='var: variations(%options); format:selectedOptionsDisplay;'></div>
-		</div>
-		
-	</div>
-	<div class="cartStockContainer">
-		<!-- TODO: I changed databinds from 'full_product.is:' since that isn't showing up in DOM -- was that right? -->
-		<div data-bind="var: product(is:user6); format:addClass; className:soldOut spriteBG;"></div>
-		
-		<div data-bind="var: product(is:user4); format:addClass; className:backorder spriteBG pointer;" onClick="$('#invMessage_is_backorder').dialog({width:'60%','modal':'true',autoOpen:false}); $('#invMessage_is_backorder').dialog('open');"></div>
-		
-		<div data-bind="var: product(is:preorder); format:addClass; className:preorder spriteBG;"></div>
-		
-		<div data-bind="var: product(is:specialorder); format:addClass; className:specialorder spriteBG pointer;"  onClick="return showContent('company',{'show':'shipping'});"></div>
-
-		<div class='inStock spriteBG' data-bind='var: product(zoovy:ship_latency); format:shippingLatencyAddClass;'></div>
-		<div data-bind='var: product(zoovy:ship_latency); format:shippingLatency;' class='latency'></div>
+		<div class='prodName' data-bind='var: product(prod_name); format:text; defaultVar: description;'></div>
+		<div class='stid' data-bind='var: product(sku); format:text; className: stid; pretext: Sku: ;'></div>
+		<div class='prodLatency' data-bind='var:product(%attribs.zoovy:ship_latency); format:text; pretext:Normally ships in ; posttext: day(s);'></div>
+		<div><span data-bind='var: product(qty); format:text; pretext: qty: ;'></span><span data-bind='var: product(price); format:money; currencySign: $;  hideZero:false; pretext: x ;'></span><span data-bind='var: product(extended); format:money; currencySign: $; hideZero:false; pretext: = ;'></span></div>
+		<div class='prodOptions' data-bind='var: variations(%options); format:selectedOptionsDisplay;'></div>
 	</div>
 	<div class='clearAll'></div>
 </li>
@@ -295,7 +280,9 @@ do NOT change any div id's or messaging will not work properly.
 			<ul id='chkout-payOptions' class='noPadOrMargin listStyleNone' data-bind='var: getPaymentMethods(@methods); format:payMethodsAsRadioButtons; extension: convertSessionToOrder;'></ul>
 		</div>
 	</div>
+	
 
+	
 </div>
 
 

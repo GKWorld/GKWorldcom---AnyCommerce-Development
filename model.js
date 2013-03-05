@@ -81,7 +81,7 @@ app.globalAjax.lastDispatch - keeps track of when the last dispatch occurs. Not 
 function zoovyModel() {
 	var r = {
 	
-		version : "201308",
+		version : "201304",
 	// --------------------------- GENERAL USE FUNCTIONS --------------------------- \\
 	
 	//pass in a json object and the last item id is returned.
@@ -613,13 +613,9 @@ QID is the dispatchQ ID (either passive, mutable or immutable. required for the 
 				if(this.thisGetsSavedToMemory(responseData['_rcmd']))	{
 					app.data[datapointer] = responseData;
 					}
-				else	{app.u.dump(" -> data not saved to memory: "+responseData['_rcmd']);}
 				if(this.thisGetsSavedLocally(responseData['_rcmd']))	{
-					var obj4Save = $.extend(true,{},responseData); //this makes a copy so that the responseData object itself isn't impacted.
-					obj4Save._rtag = null; //make sure _rtag doesn't get saved to localstorage. may contiain a jquery object, function, etc.
-					app.storageFunctions.writeLocal(datapointer,obj4Save); //save to local storage, if feature is available.
+					app.storageFunctions.writeLocal(datapointer,responseData); //save to local storage, if feature is available.
 					}
-				else	{app.u.dump(" -> data not saved to LS: "+responseData['_rcmd']);}
 				}
 			else	{
 //catch. not writing to local. Either not necessary or an error occured.
@@ -629,33 +625,17 @@ QID is the dispatchQ ID (either passive, mutable or immutable. required for the 
 
 		thisGetsSavedToMemory : function(cmd)	{
 			var r = true;
-			switch(cmd)	{
-				case 'appPageGet': //saved into category object earlier in process. redundant here.
-				case 'cartSet': //changes are reflected in cart object.
-				case 'ping':
-				r = false
-				break;
-				}
+			r = this.thisGetsSavedLocally(cmd); //anything not saved locally is automatically not saved to memory.
+//an appPageGet request extends the original page object. (in case two separate requests come in for different attributes for the same category.
+			if(cmd == 'appPageGet')	{r = false;}
 			return r;
 			},
 
-//some commands should not get saved locally, either because they contain sensitive data or because of the nature of the call.
+//some commands should not get saved locally.
 		thisGetsSavedLocally : function(cmd)	{
 			var r = true; //what is returned. is set to false if the cmd should not get saved to local storage.
-			switch(cmd)	{
-				case 'adminCustomerUpdate': //may contain cc
-				case 'adminCustomerWalletPeek': //contains cc #
-				case 'adminOrderCreate': //may contain cc
-				case 'adminOrderPaymentAction': //may contain cc
-				case 'adminOrderUpdate': //may contain cc
-				case 'appPageGet': //
-				case 'cartOrderCreate': //may contain cc
-				case 'cartPaymentQ': //may contain cc
-				case 'cartSet': //changes are reflected in cart object.
-				case 'ping':
-				r = false
-				break;
-				}
+			if(cmd == 'cartSet')	{r = false} //changes to cart are saved in cart objects, not as individual changes.
+			else if(cmd == 'ping')	{r = false}
 			return r;
 			},
 
@@ -702,9 +682,8 @@ QID is the dispatchQ ID (either passive, mutable or immutable. required for the 
 
 					}
 				else	{
-					this.writeToMemoryAndLocal(responseData);
-//					app.data[datapointer] = responseData;
-//					app.storageFunctions.writeLocal(datapointer,responseData); //save to local storage, if feature is available.
+					app.data[datapointer] = responseData;
+					app.storageFunctions.writeLocal(datapointer,responseData); //save to local storage, if feature is available.
 					}
 				}
 			else	{
@@ -755,10 +734,7 @@ uuid is more useful because on a high level error, rtag isn't passed back in res
 					app.u.dump(' -> successful response for uuid '+uuid+'. callback defined ('+callback+') but does not exist or is not valid type.')
 					}
 				}
-			var fromQ = app.model.whichQAmIFrom(uuid);
-			if(fromQ && app.q[fromQ] && app.q[fromQ][Number(uuid)])	{
-				app.q[app.model.whichQAmIFrom(uuid)][Number(uuid)]['status'] = status;
-				}
+			app.q[app.model.whichQAmIFrom(uuid)][Number(uuid)]['status'] = status;
 			return status;
 		},
 	
@@ -775,7 +751,7 @@ uuid is more useful because on a high level error, rtag isn't passed back in res
 	//saves a copy of the old cart object to order|ORDERID in both local and memory for later reference (invoice, upsells, etc).
 		handleResponse_cartOrderCreate : function(responseData)	{
 	//currently, there are no errors at this level. If a connection or some other critical error occured, this point would not have been reached.
-//			app.u.dump("BEGIN model.handleResponse_createOrder ["+responseData.orderid+"]");
+			app.u.dump("BEGIN model.handleResponse_createOrder ["+responseData.orderid+"]");
 			var datapointer = "order|"+responseData.orderid;
 			app.storageFunctions.writeLocal(datapointer,app.data.cartDetail);  //save order locally to make it available for upselling et all.
 			app.data[datapointer] = app.data.cartDetail; //saved to object as well for easy access.
@@ -905,6 +881,9 @@ or as a series of messages (_msg_X_id) where X is incremented depending on the n
 							responseData['errtype'] = "apperr";
 							responseData['errmsg'] = "could not find category (may not exist)";
 							} //a response errid of zero 'may' mean no errors.
+						break;
+					case 'appPublicSearch':
+						//currently, there are no errors. I have a hunch this will change.
 						break;
 		
 					case 'addSerializedDataToCart': //no break is present here so that case addSerializedDataToCart and case addToCart execute the same code.
@@ -1110,7 +1089,7 @@ will return false if datapointer isn't in app.data or local (or if it's too old)
 			var local;
 			var r = false;
 			var expires = datapointer == 'authAdminLogin' ? (60*60*24*2) : (60*60*24); //how old the data can be before we fetch new.
-	//checks to see if the request is already in 'this'. IMPORTANT to check if object is empty in case empty objects are put up for extending defaults (checkout)
+	//checks to see if the request is already in 'this'.
 			if(app.data && !$.isEmptyObject(app.data[datapointer]))	{
 //				app.u.dump(' -> control already has data');
 				r = true;
@@ -1397,7 +1376,7 @@ only one extension was getting loaded, but it got loaded for each iteration in t
 		fetchExtension : function(extObjItem)	{
 //			app.u.dump('BEGIN model.fetchExtention ['+extObjItem.namespace+']');
 			var errors = '';
-			var url = extObjItem.filename+"?_v="+app.vars.release;
+			var url = extObjItem.filename;
 			var namespace = extObjItem.namespace; //for easy reference.
 //			app.u.dump(' -> url = '+url);
 		

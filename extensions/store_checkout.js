@@ -663,13 +663,11 @@ _gaq.push(['_trackEvent','Checkout','User Event','Pre-defined address selected (
 				},
 
 
-
-
 //allows for setting of 'ship' address when 'ship to bill' is clicked and a predefined address is selected.
 			setAddressFormFromPredefined : function(addressType,addressId)	{
-//				app.u.dump('BEGIN store_checkout.u.setAddressFormFromPredefined');
-//				app.u.dump(' -> address type = '+addressType);
-//				app.u.dump(' -> address id = '+addressId);
+				app.u.dump('BEGIN store_checkout.u.setAddressFormFromPredefined');
+				app.u.dump(' -> address type = '+addressType);
+				app.u.dump(' -> address id = '+addressId);
 				
 				var L = app.data.buyerAddressList['@'+addressType].length,
 				a, //shortcut to address object.
@@ -684,11 +682,6 @@ _gaq.push(['_trackEvent','Checkout','User Event','Pre-defined address selected (
 						}
 					else {}// no match. carry on.
 					}
-
-//app.u.dump(" -> a[addressType+'_region']: "+a[addressType+'_region']);
-//app.u.dump(" -> a[addressType+'_postal']: "+a[addressType+'_postal']);
-//app.u.dump(" -> $('#data-'+addressType+'_zip').length: "+$('#data-'+addressType+'_zip').length);
-//app.u.dump(" -> $('#data-'+addressType+'_state').length: "+$('#data-'+addressType+'_state').length);
 
 				$('#data-'+addressType+'_address1').val(a[addressType+'_address1']);
 				if(app.u.isSet(a[addressType+'_address2'])){$('#data-'+addressType+'_address2').val(a[addressType+'_address2'])};
