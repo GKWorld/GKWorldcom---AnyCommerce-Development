@@ -54,7 +54,7 @@ chkoutCartContents - will get loaded with the productListTemplateContentsSummary
 
 <ul id='checkoutStuffList' data-bind="var: cart(@ITEMS); format:stuffList; loadsTemplate:productListTemplateCheckout;" class='listStyleNone fluidList clearfix noPadOrMargin productList lineItemProdlist'></ul>	
 
-<section id='checkoutTemplateCostSummary' class='cartSummary'>
+<section id='checkoutTemplateCostSummary' class='cartSummary floatRight'>
 
 	<div data-bind="var: cart(sum/items_total); format:money; className:orderSubtotal; hideZero:false; currencySign: $; pretext:Subtotal: ; "></div>
 
@@ -76,7 +76,7 @@ chkoutCartContents - will get loaded with the productListTemplateContentsSummary
 
 
 
-<div id='couponContainer'>
+<div id='couponContainer' class="floatRight">
 	<div id='couponMessaging'></div><!-- used to report success and fail messaging -->
 	<div id='couponFrmContainer'>
 		<label for='coupon'>Coupon/Promo Code:</label>

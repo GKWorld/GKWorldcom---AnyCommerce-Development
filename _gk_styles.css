@@ -101,7 +101,7 @@ input.ui-button-text, button{
 	border-bottom: 1px dotted #999999;
 }
 
-.checkoutProdInfoContainer {
+#checkoutStuffList {
 	width: 50%;
 }
 
