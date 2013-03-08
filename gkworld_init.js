@@ -54,7 +54,7 @@ app.rq.push(['templateFunction','homepageTemplate','onCompletes',function(P) {
 		}]);
 
 //group any third party files together (regardless of pass) to make troubleshooting easier.
-app.rq.push(['script',0,(document.location.protocol == 'https:' ? 'https:' : 'http:')+'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js']);
+//app.rq.push(['script',0,(document.location.protocol == 'https:' ? 'https:' : 'http:')+'//ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js']);
 //for homepage and product slideshows
 app.rq.push(['script',0,app.vars.baseURL+'cycle-2.9998.js']);//','validator':function(){return (jQuery().cycle) ? true : false;}});
 //app.rq.push(['script':2,'location':app.vars.baseURL+'jcarousellite.min.js']);//,'validator':function(){return (jQuery.cycle) ? true : false;}})
@@ -302,6 +302,12 @@ app.u.appInitComplete = function(P)	{
 
 //don't execute script till both jquery AND the dom are ready.
 $(document).ready(function(){
+	$("#appPreView").dialog({
+		'modal':true,
+		'closeOnEscape' : false,
+		'dialogClass' : 'hideDialog',
+		'width' : 650
+	});
 	app.u.handleRQ(0)
 	});
 

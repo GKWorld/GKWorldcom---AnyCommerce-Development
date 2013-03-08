@@ -124,3 +124,13 @@ input.ui-button-text, button{
 }
 
 .preflightInputContainer label {width: 80px;display:inline-block;}
+
+.hideDialog .ui-dialog-titlebar-close,
+.hideDialog .ui-dialog-titlebar {
+	display: none;
+}
+
+.hideDialog.ui-dialog.ui-widget-content {
+	background: none;
+	border:none;
+}

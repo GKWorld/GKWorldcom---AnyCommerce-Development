@@ -19,7 +19,11 @@ h6	{font-size:.9em}
 
 
 
-#appPreView	{position:relative; background:#2c2a32; border:2px solid #abaaad; width:650px; margin-top:100px;
+#appPreView	{
+	position:relative; 
+	background:#2c2a32; 
+	border:2px solid #abaaad; 
+	width:650px; 
 	-webkit-border-radius: 6px;
     border-radius: 6px;
 	padding:5px;

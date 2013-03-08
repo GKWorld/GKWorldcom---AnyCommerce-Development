@@ -58,6 +58,7 @@ css files should be included before any .js file to ensure they are downloaded i
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/jquery-ui.js"></script>
 <script src="jquery.ui.widget.min.js"></script>
 <script type="text/javascript" src="loadscript.js"></script>
 
@@ -77,42 +78,42 @@ app.u.loadScript(app.vars.baseURL+"gkworld_init.js");
 
 <!-- what is displayed onLoad until the view is loaded -->
 <div id='appPreView'>
-<table>
-<tr>
-	<td><div class='logo'><img src='images/logo-369x84.png' width='369' height='84' alt='GKWorld.com' /></div></td>
-	<td>
+	<table>
+	<tr>
+		<td><div class='logo'><img src='images/logo-369x84.png' width='369' height='84' alt='GKWorld.com' /></div></td>
+		<td>
 
-	<div id="loader">
-		<h3 class="loadingNonSecure">Loading GKWorld App...</h3>
-		<h3 class="loadingSecure">Upgrading to a Secure Session...</h3>
-		
-		
-		<script type="text/javascript">
-			$(".loadingSecure, .loadingNonSecure").hide();
-			if(document.location.protocol == 'https:') {
-				$(".loadingSecure").show();
-			} else if(document.location.protocol == "http:" || document.location.protocol == "file:") {
-				$(".loadingNonSecure").show();
-			} else {
-				//Dude, what's your location protocol?
-			}
-		</script>
-		
-		
-		<div class='alignCenter'>
-		<progress id="appPreViewProgressBar" max="100" value="0" /><br />
+		<div id="loader">
+			<h3 class="loadingNonSecure">Loading GKWorld App...</h3>
+			<h3 class="loadingSecure">Upgrading to a Secure Session...</h3>
+			
+			
+			<script type="text/javascript">
+				$(".loadingSecure, .loadingNonSecure").hide();
+				if(document.location.protocol == 'https:') {
+					$(".loadingSecure").show();
+				} else if(document.location.protocol == "http:" || document.location.protocol == "file:") {
+					$(".loadingNonSecure").show();
+				} else {
+					//Dude, what's your location protocol?
+				}
+			</script>
+			
+			
+			<div class='alignCenter'>
+			<progress id="appPreViewProgressBar" max="100" value="0" /><br />
+			</div>
+			<div id='appPreViewProgressText'>0% Complete</div>
 		</div>
-		<div id='appPreViewProgressText'>0% Complete</div>
-	</div>
-	<div class='appMessaging'></div>
-	</td>
-</tr>
-</table>
+		<div class='appMessaging'></div>
+		</td>
+	</tr>
+	</table>
 </div>
 
 
 
-<div id='appView' class='displayNone'>
+<div id='appView'>
 
 <div class='headerMenu'>
 	<div class='contentWidth'>
@@ -220,7 +221,11 @@ $(this).closest('.subcatContainer').css({'left':'-9999px'}); setTimeout(function
 	</div>
 
 		<div id='globalMessaging' class='appMessaging'></div><!-- DO NOT REMOVE - used for some high level error handling (usually appears below breadcrumb nav or top bar) -->
-		<div id='mainContentArea'></div><!-- DO NOT REMOVE - this is where the specific page (ex: homepage, product, category) content is going to go -->
+		<div id='mainContentArea'>
+			
+		
+		
+		</div><!-- DO NOT REMOVE - this is where the specific page (ex: homepage, product, category) content is going to go -->
 			<div id='mastFooter' class='clearfix'>
 				<div class='section'>
 		<h4>Information</h4>
