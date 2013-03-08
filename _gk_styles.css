@@ -118,3 +118,9 @@ input.ui-button-text, button{
 	padding: 5px;
 }
 
+.preflightInputContainer {
+	width: 45%;
+	float: left;
+}
+
+.preflightInputContainer label {width: 80px;display:inline-block;}
