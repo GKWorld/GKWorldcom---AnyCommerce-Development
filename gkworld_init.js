@@ -302,12 +302,7 @@ app.u.appInitComplete = function(P)	{
 
 //don't execute script till both jquery AND the dom are ready.
 $(document).ready(function(){
-	$("#appPreView").dialog({
-		'modal':true,
-		'closeOnEscape' : false,
-		'dialogClass' : 'hideDialog',
-		'width' : 650
-	});
+	
 	app.u.handleRQ(0)
 	});
 
