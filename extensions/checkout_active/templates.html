@@ -354,10 +354,12 @@ do NOT change the input name or id or checkout will likely break.
 	<div id='orderSummaryDetails' class='orderSummaryDetails'>
 		<h2>Thank you! Your order has been placed.</h2>
 		<h3 data-bind='var: order(orderid); format:text; pretext:Your order id is ;'></h3>
+		<!--
 		<div id='orderSummaryLinkToInvoice' class=' pointer' data-bind='var:order(orderid); format:orderStatusLink; extension: store_checkout;'>
 		Click here to view/print your invoice.
-		<div class='zwarn paymentRequired'></div> <!-- used for 'payment needed' messaging, including cc errors. leave within the parent div so it's clickable. set a class of paymentRequired on another div if this messaging is needed multiple times. -->
 		</div>
+		-->
+		<div class='zwarn paymentRequired'></div> <!-- used for 'payment needed' messaging, including cc errors. leave within the parent div so it's clickable. set a class of paymentRequired on another div if this messaging is needed multiple times. -->
 		<div class=''>You will receive an order confirmation email with details of your order</div>
 	</div>
 
