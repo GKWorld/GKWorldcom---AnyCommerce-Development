@@ -79,7 +79,7 @@ chkoutCartContents - will get loaded with the productListTemplateContentsSummary
 <div id='couponContainer' class="floatRight">
 	<div id='couponMessaging'></div><!-- used to report success and fail messaging -->
 	<div id='couponFrmContainer'>
-		<label for='coupon'>Coupon/Promo Code:</label>
+		<label for='coupon'>Coupon/Promo Code:</label><br/>
 		<input type='text' name='coupon' id='couponCode' size='8'  onKeyPress="if(event.keyCode==13){$('#addCouponBtn').click();}" />
 		<button class='loadingButton ui-state-default ui-corner-all' onClick="app.ext.convertSessionToOrder.u.handleCouponSubmit(); return false;" id='addCouponBtn'><span></span>add</button>
 	</div>

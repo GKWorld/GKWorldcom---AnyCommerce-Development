@@ -103,6 +103,7 @@ input.ui-button-text, button{
 
 #checkoutStuffList {
 	width: 50%;
+	min-width: 430px;
 }
 
 #cartTemplateCostSummary div {
@@ -138,4 +139,12 @@ input.ui-button-text, button{
 .hideDialog.ui-dialog.ui-widget-content {
 	background: none;
 	border:none;
+}
+
+#couponFrmContainer {
+	font-size: .9em;
+}
+
+#couponContainer {
+	clear: right;
 }
