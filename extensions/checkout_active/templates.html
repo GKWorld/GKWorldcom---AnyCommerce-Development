@@ -350,10 +350,12 @@ do NOT change the input name or id or checkout will likely break.
 
 	</div>
 
+	<div id="orderSummaryContainer">
 
 	<div id='orderSummaryDetails' class='orderSummaryDetails'>
 		<h2>Thank you! Your order has been placed.</h2>
 		<h3 data-bind='var: order(orderid); format:text; pretext:Your order id is ;'></h3>
+		<a href='#' onClick="app.u.printByElementID('orderSummaryContainer'); return false;"  class="ui-icon ui-icon-print">Print</a>
 		<!--
 		<div id='orderSummaryLinkToInvoice' class=' pointer' data-bind='var:order(orderid); format:orderStatusLink; extension: store_checkout;'>
 		Click here to view/print your invoice.
@@ -369,6 +371,7 @@ do NOT change the input name or id or checkout will likely break.
 	<div class='clearAll'></div>
 
 	<div id='invoiceContainer'></div>
+	</div>
 
 </div>
 
@@ -398,7 +401,9 @@ likely, this will be used anywhere an invoice is shown.
 <tr>
 	<td colspan='2'>
 <div class='floatRight ui-state-default ui-corner-all'>
+<!--
 <a href='#' onClick="app.u.printByElementID($(this).closest('table').attr('id')); return false;"  class="ui-icon ui-icon-print">Print</a>
+-->
 </div>
 
 <h3 data-bind='var:order(data.pool);format:text; pretext:Order Status: ;'></h3>
