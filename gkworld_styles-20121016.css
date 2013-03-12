@@ -482,7 +482,7 @@ h1.greyGradient, h2.greyGradient	{font-size: 1.3em; font-weight:normal; line-hei
 .borderTable td, .borderTable th	{padding:2px 8px;}
 .borderTable th, .borderTable th		{background:#f3f3f3; font-weight:normal; text-align:left; font-size:.75em;}
 .borderTable td	{vertical-align:middle; font-size:.85em; background:#ffffff;}
-.cartSummary	{font-size:.75em;}
+.cartSummary	{font-size:.9em;}
 #cartStuffList	{width:100%; }
 #cartStuffList  thead  tr  th {border-bottom: 2px solid #999;}
 /* ensure that only 1 'available' graphic shows up, even if multiple tags are present - avoids confusion */
@@ -531,7 +531,7 @@ fieldset.qtyInput	{line-height:33px;}
 
 .addToCartButton.ui-button	{	padding:2px 6px; line-height:1.0em;}
 
-#productViewer_productmodal .addToCartButton, .addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton, .createAccountButton	{
+#productViewer_productmodal .addToCartButton, .addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton, .createAccountButton, .goBtn	{
 	font-size:1.3em;
 
 	font-weight:bold;

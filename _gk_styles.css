@@ -107,6 +107,11 @@ input.ui-button-text, button{
 
 #cartTemplateCostSummary div {
 	margin: 8px 0px;
+	border-bottom: 1px dotted #999999;
+}
+
+#cartTemplateCostSummary div:last-of-type {
+	border-bottom:none;
 }
 
 #cartTemplateCostSummary {
