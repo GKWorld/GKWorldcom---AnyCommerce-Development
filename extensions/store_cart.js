@@ -257,6 +257,9 @@ formerly showCart
 				else	{
 					$tag.attr('data-stid',data.value.stid);
 					}
+				if(app.data['appProductGet|'+data.value.product] && app.data['appProductGet|'+data.value.product]['@inventory']){
+					$tag.data('max',app.data['appProductGet|'+data.value.product]['@inventory'][data.value.sku].inv);
+				}
 				},
 				
 				
@@ -493,7 +496,10 @@ allows us to check and make sure no request is currently in progress.
 				
 				var stid = $input.attr('data-stid');
 				var qty = $input.val();
-				
+				if($input.data('max') && qty > $input.data('max')){
+					app.u.throwMessage('The amount you entered was not available.  The quantity has been adjusted to reflect this change');
+					qty = $input.data('max');
+				}
 				if(stid && qty && !$input.hasClass('disabled'))	{
 					$input.attr('disabled','disabled').addClass('disabled').addClass('loadingBG');
 					app.u.dump('got stid: '+stid);
