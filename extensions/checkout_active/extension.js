@@ -221,7 +221,7 @@ if server validation passes, the callback handles what to do next (callback is m
 						$('#modalProcessCheckout').dialog('close');
 //without this jump, the create order button jumps up slightly. 
 //this needs to be at the end so all the content above is manipulated BEFORE jumping to the id. otherwise, the up-jump still occurs.
-						app.u.jumpToAnchor('chkoutSummaryErrors');
+						app.u.jumpToAnchor('chkoutCartSummaryContainer');
 						}
 					}
 

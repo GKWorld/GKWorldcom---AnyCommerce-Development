@@ -143,8 +143,27 @@ input.ui-button-text, button{
 
 #couponFrmContainer {
 	font-size: .9em;
+	margin-bottom: 12px;
 }
 
 #couponContainer {
 	clear: right;
+}
+
+#chkoutSummaryErrors {
+	width: 300px;
+	clear: both;
+}
+
+.checkoutProdInfoContainer {
+	width: 268px;
+}
+
+#checkoutStuffList li {
+	margin-left:0px;
+	margin-right:0px;
+}
+
+#checkoutOrderContainer {
+	width: 292px;
 }

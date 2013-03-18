@@ -54,6 +54,8 @@ chkoutCartContents - will get loaded with the productListTemplateContentsSummary
 
 <ul id='checkoutStuffList' data-bind="var: cart(@ITEMS); format:stuffList; loadsTemplate:productListTemplateCheckout;" class='listStyleNone fluidList clearfix noPadOrMargin productList lineItemProdlist'></ul>	
 
+
+<div id='checkoutOrderContainer' class='floatRight'>
 <section id='checkoutTemplateCostSummary' class='cartSummary floatRight'>
 
 	<div data-bind="var: cart(sum/items_total); format:money; className:orderSubtotal; hideZero:false; currencySign: $; pretext:Subtotal: ; "></div>
@@ -86,16 +88,17 @@ chkoutCartContents - will get loaded with the productListTemplateContentsSummary
 </div>
 
 
-							
+<!--							
 <div class='clearAll'></div>
+-->
 
-<div class='zwarn displayNone floatRight' id='chkoutSummaryErrors'></div>
-
-<div class='checkoutMethods clearfix'>
+<div class='checkoutMethods floatRight clearfix'>
 	<button id='chkoutPlaceOrderBtn' class='ui-state-default ui-button ui-corner-all ui-state-highlight floatRight loadingButton' onClick="app.ext.convertSessionToOrder.calls.processCheckout.init('finishedValidatingCheckout'); app.model.dispatchThis('immutable'); return false;">
 		<span></span>
 		Place Order
 	</button>
+</div>
+<div class='zwarn displayNone floatRight' id='chkoutSummaryErrors'></div>
 </div>
 
 <div id='referenceNumberContainer' class='displayNone floatRight clearfix'>
@@ -118,7 +121,7 @@ the defaultVar on prodName & image is for promotions, which have a 'description'
 <ul>
 <li id='productListTemplateCheckout' class='cartTotalLineItem'>
 	<div class='floatLeft '>
-		<img class='prodThumb' data-bind='var: product(zoovy:prod_image1); format:imageURL; defaultVar: product(%attribs.zoovy:prod_image1);' width='50' height='50' />
+		<img class='prodThumb floatLeft' data-bind='var: product(zoovy:prod_image1); format:imageURL; defaultVar: product(%attribs.zoovy:prod_image1);' width='50' height='50' />
 		<div class="checkoutProdInfoContainer floatLeft">
 			<div class='prodName' data-bind='var: product(prod_name); format:text; defaultVar: description;'></div>
 			<div class='stid' data-bind='var: product(sku); format:text; className: stid; pretext: Sku: ;'></div>

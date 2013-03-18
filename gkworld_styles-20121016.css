@@ -531,7 +531,7 @@ fieldset.qtyInput	{line-height:33px;}
 
 .addToCartButton.ui-button	{	padding:2px 6px; line-height:1.0em;}
 
-#productViewer_productmodal .addToCartButton, .addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton, .createAccountButton, .goBtn	{
+#productViewer_productmodal .addToCartButton, .addToCartButton, #modalCart .checkoutButton, .chooseOptionsButton, .createAccountButton, .goBtn, #chkoutPlaceOrderBtn	{
 	font-size:1.3em;
 
 	font-weight:bold;
@@ -551,7 +551,7 @@ fieldset.qtyInput	{line-height:33px;}
 	background: -ms-linear-gradient(top,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* IE10+ */
 	background: linear-gradient(to bottom,  #1e5799 0%,#2989d8 50%,#207cca 51%,#7db9e8 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 ); /* IE6-8 */
-	
+	padding: 4px;
 	}
 
 .plContainer .addToCartButton, .chooseOptionsButton	{font-size:1.0em; padding:3px 6px; margin:2px auto 6px auto;}
