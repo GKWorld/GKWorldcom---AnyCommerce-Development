@@ -1342,7 +1342,7 @@ So the cart template should contain these two elements and the extension should 
 	</div>
 	
 	<div data-bind="var: cart(sum/tax_total); format:showIfSet;" class="displayNone">
-	<div data-bind='var: cart(sum/tax_total); format:money; className:orderTax; hideZero:true;currencySign: $; pretext:Tax: ; posttext: (PA or NY only);'></div>
+	<div data-bind='var: cart(sum/tax_total); format:money; className:orderTax; hideZero:true;currencySign: $; pretext:Tax: ; posttext: (PA only);'></div>
 	</div>
 	
 	<div data-bind="var: cart(want/shipping_id); format:showIfSet;" class="displayNone">
@@ -1361,7 +1361,20 @@ So the cart template should contain these two elements and the extension should 
 -->
 </section>
 
-<section id='cartTemplateShippingContainer'>
+	<div class='checkoutButtonsContainer'>
+		<span title='proceed to secure checkout'><button class='ui-button ui-button-text ui-state-default ui-corner-all checkoutButton' onClick="showContent('checkout',{});">Store Checkout</button></span>
+		
+		<div class="clear marginTop paddingTop borderTop">
+			<span id='paypalECButton' data-bind='var: cart(cart/cartid); format:paypalECButton;'></span>
+		</div>
+<!--
+			<span id='googleCheckoutButton' class='pointer' data-bind='var: cart(sum/items_total); format:googleCheckoutButton;'></span>
+Amazon is not currently functional
+			<span id='amazonCheckoutButton' class='pointer' data-bind='var: cart(cart/cartid); format:amazonCheckoutButton;'></span>
+-->
+
+	</div>
+<section id='cartTemplateShippingContainer' class='clear borderTop paddingTop'>
 	<h4>Shipping:</h4>
 	<ul class='noPadOrMargin listStyleNone cartShipMethods' data-bind='var: cart(@SHIPMETHODS); format:shipMethodsAsRadioButtons; extension:store_cart;'></ul>
 </section>
@@ -1387,23 +1400,6 @@ So the cart template should contain these two elements and the extension should 
 	</menu>
 	-->
 
-	<div class='checkoutButtonsContainer'>
-		<span>
-			Have a Coupon Code?  Use it at checkout, below!
-		</span>
-		<span title='proceed to secure checkout'><button class='ui-button ui-button-text ui-state-default ui-corner-all checkoutButton' onClick="showContent('checkout',{});">Store Checkout</button></span>
-		<div class="clear">
-
-			<span id='paypalECButton' data-bind='var: cart(cart/cartid); format:paypalECButton;'></span>
-
-<!--
-			<span id='googleCheckoutButton' class='pointer' data-bind='var: cart(sum/items_total); format:googleCheckoutButton;'></span>
-Amazon is not currently functional
-			<span id='amazonCheckoutButton' class='pointer' data-bind='var: cart(cart/cartid); format:amazonCheckoutButton;'></span>
--->
-		</div>
-
-	</div>
 
 </section>
 
