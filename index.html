@@ -1366,9 +1366,9 @@ So the cart template should contain these two elements and the extension should 
 		
 		<div class="clear marginTop paddingTop borderTop">
 			<span id='paypalECButton' data-bind='var: cart(cart/cartid); format:paypalECButton;'></span>
+			<span id='googleCheckoutButton' class='pointer' data-bind='var: cart(sum/items_total); format:googleCheckoutButton;'></span>
 		</div>
 <!--
-			<span id='googleCheckoutButton' class='pointer' data-bind='var: cart(sum/items_total); format:googleCheckoutButton;'></span>
 Amazon is not currently functional
 			<span id='amazonCheckoutButton' class='pointer' data-bind='var: cart(cart/cartid); format:amazonCheckoutButton;'></span>
 -->
