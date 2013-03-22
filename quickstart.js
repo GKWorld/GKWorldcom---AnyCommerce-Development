@@ -2351,7 +2351,7 @@ query.size = 50;
 //					app.u.dump("GOT HERE");
 				var P = {};
 				if(str)	{
-					var tmp1 = str.substring(1).split('?');
+					var tmp1 = str.replace(/\#!?/g,'').split('?'); //the regext will strip # or #! off the front of the string.
 					P.pageType = tmp1[0];
 					if(tmp1.length > 1){
 						var tmp2 = tmp1[1].split('=');
