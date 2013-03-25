@@ -423,7 +423,8 @@ set adjustAttempts to true to increment by 1.
 				msgDetails += "<li>release: "+app.model.version+"|"+app.vars.release+"<\/li>";
 				msgDetails += "<\/ul>";
 				
-				this.handleErrorByUUID(uuid,QID,{'errid':666,'errtype':'ISE','persistant':true,'errmsg':'The request has failed. The app may continue to operate normally.<br \/>Please try again or contact the site administrator with the following details:'+msgDetails})
+				//this.handleErrorByUUID(uuid,QID,{'errid':666,'errtype':'ISE','persistant':true,'errmsg':'The request has failed. The app may continue to operate normally.<br \/>Please try again or contact the site administrator with the following details:'+msgDetails})
+				this.handleErrorByUUID(uuid,QID,{'errtype':'ISE','persistant':true,'errmsg':"Sorry, but our API request is in another castle!  Looks like our servers are a little backed up at the moment, why don't you <a onClick='location.reload()'>give it another shot?</a>  If you're seeing this bad joke for the second time, how about you <a href='#' onClick='return showContent(\"company\",{\"show\":\"contact\"});'>call us instead?</a>"})
 				}
 			},
 	
