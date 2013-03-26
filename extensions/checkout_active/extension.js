@@ -439,7 +439,7 @@ _gaq.push(['_trackEvent','Checkout','User Event','Cart updated - coupon added'])
 						r = "<div id='inventoryErrors'>It appears that some inventory adjustments needed to be made:<ul>";
 						for(var key in app.data[tagObj.datapointer]['%changes']) {
 							r += "<li>sku: "+key+" was set to "+app.data[tagObj.datapointer]['%changes'][key]+" due to availability<\/li>";
-							app.ext.convertSessionToOrder.calls.cartItemUpdate.init(key,app.data[tagObj.datapointer]['%changes'][key],tagObj);
+							app.ext.convertSessionToOrder.calls.cartItemUpdate.init({"stid":key,"quantity":app.data[tagObj.datapointer]['%changes'][key]});
 							}
 						r += "<\/ul><\/div>";
 						
