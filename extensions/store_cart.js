@@ -496,7 +496,7 @@ allows us to check and make sure no request is currently in progress.
 				
 				var stid = $input.attr('data-stid');
 				var qty = $input.val();
-				if($input.data('max') && qty > $input.data('max')){
+				if($input.data('max') && parseInt(qty) > parseInt($input.data('max'))){
 					app.u.throwMessage('The amount you entered was not available.  The quantity has been adjusted to reflect this change');
 					qty = $input.data('max');
 				}
