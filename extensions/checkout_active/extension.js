@@ -439,12 +439,21 @@ _gaq.push(['_trackEvent','Checkout','User Event','Cart updated - coupon added'])
 						r = "<div id='inventoryErrors'>It appears that some inventory adjustments needed to be made:<ul>";
 						for(var key in app.data[tagObj.datapointer]['%changes']) {
 							r += "<li>sku: "+key+" was set to "+app.data[tagObj.datapointer]['%changes'][key]+" due to availability<\/li>";
-							app.ext.convertSessionToOrder.calls.cartItemUpdate.init({"stid":key,"quantity":app.data[tagObj.datapointer]['%changes'][key]});
+							//app.ext.convertSessionToOrder.calls.cartItemUpdate.init({"stid":key,"quantity":app.data[tagObj.datapointer]['%changes'][key]});
+							app.u.dump('updating: '+key); 
+							app.ext.convertSessionToOrder.calls.cartItemUpdate.init(key, app.data[tagObj.datapointer]['%changes'][key], tagObj);
 							}
 						r += "<\/ul><\/div>";
+						var tmpTag = {};
+						if($('#chkoutCartSummaryContainer').children().length > 0){
+							tmpTag.callback = 'updateCheckoutCartList';
+							tmpTag.extension = 'convertSessionToOrder';
+							}
+						app.u.dump(tmpTag);
+						app.calls.refreshCart.init(tmpTag, 'immutable');
+						app.model.dispatchThis('immutable');
 						
-						
-						$('#globalMessaging').toggle(true).append(app.u.formatMessage({'message':r,'uiIcon':'alert'}));
+						$('#globalMessaging').anymessage({'message':r,'persistant':true});
 
 						}
 
@@ -462,6 +471,18 @@ _gaq.push(['_trackEvent','Checkout','App Event','Cart updated - inventory adjust
 					}
 				},	//handleInventoryUpdate
 
+		updateCheckoutCartList: {
+			onSuccess : function(tagObj) {
+				app.u.dump('BEGIN convertSessionToOrder.callbacks.updateCheckoutCartList.success');
+				app.ext.convertSessionToOrder.panelContent.cartContents();
+				},
+			onError: function(responseData, uuid) {
+				app.u.dump('BEGIN convertSessionToOrder.callbacks.updateCheckoutCartList.onError');
+				app.ext.convertSessionToOrder.panelContent.paymentOptions();  //reload panel or just error shows and user can't proceed.
+				responseData.parentID = 'chkoutPayOptionsFieldsetErrors'
+				app.u.throwMessage(responseData);
+				}
+			},
 
 		updateCheckoutPayOptions : {
 			onSuccess : function(tagObj)	{
@@ -476,6 +497,7 @@ _gaq.push(['_trackEvent','Checkout','App Event','Cart updated - inventory adjust
 				app.u.throwMessage(responseData);
 				}
 			},
+			
 
 
 		handleBuyerLogin : {
