@@ -1392,8 +1392,8 @@ Amazon is not currently functional
 	<div class='cartZipCodeContainer'>
 	<label for='data-ship_zip'>Zip/Postal Code</label>
 	<input type='text' size='6'  name='ship/postal' id='data-ship_zip' value='' data-bind='var: cart(ship/postal); format:popVal;' maxlength='10' onChange="app.calls.cartSet.init({'ship/postal':this.value, 'ship/region':''});
-	app.ext.store_cart.u.updateCartSummary();
 	app.ext.store_cart.calls.cartShippingMethodsWithUpdate.init();
+	app.ext.store_cart.u.updateCartSummary();
 	app.model.dispatchThis('immutable');"  />
 	<button class='goBtn ui-button-text ui-button ui-state-default ui-corner-all' onClick="return false;">Go!</button>
 	
