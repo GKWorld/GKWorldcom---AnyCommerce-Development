@@ -474,14 +474,18 @@ _gaq.push(['_trackEvent','Checkout','App Event','Cart updated - inventory adjust
 		updateCheckoutCartList: {
 			onSuccess : function(tagObj) {
 				app.u.dump('BEGIN convertSessionToOrder.callbacks.updateCheckoutCartList.success');
-				app.ext.convertSessionToOrder.panelContent.cartContents();
-				app.ext.convertSessionToOrder.panelContent.shipMethods();
-				app.ext.convertSessionToOrder.panelContent.paymentOptions();
+				
+				app.ext.convertSessionToOrder.callbacks.updateCheckoutPayOptions.onSuccess(tagObj);
+				app.ext.convertSessionToOrder.callbacks.updateCheckoutOrderContents.onSuccess(tagObj);
+				app.ext.convertSessionToOrder.callbacks.updateCheckoutShipMethods.onSuccess(tagObj);
 				},
 			onError: function(responseData, uuid) {
 				app.u.dump('BEGIN convertSessionToOrder.callbacks.updateCheckoutCartList.onError');
-				app.ext.convertSessionToOrder.panelContent.cartContents();  //reload panel or just error shows and user can't proceed.
-				responseData.parentID = 'chkoutPayOptionsFieldsetErrors'
+				
+				app.ext.convertSessionToOrder.callbacks.updateCheckoutPayOptions.onError(tagObj);
+				app.ext.convertSessionToOrder.callbacks.updateCheckoutOrderContents.onError(tagObj);
+				app.ext.convertSessionToOrder.callbacks.updateCheckoutShipMethods.onError(tagObj);
+				
 				app.u.throwMessage(responseData);
 				}
 			},
