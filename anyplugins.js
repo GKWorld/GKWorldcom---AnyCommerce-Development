@@ -65,7 +65,7 @@ For the list of available params, see the 'options' object below.
 			
 			self.outputArr[i].append(self._getCloseButton()); //a close button is always generated, even on a persistent message.
 			self.outputArr[i].append(self._getIcon());
-			self.outputArr[i].append($('<div class="floatRight marginRight marginTop" ><a href="#" onClick="return showContent(\'company\',{\'show\':\'contact\'});">Contact Us</a></div>'));
+			//self.outputArr[i].append($('<div class="floatRight marginRight marginTop" ><a href="#" onClick="return showContent(\'company\',{\'show\':\'contact\'});">Contact Us</a></div>'));
 			self.outputArr[i].append(self._getFormattedMessage(i));
 			app.u.dump(self.outputArr[i].html());
 			$t.prepend(self.outputArr[i]); //
@@ -155,6 +155,7 @@ For the list of available params, see the 'options' object below.
 						msgDetails += "<\/ul>";
 						$r.append(msgDetails);
 						}
+					$r.append($('<div class="marginTop" >To report this error, please <a href="#" onClick="return showContent(\'company\',{\'show\':\'contact\'});">Contact Us Here</a></div>'));
 					}
 //the validate order request returns a list of issues.
 				else if(msg['@issues'])	{

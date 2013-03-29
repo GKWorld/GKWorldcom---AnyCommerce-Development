@@ -991,7 +991,6 @@ and model that needed to be permanently displayed had to be converted into an ob
 			
 			$closeButton.on('click.closeMsg',function(){$(this).closest('.appMessage').empty().remove()});
 			$container.append($closeButton);
-			$container.append($('<div class="floatRight marginRight marginTop" ><a href="#" onClick="return showContent(\'company\',{\'show\':\'contact\'});">Contact Us</a></div>'));
 			if($globalDefault.length == 0)	{
 				$globalDefault = $("<div \/>").attr({'id':'globalErrorMessaging'}).appendTo('body');
 				$globalDefault.dialog({autoOpen:false,modal:true})
@@ -1166,7 +1165,11 @@ pass in additional information for more control, such as css class of 'error' an
 //the zMessage class is added so that these warning can be cleared (either universally or within a selector).
 			var r = "<div class='ui-widget appMessage clearfix'>";
 			r += "<div class='ui-state-"+obj.uiClass+" ui-corner-all'>";
-			r += "<div class='clearfix stdMargin'><span class='ui-icon ui-icon-"+obj.uiIcon+"'></span>"+obj.message+"<\/div>";
+			r += "<div class='clearfix stdMargin'><span class='ui-icon ui-icon-"+obj.uiIcon+"'></span>"+obj.message;
+			if(obj.uiClass === 'error'){
+				r +="<br />"+'<div class="marginTop" >To report this error, please <a href="#" onClick="return showContent(\'company\',{\'show\':\'contact\'});">Contact Us Here</a></div>';
+			}
+			r +="<\/div>";
 			r += "<\/div><\/div>";
 			return r;
 			},
