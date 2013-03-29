@@ -991,7 +991,7 @@ and model that needed to be permanently displayed had to be converted into an ob
 			
 			$closeButton.on('click.closeMsg',function(){$(this).closest('.appMessage').empty().remove()});
 			$container.append($closeButton);
-
+			$container.append($('<div class="floatRight marginRight marginTop" ><a href="#" onClick="return showContent(\'company\',{\'show\':\'contact\'});">Contact Us</a></div>'));
 			if($globalDefault.length == 0)	{
 				$globalDefault = $("<div \/>").attr({'id':'globalErrorMessaging'}).appendTo('body');
 				$globalDefault.dialog({autoOpen:false,modal:true})
