@@ -13,7 +13,7 @@
 
 <meta name="google-site-verification" content="RocDHoxdZ5C6h7toQW4iO-FOE4fpEIGCh-lFA6yQVSA" />
 
-<base href='' /><!-- leave blank so it works for a local file. updated to / if protocol is not file: -->
+<base href='' /><!-- leave blank so it works for a local file -->
 
 
 
@@ -40,7 +40,7 @@ var app = {vars:{
 //set base url so images, css, js, etc all load from appropriate location once deployed.
 //baseURL as blank lets loadScript function run off local copy when testing locally.
 if(document.location.protocol != 'file:')	{
-	app.vars.baseURL  = "/";
+	app.vars.baseURL  = "https:" == document.location.protocol ? app.vars.httpsURL : app.vars.httpURL;
 	document.getElementsByTagName('base')[0].href = app.vars.baseURL;
 	}
 </script>
@@ -52,7 +52,7 @@ all css includes need to be after the js that changes the base url.
 css files should be included before any .js file to ensure they are downloaded in parallel
 -->
 <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" type="text/css" href="app-quickstart.css" />
+<link rel="stylesheet" type="text/css" href="qs_styles.css" />
 <link rel="stylesheet" type="text/css" href="jquery-ui-1.8.23.custom.css" />
 <link rel="stylesheet" type="text/css" href="gkworld_styles-20121016.css">
 <link rel="stylesheet" type="text/css" href="_gk_styles.css">
@@ -546,7 +546,7 @@ container ul should have lineItemProdlist class on it instead of productList
 <span class="ui-icon ui-icon-cart"></span>
 </button>
 
-<button class='ui-state-default ui-corner-all' title='more information' onClick="quickView('product',{'templateID':'productTemplateQuickView','pid':$(this).closest('[data-pid]').attr('data-pid')});">
+<button class='ui-state-default ui-corner-all' title='more information'>
 <span class="ui-icon ui-icon-info"></span>
 </button>
 
@@ -631,7 +631,7 @@ this will likely become more flexible in the future. ###
 -->
 
 
-<div id='productTemplate' class='productPage'>
+<div id='productTemplate'>
 
 <ul class='clearfix noPadOrMargin fluidList breadcrumb' data-bind='var: session(session.recentCategories.0); format:breadcrumb; extension:store_navcats; loadsTemplate: breadcrumbTemplate;'></ul>
 
@@ -994,7 +994,6 @@ It's done this way because ID's hard coded into template are bad mojo (templates
 MOST OFTEN YOU WANT TO LEAVE THESE TEMPLATES ALONE
 if modified, be careful about changing id's or classes.
 adding classes is not likely to have any bad effects.
-if you change these, you should move them above this comment so that when you (or the next person) does an upgrade, you know what isn't default
 
 ############################
 
@@ -1007,7 +1006,7 @@ if you change these, you should move them above this comment so that when you (o
 <!--  used in breadcrumb -->
 <ul>
 	<li id='breadcrumbTemplate'>
-	<a href='#' onClick="return showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" data-bind='var: category(pretty); format:catText; extension: myRIA;'></a>
+	<a href='#' onClick="return showContent('category',{'navcat':$(this).parent().attr('data-catsafeid')});" data-bind='var: category(pretty); format:catText; extension: myRIA;;'></a>
 	</li>
 </ul>
 
@@ -1041,7 +1040,7 @@ if you change these, you should move them above this comment so that when you (o
 
 		<div id='contactArticle' class='displayNone textContentArea'>
 			<h1>Contact Information</h1>
-			<form action='#' onSubmit="app.calls.appSendMessage.init($(this).serializeJSON(),{'callback':'showMessaging','parentID':'contactFormMessaging','message':'Thank you, your message has been sent'},'immutable'); app.model.dispatchThis('immutable');  return false;" id='contactForm' name='contactForm'>
+			<form action='#' onSubmit="app.ext.store_crm.calls.appSendMessage.init($(this).serializeJSON(),{'callback':'showMessaging','parentID':'contactFormMessaging','message':'Thank you, your message has been sent'},'immutable'); app.model.dispatchThis('immutable');  return false;" id='contactForm' name='contactForm'>
 			<fieldset>
 				<legend>Contact Us</legend>
 				<div id='contactFormMessaging'></div>
@@ -1162,46 +1161,27 @@ if you change these, you should move them above this comment so that when you (o
 
 	<div class='mainColumn'>
 <!-- .textContentArea is used as a selector because IE8 doesn't play well  with tag type article as a selector -->
-
-<!--
-newsletterArticle is used for buyers who are not logged in or do not have an account.
-subscribeListsArticle is used for authenticated buyers
--->
 		<div id='newsletterArticle' class='displayNone textContentArea'>
 			<h1>Subscribe to our Newsletter and Save!</h1>
-			<div data-bind="format:loadsTemplate; loadsTemplate:subscribeFormTemplate;"></div>
-		</div>
-
-		<div id='subscriberListsArticle' class='displayNone textContentArea'>
-			<h1>Manage your Subscriptions</h1>
-<!-- save onchange -->
-<form action='#' name='subscribeFrm'>
-
-<fieldset data-bind="var:newsletters(@lists); format:subscribeCheckboxes; extension:store_crm;" class='borderNone subscriberLists'></fieldset>
-
-</form>
-
+			<div id='newsletterFormContainer'></div>
 		</div>
 
 		<div id='myaccountArticle' class='displayNone textContentArea'>
 			<h1>My Account</h1>
+			<div id='logMessaging'></div>
+			<div><a href="#" onClick="app.u.logBuyerOut(); showContent('homepage',{}); return false;">Log Out</a></div>
 
-			<section>
+			<section id='buyerAddresses' class='clearfix'>
 
-<div class='billAddressContainer' data-app-role='addressContainer' data-app-addresstype='bill'>
-	<div class='marginBottom'>
-		<button class='floatRight' data-app-event='myRIA|showBuyerAddressAdd'>Add New Billing Address</button>
-		<h2>Billing Address(es)</h2>
-	</div>
-	<div class='billAddresses' data-bind="var: buyer(@bill); format:processList; loadsTemplate:billAddressTemplate;"></div>
+<div class='billAddressContainer'>
+	<h2>Billing Address(es)</h2>
+<!--	<button class='floatRight ui-state-default ui-corner-all'><span class='ui-icon ui-icon-plusthick floatLeft'></span> Add </button> coming soon -->
+	<div class='billAddresses'></div><!-- billing addresses are loaded into here using billAddressTemplate -->
 </div>
 
-<div class='shipAddressContainer' data-app-role='addressContainer' data-app-addresstype='ship'>
-	<div class='marginBottom'>
-		<button class='floatRight' data-app-event='myRIA|showBuyerAddressAdd'>Add New Shipping Address</button>
-		<h2>Shipping Address(es)</h2>
-	</div>
-	<div class='billAddresses' data-bind="var: buyer(@ship); format:processList; loadsTemplate:shipAddressTemplate;"></div>
+<div class='shipAddressContainer'>
+	<h2>Shipping Address(es)</h2>
+	<div class='shipAddresses'></div><!-- shipping addresses are loaded into here using shipAddressTemplate -->
 </div>
 
 
@@ -1213,12 +1193,7 @@ subscribeListsArticle is used for authenticated buyers
 
 		<div id='ordersArticle' class='displayNone textContentArea'>
 			<h1>Order History</h1>
-			<div data-bind="var: orders(@orders); format:processList; loadsTemplate:orderLineItemTemplate;" data-app-role='orderList' class='ui-accordion ui-widget ui-helper-reset ui-accordion-icons '></div>
-		</div>
-
-
-		<div id='invoiceArticle' class='displayNone textContentArea'>
-			<div data-bind="format:loadsTemplate; loadsTemplate: invoiceTemplate; useParentData:true;"></div>
+			<div id='orderHistoryContainer' class='ui-accordion ui-widget ui-helper-reset ui-accordion-icons '></div>
 		</div>
 
 
@@ -1416,7 +1391,7 @@ Amazon is not currently functional
 <section class='stdMargin'>
 
 	<div class='cartZipCodeContainer'>
-	<label for='data-ship_zip'>Zip/Postal Code:</label>
+	<label for='data-ship_zip'>Zip/Postal Code</label>
 	<input type='text' size='6'  name='ship/postal' id='data-ship_zip' value='' data-bind='var: cart(ship/postal); format:popVal;' maxlength='10' onChange="app.calls.cartSet.init({'ship/postal':this.value, 'ship/region':''});
 	app.ext.store_cart.calls.cartShippingMethodsWithUpdate.init();
 	app.ext.store_cart.u.updateCartSummary();
@@ -1482,7 +1457,7 @@ Amazon is not currently functional
 		<div class='ztable_row_small stid' data-bind='var: product(sku); format:text; className: stid; pretext: Sku: ;'></div>
 
 		<div>
-		qty: <input type='number' class='qtyInput numberInput' onChange="app.ext.store_cart.u.updateCartQty($(this)); app.model.dispatchThis('immutable');"  data-bind='format:cartItemQty;extension:store_cart;useParentData:true;' />
+		qty: <input type='number' class='qtyInput' onChange="app.ext.store_cart.u.updateCartQty($(this)); app.model.dispatchThis('immutable');"  data-bind='format:cartItemQty;extension:store_cart;useParentData:true;' size='3' />
 		<button class='displayNone'>update</button><!-- here to stop 'enter' in input above from closing modal -->
 		<span data-bind='var: product(price); format:money; currencySign: $;  hideZero:false; pretext: x ;' ></span>
 		<span data-bind='var: product(extended); format:money; currencySign: $; hideZero:false; pretext: = ;'></span>
@@ -1606,21 +1581,23 @@ used for store_crm.js
 
 
 <div id='subscribeFormTemplate'>
-<form action='#' name='subscribeFrm' onSubmit="app.ext.store_crm.u.handleSubscribe($(this)); return false">
+<form action='#' id='subscribeFrm' name='subscribeFrm' onSubmit="app.ext.store_crm.u.handleSubscribe('subscribeFrm'); return false">
 
 <fieldset class='userInfo borderNone'>
 <div>
-<input type='email' placeholder='email address' maxlength='50' size='30' required='required' name='login' value='' />
+<label for='subscribeLogin'>Email Address</label>
+<input type='email'  maxlength='50' size='30' name='login' id='subscribeLogin' value='' />
 </div>
 
 <div>
-<input type='text' placeholder='full name' maxlength='50' size='30' required='required' name='fullname' value='' />
+<label for='subscribeFullname'>Full Name</label>
+<input type='text'  maxlength='50' size='30' name='fullname' id='subscribeFullname' value='' />
 </div>
 </fieldset>
 
 <fieldset data-bind="var:newsletters(@lists); format:subscribeCheckboxes; extension:store_crm;" class='borderNone subscriberLists'></fieldset>
 
-<input type='submit' class='ui-button-text ui-button ui-state-default ui-corner-all' value='Subscribe' />
+<input type='submit' class='ui-button-text ui-button ui-state-default ui-corner-all' value='Subscribe'>
 
 </form>
 </div>
@@ -1632,15 +1609,15 @@ used for store_crm.js
 
 <!-- used in the /customer section for order view -->
 
-<section id='orderLineItemTemplate' class='appAccordianesque' data-bind='var:order(ORDERID);format:assignAttribute; attribute:data-orderid;'>
+<section id='orderLineItemTemplate' class='appAccordianesque'>
 
-	<div data-app-role='orderHeader' onClick="app.ext.myRIA.u.showOrderDetails($(this).parent());" class='ui-accordion-header ui-helper-reset ui-state-default ui-corner-top ui-corner-bottom' >
-	<span class="ui-icon ui-icon-triangle-1-e floatLeft marginRight"></span>
+	<div onClick="app.ext.myRIA.u.showOrderDetails($(this).attr('data-orderid'));" class='ui-accordion-header ui-helper-reset ui-state-default ui-corner-top ui-corner-bottom' data-bind='var:order(ORDERID);format:assignAttribute; attribute:data-orderid;'>
+	<span class="ui-icon ui-icon-triangle-1-e"></span>
 	<span data-bind='var:order(ORDERID);format:text;pretext:Order ID: ;'></span>
 	<span data-bind='var:order(MODIFIED_GMT);format:unix2mdy; pretext: Placed on ;'></span>
 	</div>
 
-	<div data-app-role='orderContents' class='ui-accordion-content ui-helper-reset displayNone ui-widget-content '></div>
+	<div data-bind='var:order(ORDERID);format:assignAttribute; attribute:id; valuePretext:orderContents_;' class='ui-accordion-content ui-helper-reset ui-widget-content '></div>
 
 </section>
 
@@ -1655,11 +1632,11 @@ used for store_crm.js
 <section  id='faqTopicTemplate'>
 
 	<div class='ui-accordion-header ui-helper-reset ui-state-default ui-corner-top ui-corner-bottom' data-bind='var:faq(TOPIC_ID);format:assignAttribute; attribute:data-topicid;' onClick="app.ext.myRIA.a.showFAQbyTopic($(this).attr('data-topicid'));">
-	<span class="ui-icon ui-icon-triangle-1-e floatLeft marginRight"></span>
+	<span class="ui-icon ui-icon-triangle-1-e"></span>
 	<span data-bind='var:faq(TOPIC_TITLE);format:text;'></span>
 	</div>
 
-	<div data-bind='var:faq(TOPIC_ID);format:assignAttribute; attribute:id; valuePretext:faqDetails4Topic_;' class='ui-accordion-content ui-helper-reset ui-widget-content displayNone'></div>
+	<div data-bind='var:faq(TOPIC_ID);format:assignAttribute; attribute:id; valuePretext:faqDetails4Topic_;' class='ui-accordion-content ui-helper-reset ui-widget-content '></div>
 
 </section>
 
@@ -1678,20 +1655,26 @@ The 'data-action' attribute is used to assign an onclick.
 
 -->
 
-<address id='billAddressTemplate' class='ui-widget ui-widget-content ui-corner-all marginBottom '>
-	<button data-app-event="myRIA|showBuyerAddressUpdate" class='floatRight'>edit</button>
+<address id='billAddressTemplate' class='ui-widget ui-widget-content ui-corner-all buyerAddressContainer buyerBillAddressContainer '>
+	<menu class='buttonMenu alignRight floatRight'>
+		<div class='offMenu'><button data-action="displayOnMenu" class='ui-button-text ui-button ui-state-default ui-corner-all'>edit</button></div>
+		<div class='onMenu'>
+			<button data-action="cancelAddressChanges" class='ui-button-text ui-button ui-state-default ui-corner-all'>cancel changes</button>
+			<button data-action="saveAddressChanges" class='ui-button-text ui-button ui-state-default ui-corner-all'>Save</button>
+		</div>
+		<div class='changeLog'></div>
+	</menu>
 	<div class='addressFullname'>
-		<span data-bind="var: address(bill/firstname);format:text;"  title='first name'></span>
-		<span data-bind="var: address(bill/lastname);format:text;"  title='last name'></span>
+		<span data-bind="var: address(bill_firstname);format:text;" class='editable' title='first name'></span> <span data-bind="var: address(bill_lastname);format:text;" class='editable' title='last name'></span>
 	</div>
 	<div class='address'>
-		<div data-bind="var: address(bill/address1);format:text;"  title='address'></div>
-		<div data-bind="var: address(bill/address2);format:text;"  title='address 2'></div>
+		<div data-bind="var: address(bill_address1);format:text;" class='editable' title='address'></div>
+		<div data-bind="var: address(bill_address2);format:text;" class='editable' title='address 2'></div>
 
-		<span data-bind="var: address(bill/city);format:text;"  title='city'></span>,
-		<span data-bind="var: address(bill/region);format:text;"  title='state'></span>.
-		<span data-bind="var: address(bill/postal);format:text;"  title='zip'></span>
-		<div data-bind="var: address(bill/countrycode);format:text;" title='country'></div>
+		<span data-bind="var: address(bill_city);format:text;" class='editable' title='city'></span>,
+		<span data-bind="var: address(bill_region);format:text;" class='editable' title='state'></span>.
+		<span data-bind="var: address(bill_postal);format:text;" class='editable' title='zip'></span>
+		<div data-bind="var: address(bill_countrycode);format:text;" title='country'></div>
 
 	</div>
 
@@ -1699,92 +1682,35 @@ The 'data-action' attribute is used to assign an onclick.
 
 
 <!-- used in the my account area -->
-<address id='shipAddressTemplate' class='ui-widget ui-widget-content ui-corner-all marginBottom '>
-	<button data-app-event="myRIA|showBuyerAddressUpdate" class='floatRight'>edit</button>
+<address id='shipAddressTemplate' class='ui-widget ui-widget-content ui-corner-all buyerAddressContainer buyerShipAddressContainer'>
+	<menu class='buttonMenu alignRight floatRight'>
+		<div class='offMenu'><button data-action="displayOnMenu" class='ui-button-text ui-button ui-state-default ui-corner-all'>edit</button></div>
+		<div class='onMenu'>
+			<button data-action="cancelAddressChanges" class='ui-button-text ui-button ui-state-default ui-corner-all'>cancel changes</button>
+			<button data-action="saveAddressChanges" class='ui-button-text ui-button ui-state-default  ui-corner-all'>Save</button>
+		</div>
+		<div class='changeLog'></div>
+	</menu>
 	<div class='addressFullname'>
-		<span data-bind="var: address(ship/firstname);format:text;"  title='first name'></span>
-		<span data-bind="var: address(ship/lastname);format:text;"  title='last name'></span>
+		<span data-bind="var: address(ship_firstname);format:text;" class='editable' title='first name'></span> <span data-bind="var: address(ship_lastname);format:text;" class='editable' title='last name'></span>
 	</div>
 	<div class='address'>
-		<div data-bind="var: address(ship/address1);format:text;"  title='address'></div>
-		<div data-bind="var: address(ship/address2);format:text;"  title='address 2'></div>
+		<div data-bind="var: address(ship_address1);format:text;" class='editable' title='address'></div>
+		<div data-bind="var: address(ship_address2);format:text;" class='editable' title='address 2'></div>
 
-		<span data-bind="var: address(ship/city);format:text;"  title='city'></span>,
-		<span data-bind="var: address(ship/region);format:text;"  title='state'></span>.
-		<span data-bind="var: address(ship/postal);format:text;"  title='zip'></span>
-		<div data-bind="var: address(ship/countrycode);format:text;" title='country'></div>
+		<span data-bind="var: address(ship_city);format:text;" class='editable' title='city'></span>,
+		<span data-bind="var: address(ship_region);format:text;" class='editable' title='state'></span>.
+		<span data-bind="var: address(ship_postal);format:text;" class='editable' title='zip'></span>
+		<div data-bind="var: address(ship_countrycode);format:text;" title='country'></div>
 
 	</div>
-
 </address>
 
 
 
 
-<table class='orderContentsTable' data-app-role='invoiceContainer' id='invoiceTemplate'>
-<tr>
-	<td colspan='2'>
-<div class='floatRight'>
-<button data-app-event="myRIA|execOrder2Cart">Re-order</button>
-<button data-app-event="orderCreate|execInvoicePrint">Print Invoice</button>
-</div>
-
-<h3 data-bind='var:order(order/flow/pool);format:text; pretext:Order Status: ;'></h3>
-
-	</td>
-</tr>
-<tr>
-	<td>
-<hgroup class='marginBottom'>
-<!-- print icon -->
 
 
-<!-- <h2 data-bind='var:order(bill/firstname);format:text; pretext:Shipping Status: ;'></h2> -->
-
-<h5 class='orderTotal' data-bind='var:order(order/sum/order_total);format:money; currencySign: $;  hideZero:false; pretext:Order Total: ;'></h5>
-<h5 class='balanceDue' data-bind='var:order(order/sum/balance_due_total);format:money; currencySign: $;  hideZero:false; pretext:Balance Due: ;'></h5>
-</hgroup>
-
-<address class='marginBottom'>
-<b>
-	<span data-bind='var:order(order/bill/firstname);format:text; pretext:Bill To: ;'></span>
-	<span data-bind='var:order(order/bill/lastname);format:text;'></span>
-</b>
-<div data-bind='var:order(order/bill/address1);format:text;'></div>
-<div data-bind='var:order(order/bill/address2);format:text;'></div>
-<div>
-	<span data-bind='var:order(order/bill/city);format:text;posttext:, ;'></span>
-	<span data-bind='var:order(order/bill/region);format:text;posttext:. ;'></span>
-	<span data-bind='var:order(order/bill/postal);format:text; defaultVar:order(order/data.bill_int_zip);'></span>
-</div>
-<div data-bind='var:order(order/bill/countrycode);format:text;'></div>
-</address>
-
-<address class='marginBottom'>
-<b>
-	<span data-bind='var:order(order/ship/firstname);format:text; pretext:Ship To: ;'></span>
-	<span data-bind='var:order(order/ship/lastname);format:text;'></span>
-</b>
-<div data-bind='var:order(order/ship/address1);format:text;'></div>
-<div data-bind='var:order(order/ship/address2);format:text;'></div>
-<div>
-	<span data-bind='var:order(order/ship/city);format:text;posttext:, ;'></span>
-	<span data-bind='var:order(order/ship/region);format:text;posttext:. ;'></span>
-	<span data-bind='var:order(order/ship/postal);format:text;'></span>
-</div>
-<div data-bind='var:order(order/ship/countrycode);format:text;'></div>
-</address>
-
-
-	</td>
-	<td class='orderContentsProdlistContainer'>
-	<ul data-bind='var:order(order/tracking); format:orderTrackingLinks; extension:store_crm;before:<h4>Shipping:</h4>;' class='displayNone noListStyle marginBottom'></ul>
-	<table  class='listStyleNone lineItemProdlist'>
-		<tbody data-bind="var: order(order/@ITEMS); format:stuffList; loadsTemplate:chkoutInvoiceItemTemplate;"></tbody>
-	</table>
-	</td>
-</tr>
-</table>
 
 
 
@@ -1842,7 +1768,7 @@ The 'data-action' attribute is used to assign an onclick.
 
 <h3 class='marginBottom'>Recover Password</h3>
 <div id='recoverPasswordMessaging'></div>
-<form action='#' onSubmit="app.calls.appBuyerPasswordRecover.init($('#passwordRecoveryLogin').val(),{'callback':'showMessaging','message':'Thank you, will receive an email shortly','targetID':'recoverPasswordMessaging'}); app.model.dispatchThis('immutable'); return false;">
+<form action='#' onSubmit="app.ext.store_crm.calls.appBuyerPasswordRecover.init($('#passwordRecoveryLogin').val(),{'callback':'showMessaging','message':'Thank you, will receive an email shortly','targetID':'recoverPasswordMessaging'}); app.model.dispatchThis('immutable'); return false;">
 <fieldset>
 <div class='marginBottom'><label for='passwordRecoveryLogin'>Login/Email</label> <input type='text' name='login' required='required' id='passwordRecoveryLogin' size='25' /></div>
 
@@ -1871,38 +1797,31 @@ The 'data-action' attribute is used to assign an onclick.
 
 
 <div class='debug displayNone'>
-<table>
-<tr>
-	<td>
-<ul class='debugQuickLinks'>
-	<li>Store Links
-	<ul>
-		<li><a href='#' onClick="return showContent('homepage',{});">Homepage</a></li>
-		<li><a href='#' onClick="return showContent('customer',{'show':'orders'});">Orders</a></li>
-		<li><a href='#' onClick="return showContent('cart',{'show':'cart'});">Cart</a></li>
-		<li><a href='#' onClick="app.ext.store_cart.u.showCartInModal({'templateID':'cartTemplate'});">CartInModal</a></li>
-		<li><a href='#' onClick="return showContent('company',{'show':'return'});">Returns</a></li>
-		<li><a href='#' onClick="return showContent('company',{'show':'privacy'});">Privacy</a></li>
-		<li><a href='#' onClick="return quickView('category',{'navcat':'.air_fresheners','templateID':'categoryTemplate'});">Cat in Modal</a></li>
-	</ul>
-	</li>
-	<li>Some JS test links
-	<ul>
-		<li><a href='#' onClick="localStorage.clear();">Clear Local Storage</a></li>
-		<li><a href='#' onClick="app.ext.orderCreate.a.startCheckout($('#mainContentArea'));">mobile checkout</a></li>
-		<li><a href='#' onClick="app.u.throwGMessage('All your base are belong to us','mainContentArea');">throwGmessage</a></li>
-	</ul>
-	</li>
-</ul>
-	</td>
-	<td>
-<form name='headerSearchFrm' action='#' class='productSearchForm marginLeft' method="get">
-	<input type='search' name='KEYWORDS' placeholder='product search' class="productSearchKeyword handleDefault" />
-	<button>Search</button>
+
+<menu>
+	<li><a href='#' onClick="return showContent('homepage',{});">Homepage</a></li>
+	<li><a href='#' onClick="return showContent('customer',{'show':'orders'});">Orders</a></li>
+	<li><a href='#' onClick="return showContent('cart',{'show':'cart'});">Cart</a></li>
+	<li><a href='#' onClick="app.ext.store_cart.u.showCartInModal({'templateID':'cartTemplate'});">CartInModal</a></li>
+	<li><a href='#' onClick="return showContent('company',{'show':'return'});">Returns</a></li>
+	<li><a href='#' onClick="return showContent('company',{'show':'privacy'});">Privacy</a></li>
+	<li><a href='#' onClick="return quickView('category',{'navcat':'.air_fresheners','templateID':'categoryTemplate'});">Cat in Modal</a></li>
+
+</menu>
+	<button  onClick="localStorage.clear(); return false;">Clear Local Storage</button>
+	<button  onClick="app.u.dump(app); return false;">Control to Console</button>
+	<button  onClick="app.u.loadCSSFile('examples/red.css','bg');">load red css</button>
+	<button  onClick="alert(app.ext.store_checkout.u.thisSessionIsPayPal());">Alert isPaypal</button>
+	<button  onClick="alert(app.ext.store_checkout.u.aValidPaypalTenderIsPresent());">Alert aValidPaypalTenderIsPresent</button>
+
+<form name='headerSearchFrm' action='#' class='productSearchForm' method="get">
+	<fieldset>
+	<legend>Search</legend>
+	<input type='search' name='KEYWORDS' value='Enter Search Term' class="productSearchKeyword handleDefault" />
+	</fieldset>
+	<input class="search" type="submit" value="Search" />
 </form>
-	</td>
-</tr>
-</table>
+
 
 </div>
 
