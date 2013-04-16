@@ -23,7 +23,7 @@ app.rq.push(['extension',1,'admin_batchJob','extensions/admin/batchjob.js']);
 app.rq.push(['extension',1,'admin_customer','extensions/admin/customer.js']);
 app.rq.push(['extension',0,'admin_wholesale','extensions/admin/wholesale.js']); //is zero at init for testing.
 app.rq.push(['extension',1,'admin_user','extensions/admin/user.js']);
-app.rq.push(['extension',1,'convertSessionToOrder','extensions/admin/order_create.js']); 
+app.rq.push(['extension',0,'convertSessionToOrder','extensions/admin/order_create.js']); 
 app.rq.push(['extension',1,'admin_medialib','extensions/admin/medialib.js']); //do NOT set to zero. causes a script issue.
 
 
@@ -35,16 +35,16 @@ app.rq.push(['script',0,app.vars.baseURL+'controller.js']);
 
 
 
-app.rq.push(['script',1,app.vars.baseURL+'jeditable.js']); //used for making text editable (customer address). non-essential. loaded late. used in orders.
+app.rq.push(['script',1,app.vars.baseURL+'resources/jquery.ui.jeditable.js']); //used for making text editable (customer address). non-essential. loaded late. used in orders.
 app.rq.push(['script',1,app.vars.baseURL+'extensions/admin/resources/highcharts-v2.3.5.js']); //used for KPI
 
 app.rq.push(['script',1,'https://crypto-js.googlecode.com/files/2.5.3-crypto-md5.js']); //used for authentication.
 
 //have showLoading as early as possible. pretty handy feature. used everywhere.
+app.rq.push(['script',0,app.vars.baseURL+'resources/jquery.showloading-v1.0.jt.js']);
 
-app.rq.push(['script',0,app.vars.baseURL+'extensions/admin/resources/jquery.showloading-v1.0.jt.js']);
-
-app.rq.push(['script',0,app.vars.baseURL+'anyplugins.js']);
+//anycommerce plugins, such as anycontent, anytable, anycb, etc.
+app.rq.push(['script',0,app.vars.baseURL+'resources/jquery.ui.anyplugins.js']);
 
 
 // jQuery-contextMenu - http://medialize.github.com/jQuery-contextMenu/  used in orders.

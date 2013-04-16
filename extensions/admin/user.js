@@ -75,81 +75,14 @@ var admin_user = function() {
 
 
 		u : {
-//mode is optional.  If not passed, it'll toggle. valid modes are list and detail.
-//list mode will toggle the detail column OFF and expand the list column to 100%.
-//detail mode will toggle the detail column ON and shrink the list column to 65%.
-			toggleDualMode : function($parent,mode)	{
-				var $L = $("[data-app-role='dualModeList']",$parent), //List column
-				$D = $("[data-app-role='dualModeDetail']",$parent), //detail column
-				numDetailPanels = $D.children().length,
-				oldMode = $parent.data('app-mode'),
-				$btn = $("[data-app-event='admin_user|toggleDualMode']",$parent);
 
-				if(mode)	{}
-				else if($parent.data('app-mode') == 'list')	{mode = 'detail'}
-				else if($parent.data('app-mode') == 'detail')	{mode = 'list'}
-				else	{} //invalid mode. error handled below.
-
-//go into detail mode. This expands the detail column and shrinks the list col. 
-//this also toggles a specific class in the list column off
-				app.u.dump(" -> old mode: "+oldMode);
-				app.u.dump(" -> mode: "+mode);
-				
-				if(mode == 'detail')	{
-					$btn.show().button('destroy').button({icons: {primary: "ui-icon-seek-prev"},text: false});
-					$parent.data('app-mode','detail');
-					if(oldMode == mode)	{} //if mode is forced, could be in same mode. don't animate.
-					else	{
-						$L.animate({width:"49%"},1000); //shrink list side.
-						$D.show().animate({width:"49%"},1000).addClass('expanded').removeClass('collapsed'); //expand detail side.
-						}
-					$('.hideInDetailMode',$L).hide(); //adjust list for minification.
-//when switching from detail to list mode, the detail panels collapse. re-open them IF they were open when the switch to list mode occured.
-					if(numDetailPanels)	{
-						$('.ui-widget-anypanel',$D).each(function(){
-							if($(this).anypanel('option','state') == 'expand' && !$('.ui-widget-content',$(this)).is(':visible')){
-								$(this).anypanel('expand');
-								}
-							});						
-						}
-					}
-				else if (mode == 'list')	{
-					$btn.button('destroy').button({icons: {primary: "ui-icon-seek-next"},text: false});
-					$parent.data('app-mode','list');
-//if there are detail panels open, shrink them down but show the headers.
-					if(numDetailPanels)	{
-						if(oldMode == mode)	{} //if mode is forced, could be in same mode. don't animate.
-						else	{
-							$L.animate({width:"84%"},1000); //sexpand list side.
-							$D.show().animate({width:"14%"},1000)
-							}
-						$D.removeClass('expanded').addClass('collapsed'); //collapse detail side.
-						$btn.show();
-						$('.ui-widget-anypanel',$D).each(function(){
-							$(this).anypanel('collapse',true)
-							});
-						}
-//there are no panels open in the detail column, so expand list to 100%.
-					else	{
-						$L.animate({width:"100%"},1000); //shrink list side.
-						$D.show().animate({width:0},1000); //expand detail side.
-						$btn.hide();
-						}
-					
-					$('.hideInDetailMode',$L).show(); //adjust list for minification.
-					}
-				else	{
-					app.u.throwGMessage("In admin_user.u.toggleDisplayMode, invalid mode ["+mode+"] passed. only list or detail are supported.");
-					}
-				
-				}, //toggleDualMode
 
 			resetUsersTable : function()	{
 				var $table = $("[data-app-role='dualModeListContents']","#userManagerContent")
 				$table.empty();
 				app.renderFunctions.translateSelector("#userManagerContent [data-app-role='dualModeList']",app.data.bossUserList);
 				app.ext.admin.u.handleAppEvents($table);
-				app.ext.admin_user.u.toggleDualMode($('#userManagerContent'),$('#userManagerContent').data('app-mode'));
+				app.ext.admin.u.toggleDualMode($('#userManagerContent'),$('#userManagerContent').data('app-mode'));
 
 				},
 
@@ -172,14 +105,6 @@ var admin_user = function() {
 
 		e : {
 
-			"toggleDualMode" : function($btn)	{
-				$btn.button({icons: {primary: "ui-icon-seek-next"},text: false});
-				$btn.hide(); //editor opens in list mode. so button is hidden till detail mode is activated by edit/detail button.
-				$btn.off('click.toggleDualMode').on('click.toggleDualMode',function(event){
-					event.preventDefault();
-					app.ext.admin_user.u.toggleDualMode($('#userManagerContent'));
-					});
-				}, //toggleDualMode
 
 			"roleListEdit" : function($this)	{
 				app.u.dump("BEGIN admin_users.e.roleListEdit");
@@ -340,7 +265,7 @@ Whether it's a create or update is based on the data-usermode on the parent.
 
 var panelID = app.u.jqSelector('','userDetail_'+user.luser),
 $panel = $("<div\/>").data('luser',user.luser).hide().anypanel({
-	'title':'Edit: '+user.luser,
+	'header':'Edit: '+user.luser,
 	'templateID':'userManagerUserCreateUpdateTemplate',
 //	'data':user, //data not passed because it needs req and manipulation prior to translation.
 	'dataAttribs': {'id':panelID,'luser':user.luser,'usermode':'update'}
@@ -404,7 +329,7 @@ if(app.ext.admin.calls.bossUserDetail.init(user.luser,{
 
 						}
 //append detail children before changing modes. descreases 'popping'.
-					app.ext.admin_user.u.toggleDualMode($('#userManagerContent'),'detail');
+					app.ext.admin.u.toggleDualMode($('#userManagerContent'),'detail');
 
 					});
 				},
@@ -422,7 +347,7 @@ modal: true,
 buttons: {
 	"Delete User": function() {
 		$D.dialog('close');
-		$('body').showLoading();
+		$('body').showLoading({'message':'Deleting User'});
 		app.model.destroy('bossUserList'); //clear local so a dispatch occurs.
 		app.ext.admin.calls.bossUserDelete.init(data.luser,{},'immutable');
 		app.ext.admin.calls.bossUserList.init({'callback':function(rd){
