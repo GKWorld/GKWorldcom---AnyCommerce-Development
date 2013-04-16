@@ -170,3 +170,16 @@ input.ui-button-text, button{
 
 .paddingTop{padding-top: 12px;}
 .borderTop{ border-top: 1px dotted #999999;} 
+
+.appAccordianesque .ui-state-default, 
+.appAccordianesque .ui-widget-content .ui-state-default, 
+.appAccordianesque .ui-widget-header .ui-state-default,
+.ui-widget-content address.ui-state-default {
+    color: black;
+}
+.ui-widget-content address.selected.ui-state-active {
+	background: url("images/ui-bg_glass_75_7cbf0d_1x400.png") repeat-x scroll 50% 50% #7CBF0D;
+    border: 1px solid #72AA13;
+    color: #FFFFFF;
+    font-weight: bold;
+}
