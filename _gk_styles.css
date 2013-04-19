@@ -183,3 +183,7 @@ input.ui-button-text, button{
     color: #FFFFFF;
     font-weight: bold;
 }
+
+.checkoutFormContainer fieldset {
+	background: white;
+}
