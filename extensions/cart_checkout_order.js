@@ -194,7 +194,7 @@ left them be to provide guidance later.
 				},
 			dispatch : function(obj,_tag,Q)	{
 				obj = obj || {};
-				obj._tag = _tag || {};
+				obj._tag = _tag || {callback:"handleCartPaypalSetECResponse", extension:"cco"};
 				var parentID = obj._tag.parentID || '';
 				obj._cmd = "cartPaypalSetExpressCheckout";
 				obj.getBuyerAddress = 1;
