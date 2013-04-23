@@ -69,7 +69,7 @@ jQuery.extend(zController.prototype, {
 			app.vars.username = zGlobals.appSettings.username.toLowerCase();
 //need to make sure the secureURL ends in a / always. doesn't seem to always come in that way via zGlobals
 			app.vars.secureURL = zGlobals.appSettings.https_app_url;
-			app.vars.sdomain = zGlobals.appSettings.sdomain;
+			app.vars.domain = zGlobals.appSettings.sdomain;
 			if('https:' == app.vars.protocol)	{app.vars.jqurl = zGlobals.appSettings.https_api_url;}
 			else	{app.vars.jqurl = zGlobals.appSettings.http_api_url}
 			}
@@ -1676,7 +1676,7 @@ VALIDATION
 
 				$('.formValidationError',$form).empty().remove(); //clear all previous error messaging
 				
-				$('input',$form).each(function(){
+				$('input, select, textarea',$form).each(function(){
 					var $input = $(this),
 					$span = $("<span \/>").css('padding-left','6px').addClass('formValidationError');
 					
@@ -1688,7 +1688,10 @@ VALIDATION
 						$t.off('focus.removeClass').on('focus.removeClass',function(){$t.removeClass('ui-state-error')});
 						}
 //					app.u.dump(" -> "+$input.attr('name')+" - required: "+$input.attr('required'));
-					if($input.attr('required') == 'required' && !$input.val())	{
+					if($input.is(':hidden') && $input.data('validation-rules') && $input.data('validation-rules').indexOf('skipIfHidden') >= 0)	{
+						//allows for a form to allow hidden fields that are only validated if they're displayed. ex: support fieldset for topic based questions.
+						}
+					else if($input.attr('required') == 'required' && !$input.val())	{
 						r = false;
 						$input.addClass('ui-state-error');
 						$input.after($span.text('required'));
@@ -1854,7 +1857,7 @@ app.u.makeImage({"name":"","w":150,"h":150,"b":"FFFFFF","class":"prodThumb","tag
 				}
 			url += '\/'+a.name;
 		
-		//		app.u.dump(url);
+//			app.u.dump(url);
 			
 			if(a.tag == true)	{
 				a['class'] = typeof a['class'] == 'string' ? a['class'] : ''; //default class to blank
@@ -2133,6 +2136,7 @@ later, it will handle other third party plugins as well.
 //for credit cards, we can't store the # or cid in local storage. Save it in memory so it is discarded on close, reload, etc
 //expiration is less of a concern
 				case 'PAYPALEC' :
+				
 				//paypal supplemental is used for some messaging (select another method or change due to error). leave this here.
 					break;
 				case 'CREDIT':
@@ -2152,7 +2156,7 @@ later, it will handle other third party plugins as well.
 					if(isAdmin === true)	{
 						tmp += "<li><label><input type='radio' name='VERB' value='AUTHORIZE'>Authorize<\/label><\/li>"
 						tmp += "<li><label><input type='radio' name='VERB' value='CHARGE'>Charge<\/label><\/li>"
-						tmp += "<li><label><input type='radio' name='VERB' value='REFUND'>Refund<\/label><\/li>"
+						tmp += "<li class='hint'>Use refund action in transaction history to issue refund.<\/li>"
 						}
 					
 					
@@ -2273,32 +2277,41 @@ Then we'll be in a better place to use data() instead of attr().
 //				app.u.dump(eleAttr);
 				}
 			else	{
+//				app.u.dump(" -> transmogrify has everything it needs.");
 //we have everything we need. proceed.
 
 var $r = app.templates[templateID].clone(); //clone is always used so original is 'clean' each time it's used. This is what is returned.
+//app.u.dump(" -> template cloned");
 $r.attr('data-templateid',templateID); //note what templateID was used. handy for troubleshooting or, at some point, possibly re-rendering template
 if(app.u.isSet(eleAttr) && typeof eleAttr == 'string')	{
 //	app.u.dump(' -> eleAttr is a string.');
 	$r.attr('id',app.u.makeSafeHTMLId(eleAttr))  
 	}
+//NOTE - eventually, we want to get rid of this check and just use the .data at the bottom.
 else if(typeof eleAttr == 'object')	{
 //	app.u.dump(' -> eleAttr is an object.');
-//NOTE - eventually, we want to get rid of this check and just use the .data at the bottom.
-	for(var index in eleAttr)	{
-		if(typeof eleAttr[index] == 'object')	{
-			//can't output an object as a string. later, if/when data() is used, this may be supported.
-			}
-		else if(index.match("^[a-zA-Z0-9_\-]*$"))	{
-			$r.attr('data-'+index,eleAttr[index]) //for now, this is being added via attr data-. later, it may use data( but I want it in the DOM for now.
-			}
-		else	{
-			//can't have non-alphanumeric characters in 
-			}
+// applying an empty object as .data caused a JS error in IE8
+	if($.isEmptyObject(eleAttr))	{
+//		app.u.dump(" -> eleAttr is empty");
 		}
-	$r.data(eleAttr);
+	else	{
+//		app.u.dump(" -> eleAttr is NOT empty");
+		for(var index in eleAttr)	{
+			if(typeof eleAttr[index] == 'object')	{
+				//can't output an object as a string. later, if/when data() is used, this may be supported.
+				}
+			else if(index.match("^[a-zA-Z0-9_\-]*$"))	{
+				$r.attr('data-'+index,eleAttr[index]) //for now, this is being added via attr data-. later, it may use data( but I want it in the DOM for now.
+				}
+			else	{
+				//can't have non-alphanumeric characters in 
+				}
+			}
+		$r.data(eleAttr);
+		}
 	if(eleAttr.id)	{$r.attr('id',app.u.makeSafeHTMLId(eleAttr.id))} //override the id with a safe id, if set.
 	}
-//app.u.dump("GOT HERE");
+//app.u.dump(" -> got through transmogrify. now move on to handle translation and return it.");
 return this.handleTranslation($r,data);
 
 
@@ -2658,7 +2671,7 @@ if(zGlobals.checkoutSettings.paypalCheckoutApiUser)	{
 	var payObj = app.u.which3PCAreAvailable();
 	if(payObj.paypalec)	{
 		$tag.empty().append("<img width='145' id='paypalECButton' height='42' border='0' src='"+(document.location.protocol === 'https:' ? 'https:' : 'http:')+"//www.paypal.com/en_US/i/btn/btn_xpressCheckoutsm.gif' alt='' />").addClass('pointer').one('click',function(){
-			app.ext.store_checkout.calls.cartPaypalSetExpressCheckout.init();
+			app.ext.cco.calls.cartPaypalSetExpressCheckout.init();
 			$(this).addClass('disabled').attr('disabled','disabled');
 			app.model.dispatchThis('immutable');
 			});
@@ -2678,7 +2691,7 @@ if(zGlobals.checkoutSettings.googleCheckoutMerchantId)	{
 	var payObj = app.u.which3PCAreAvailable(); //certain product can be flagged to disable googlecheckout as a payment option.
 	if(payObj.googlecheckout)	{
 	$tag.append("<img height=43 width=160 id='googleCheckoutButton' border=0 src='"+(document.location.protocol === 'https:' ? 'https:' : 'http:')+"//checkout.google.com/buttons/checkout.gif?merchant_id="+zGlobals.checkoutSettings.googleCheckoutMerchantId+"&w=160&h=43&style=trans&variant=text&loc=en_US' \/>").one('click',function(){
-		app.ext.store_checkout.calls.cartGoogleCheckoutURL.init();
+		app.ext.cco.calls.cartGoogleCheckoutURL.init();
 		$(this).addClass('disabled').attr('disabled','disabled');
 		app.model.dispatchThis('immutable');
 		});
@@ -2771,10 +2784,8 @@ $tmp.empty().remove();
 			},
 
 		epoch2pretty : function($tag,data)	{
-			var myDate = new Date( data.value*1000),
-			minutes = (myDate.getMinutes().length == 1 || myDate.getMinutes() == 0)  ? "0" + myDate.getMinutes() : myDate.getMinutes(); //JS stripping the 0 for 06
-//			app.u.dump(" -> myDate.getMinutes(): "+myDate.getMinutes()+" and minutes: "+minutes);
-			$tag.append(myDate.getFullYear()+"/"+(myDate.getMonth()+1)+"/"+myDate.getDate()+" "+myDate.getHours()+":"+minutes); //+":"+myDate.getSeconds() pulled seconds in 201307. really necessary?
+			var myDate = new Date( data.value*1000);
+			$tag.append(myDate.getFullYear()+"/"+((myDate.getMonth()+1) < 10 ? '0'+(myDate.getMonth()+1) : (myDate.getMonth()+1))+"/"+(myDate.getDate() < 10 ? '0'+myDate.getDate() : myDate.getDate())+" "+(myDate.getHours() < 10 ? '0'+myDate.getHours() : myDate.getHours())+":"+(myDate.getMinutes() < 10 ? '0'+myDate.getMinutes() : myDate.getMinutes())); //+":"+myDate.getSeconds() pulled seconds in 201307. really necessary?
 			},
 
 		unix2mdy : function($tag,data)	{
@@ -2865,7 +2876,7 @@ $tmp.empty().remove();
 			if(data.bindData.loadsTemplate)	{
 				var $o, //recycled. what gets added to $tag for each iteration.
 				int = 0;
-				for(i in data.value)	{
+				for(var i in data.value)	{
 					if(data.bindData.limit && int >= Number(data.bindData.limit)) {break;}
 					else	{
 						$o = app.renderFunctions.transmogrify(data.value[i],data.bindData.loadsTemplate,data.value[i]);

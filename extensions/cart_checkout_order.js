@@ -193,13 +193,14 @@ left them be to provide guidance later.
 				return 1;
 				},
 			dispatch : function(obj,_tag,Q)	{
-				var parentID = _tag.parentID || '';
 				obj = obj || {};
+				obj._tag = _tag || {};
+				var parentID = obj._tag.parentID || '';
 				obj._cmd = "cartPaypalSetExpressCheckout";
+				obj.getBuyerAddress = 1;
 				obj.cancelURL = (app.vars._clientid == '1pc') ? zGlobals.appSettings.https_app_url+"c="+app.vars.cartID+"/cart.cgis?parentID="+parentID : zGlobals.appSettings.https_app_url+"?parentID="+parentID+"&cartID="+app.vars.cartID+"#cart?show=inline";
 				obj.returnURL =  (app.vars._clientid == '1pc') ? zGlobals.appSettings.https_app_url+"c="+app.vars.cartID+"/checkout.cgis?parentID="+parentID : zGlobals.appSettings.https_app_url+"?parentID="+parentID+"&cartID="+app.vars.cartID+"#checkout?show=checkout"
 				
-				obj._tag = _tag || {};
 				obj._tag.datapointer = "cartPaypalSetExpressCheckout";
 				
 				app.model.addDispatchToQ(obj,Q || 'immutable');
@@ -328,31 +329,31 @@ left them be to provide guidance later.
 //NOTE TO SELF:
 //use if/elseif for payments with special handling (cc, po, etc) and then the else should handle all the other payment types.
 //that way if a new payment type is added, it's handled (as long as there's no extra inputs).
-			buildPaymentQ : function()	{
-//				app.u.dump("BEGIN cco.u.buildPaymentQ");
-				var payby = $('input:radio[name="want/payby"]:checked').val()
+			buildPaymentQ : function($form)	{
+				app.u.dump("BEGIN cco.u.buildPaymentQ");
+				var sfo = $form.serializeJSON() || {},
+				payby = sfo["want/payby"];
 				app.u.dump(" -> payby: "+payby);
 				if(payby)	{
 					if(payby.indexOf('WALLET') == 0)	{
 						app.ext.cco.calls.cartPaymentQ.init($.extend({'cmd':'insert'},app.ext.cco.u.getWalletByID(payby)));
-	//					app.u.dump(app.ext.cco.u.getWalletByID (payby));
 						}
 					else if(payby == 'CREDIT')	{
-						app.ext.cco.calls.cartPaymentQ.init({"cmd":"insert","TN":"CREDIT","CC":$('#payment-cc').val(),"CV":$('#payment-cv').val(),"YY":$('#payment-yy').val(),"MM":$('#payment-mm').val()});
+						app.ext.cco.calls.cartPaymentQ.init({"cmd":"insert","TN":"CREDIT","CC":sfo['payment/CC'],"CV":sfo['payment/CV'],"YY":sfo['payment/YY'],"MM":sfo['payment/MM']});
 						}				
 					else if(payby == 'PO')	{
-						app.ext.cco.calls.cartPaymentQ.init({"cmd":"insert","TN":"PO","PO":$('#payment-po').val()});
+						app.ext.cco.calls.cartPaymentQ.init({"cmd":"insert","TN":"PO","PO":sfo['payment/PO']});
 						}				
 					else if(payby == 'ECHECK')	{
 						app.ext.cco.calls.cartPaymentQ.init({
 	"cmd":"insert",
 	"TN":"ECHECK",
-	"EA":$('#paymentea').val(),
-	"ER":$('#paymenter').val(),
-	"EN":$('#paymenten').val(),
-	"EB":$('#paymenteb').val(),
-	"ES":$('#paymentes').val(),
-	"EI":$('#paymentei').val()
+	"EA":sfo['payment/EA'],
+	"ER":sfo['payment/ER'],
+	"EN":sfo['payment/EN'],
+	"EB":sfo['payment/EB'],
+	"ES":sfo['payment/ES'],
+	"EI":sfo['payment/EI']
 							});
 						}
 					else	{
@@ -446,7 +447,7 @@ left them be to provide guidance later.
 //Will check the payment q for a valid paypal transaction. Used when a buyer leaves checkout and returns during the checkout init process.
 //according to B, there will be only 1 paypal tender in the paymentQ.
 			aValidPaypalTenderIsPresent : function()	{
-				app.u.dump("BEGIN cco.aValidPaypalTenderIsPresent");
+//				app.u.dump("BEGIN cco.aValidPaypalTenderIsPresent");
 				return this.modifyPaymentQbyTender('PAYPALEC',function(PQI){
 					return (Math.round(+new Date(PQI.TIMESTAMP)) > +new Date()) ? true : false;
 					});
@@ -473,27 +474,35 @@ note - dispatch isn't IN the function to give more control to developer. (you ma
 //the entire lineitem in the paymentQ is passed in to someFunction.
 			modifyPaymentQbyTender : function(tender,someFunction){
 //				app.u.dump("BEGIN cco.u.modifyPaymentQbyTender");
-				var inc = 0; //what is returned if someFunction not present or returns nothing. # of items in paymentQ affected.
-				var r = new Array(); //what is returned if someFunction returns anything.
+				var inc = 0, //what is returned if someFunction not present. # of items in paymentQ affected.
+				r = new Array(), //what is returned if someFunction returns anything.
+				returned; //what is returned by this function.
+				
 				if(tender && app.data.cartDetail && app.data.cartDetail['@PAYMENTQ'])	{
-//					app.u.dump(" -> all vars present. tender: "+tender+" and typeof someFunction: "+typeof someFunction);
-					var L = app.data.cartDetail['@PAYMENTQ'].length;
-//					app.u.dump(" -> paymentQ.length: "+L);
-					for(var i = 0; i < L; i += 1)	{
-//						app.u.dump(" -> "+i+" TN: "+app.data.cartDetail['@PAYMENTQ'][i].TN);
-						if(app.data.cartDetail['@PAYMENTQ'][i].TN == tender)	{
-							inc += 1;
-							if(typeof someFunction == 'function')	{
-								r.push(someFunction(app.data.cartDetail['@PAYMENTQ'][i]))
+					if(app.data.cartDetail['@PAYMENTQ'].length)	{
+	//					app.u.dump(" -> all vars present. tender: "+tender+" and typeof someFunction: "+typeof someFunction);
+						var L = app.data.cartDetail['@PAYMENTQ'].length;
+	//					app.u.dump(" -> paymentQ.length: "+L);
+						for(var i = 0; i < L; i += 1)	{
+	//						app.u.dump(" -> "+i+" TN: "+app.data.cartDetail['@PAYMENTQ'][i].TN);
+							if(app.data.cartDetail['@PAYMENTQ'][i].TN == tender)	{
+								inc += 1;
+								if(typeof someFunction == 'function')	{
+									r.push(someFunction(app.data.cartDetail['@PAYMENTQ'][i]))
+									}
 								}
 							}
+						returned = (typeof someFunction == 'function') ? r : inc;
 						}
+					else	{
+						returned = inc;
+						} //paymentQ is empty. no error or warning.
 					}
 				else	{
 					app.u.dump("WARNING! getPaymentQidByTender failed because tender ["+tender+"] not set or @PAYMENTQ does not exist.");
 					}
 //				app.u.dump(" -> num tender matches: "+r);
-				return (typeof someFunction == 'function') ? r : inc;
+				return returned;
 				},
 			
 			getAddrObjByID : function(type,id)	{
@@ -733,6 +742,9 @@ the dom update for the lineitem needs to happen last so that the cart changes ar
 								}
 							}
 						}
+//regularize checkbox data.
+					if(formObj['want/bill_to_ship'] == 'ON')	{formObj['want/bill_to_ship'] = 1} 
+					if(formObj['want/create_customer'] == 'ON')	{formObj['want/create_customer'] = 1}
 
 //these aren't valid checkout field. used only for some logic processing.
 					delete formObj['want/reference_number'];
