@@ -837,7 +837,7 @@ fallback is to just output the value.
 // myria.vars.session is where some user experience data is stored, such as recent searches or recently viewed items.
 // -> unshift is used in the case of 'recent' so that the 0 spot always holds the most recent and also so the length can be maintained (kept to a reasonable #).
 			showContent : function(pageType,infoObj)	{
-//				app.u.dump("BEGIN showContent ["+pageType+"]."); app.u.dump(infoObj);
+				app.u.dump("BEGIN showContent ["+pageType+"]."); app.u.dump(infoObj);
 /*
 what is returned. is set to true if pop/pushState NOT supported. 
 if the onclick is set to return showContent(... then it will return false for browser that support push/pop state but true
@@ -851,7 +851,6 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 					$old.siblings().hide(); //make sure only one 'page' is visible.
 					}
 				app.ext.myRIA.u.closeAllModals();  //important cuz a 'showpage' could get executed via wiki in a modal window.
-
 				if(typeof infoObj != 'object')	{infoObj = {}} //could be empty for a cart or checkout
 
 //if pageType isn't passed in, we're likely in a popState, so look in infoObj.
@@ -938,7 +937,9 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 
 //for local, don't jump to secure. ### this may have to change for a native app. what's the protocol? is there one?
 						if('file:' == document.location.protocol)	{
-							app.ext.orderCreate.a.startCheckout($('#mainContentArea'));
+							var $chkContainer = $('<div></div>');
+							$("#mainContentArea").append($chkContainer);
+							app.ext.orderCreate.a.startCheckout($chkContainer);
 							}
 						else if('https:' != document.location.protocol)	{
 							app.u.dump(" -> nonsecure session. switch to secure for checkout.");
@@ -949,7 +950,10 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 							document.location = SSLlocation;
 							}
 						else	{
-							app.ext.orderCreate.a.startCheckout($('#mainContentArea'));
+							var $chkContainer = $('<div></div>');
+							$("#mainContentArea").append($chkContainer);
+							app.ext.orderCreate.a.startCheckout($chkContainer);
+							//app.ext.orderCreate.a.startCheckout($('#mainContentArea'));
 							}
 						infoObj.state = 'onCompletes'; //needed for handleTemplateFunctions.
 						app.ext.myRIA.u.handleTemplateFunctions(infoObj);

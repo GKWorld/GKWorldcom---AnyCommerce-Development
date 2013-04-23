@@ -850,7 +850,7 @@ note - the order object is available at app.data['order|'+P.orderID]
 		a : {
 			
 			startCheckout : function($chkContainer)	{
-//				app.u.dump("BEGIN orderCreate.a.startCheckout");
+				app.u.dump("BEGIN orderCreate.a.startCheckout");
 //				app.u.dump(" -> app.u.buyerIsAuthenticated(): "+app.u.buyerIsAuthenticated());
 
 				if($chkContainer && $chkContainer.length)	{
