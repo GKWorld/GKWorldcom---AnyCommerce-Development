@@ -34,7 +34,7 @@ var app = {vars:{
 	"_clientid":"zmvc",
 	"baseURL":"", //used in non-local mode.
 	"checkoutAuthMode" : "required",//can be passive, active or required
-	"testURL":"http://app.9c0a9a.snap.zoovy.net/" //used ONLY if protocol is file: (for testing)
+	"testURL":"http://www.483b47.snap.zoovy.net/" //used ONLY if protocol is file: (for testing)
 	},u:{},rq:[]};
 
 //set base url so images, css, js, etc all load from appropriate location once deployed.
@@ -1398,9 +1398,12 @@ So the cart template should contain these two elements and the extension should 
 	<div class='checkoutButtonsContainer'>
 		<span title='proceed to secure checkout'><button class='ui-button ui-button-text ui-state-default ui-corner-all checkoutButton' onClick="showContent('checkout',{});">Store Checkout</button></span>
 		
-		<div class="clear marginTop paddingTop borderTop">
+		<div class="loginShow clear marginTop paddingTop borderTop">
 			<span id='paypalECButton' data-bind='var: cart(cart/cartid); format:paypalECButton;'></span>
 			<span id='googleCheckoutButton' class='pointer' data-bind='var: cart(sum/items_total); format:googleCheckoutButton;'></span>
+		</div>
+		<div class="loginHide clear marginTop marginBottom paddingTop borderTop">
+			<a href="#" onClick="return showContent('customer',{'show':'myaccount'});">Log In</a> to check out via PaypalEC or Google Checkout.
 		</div>
 <!--
 Amazon is not currently functional

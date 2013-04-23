@@ -187,3 +187,11 @@ input.ui-button-text, button{
 .checkoutFormContainer fieldset {
 	background: white;
 }
+
+.loginShow {
+	display:none;
+}
+
+.buyerLoggedIn .loginShow{display:block;}
+.buyerLoggedIn span.loginShow{display:inline-block;}
+.buyerLoggedIn .loginHide {display:none;}
