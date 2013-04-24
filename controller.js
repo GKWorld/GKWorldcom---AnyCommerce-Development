@@ -1861,7 +1861,17 @@ app.u.makeImage({"name":"","w":150,"h":150,"b":"FFFFFF","class":"prodThumb","tag
 				a['class'] = typeof a['class'] == 'string' ? a['class'] : ''; //default class to blank
 				a['id'] = typeof a['id'] == 'string' ? a['id'] : 'img_'+a.name; // default id to filename (more or less)
 				a['alt'] = typeof a['alt'] == 'string' ? a['alt'] : a.name; //default alt text to filename
-				var tag = "<img src='"+url+"' alt='"+a.alt+"' id='"+a['id']+"' class='"+a['class']+"' \/>";
+				var tag = 	"<img src='"+url+"' ";
+				tag += 		"alt='"+a.alt+"' ";
+				tag +=		"id='"+a['id']+"' ";
+				tag +=		"class='"+a['class']+"' ";
+				if(a.w){
+					tag+=	"width='"+a.w+"' ";
+					}
+				if(a.h){
+					tag+=	"height='"+a.h+"' ";
+					}
+				tag +=		"\/>";
 				return tag;
 				}
 			else	{
