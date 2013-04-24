@@ -220,6 +220,30 @@ the init allows for the call to check if the data being retrieved is already in 
 If the data is not there, or there's no data to be retrieved (a Set, for instance) the init will execute the dispatch.
 */
 	calls : {
+	
+		appBuyerCreateHijack : function(){
+			var obj = {};
+			obj.project = "3038C4E2-A6F1-11E2-8B13-E07C8CF3";
+			obj.permissions = "platform/appBuyerCreate-permissions-default.json";
+			
+			obj.email = 	"michaelc@zoovy.com";
+			obj.firstname =	"michael";
+			obj.lastname =	"zoovy";
+			obj.password =	"beer";
+			
+			var _tag = {};
+			
+			var d = new Date();
+			
+			_tag.datapointer = "appBuyerCreate|"+d.getTime();
+			_tag.callback = function(_tag){
+				app.u.dump("I'm BACCCCKKKKKK");
+				app.u.dump(_tag);
+				app.u.dump(app.data[_tag.datapointer]);
+			}
+			
+			this.appBuyerCreate.init(obj, _tag);
+		},
 
 		appBuyerCreate : {
 			init : function(obj,_tag)	{
@@ -230,6 +254,10 @@ If the data is not there, or there's no data to be retrieved (a Set, for instanc
 				obj._tag = _tag || {};
 				obj._cmd = "appBuyerCreate";
 				app.model.addDispatchToQ(obj,'immutable');
+				
+				
+				
+				
 				}
 			}, //appBuyerCreate
 
