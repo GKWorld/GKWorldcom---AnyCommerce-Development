@@ -593,7 +593,6 @@ $pageTag is the jquery object of whatever was clicked. the data to be used is st
 */
 
 			mpJumpToPage : function($pageTag)	{
-
 //				app.u.dump("BEGIN app.ext.store_prodlist.u.mpJumpToPage");
 				var targetList = $pageTag.closest('[data-targetlist]').attr('data-targetlist');
 				var plObj = $('#'+targetList).data('prodlist');
@@ -605,8 +604,10 @@ $pageTag is the jquery object of whatever was clicked. the data to be used is st
 				else	{plObj.page_in_focus = $pageTag.attr('data-page')}
 
 				$('.mpControlContainer','#'+plObj.parentID+'_container').empty().remove(); //clear all summary/multipage for this prodlist.
-				$('#'+plObj.parentID).empty(); //empty prodlist so new page gets clean data.
+				$('#'+plObj.parentID).intervaledEmpty(2000); //empty prodlist so new page gets clean data.
 				this.buildProductList(plObj);
+				
+				$('html, body').animate({scrollTop : 0},1000);
 				},
 			
 			showProdlistSummary : function(plObj,location){

@@ -1290,7 +1290,20 @@ to any element with a class of paging and a data-role of either 'next' or 'previ
 onclicks are recursive, so only add it to the parent element.
 .mpControlsPagination is used to 'hide' the pagination portion of the header if pagination is disabled.
 -->
-
+<script type="text/javascript">
+	$.fn.intervaledEmpty = function(interval){
+		if($(this).children().length > 0){
+			var i = 0;
+			$(this).children().each(function(){
+				$(this).detach();
+				setTimeout(function(){$(this).intervaledEmpty(interval);},interval*i);
+				i++;
+			});
+		} else {
+			$(this).remove();
+		}
+	}
+</script>
 <div id='mpControlSpec' class='mpControlContainer'>
 	<div class='mpControls ui-widget ui-state-default ui-corner-top'>
 
