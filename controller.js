@@ -243,6 +243,7 @@ If the data is not there, or there's no data to be retrieved (a Set, for instanc
 			}
 			
 			this.appBuyerCreate.init(obj, _tag);
+			app.model.dispatchThis('immutable');
 		},
 
 		appBuyerCreate : {
