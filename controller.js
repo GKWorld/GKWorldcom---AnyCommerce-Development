@@ -226,8 +226,8 @@ If the data is not there, or there's no data to be retrieved (a Set, for instanc
 			obj.project = "3038C4E2-A6F1-11E2-8B13-E07C8CF3";
 			obj.permissions = "platform/appBuyerCreate-permissions-default.json";
 			
-			obj.email = 	"michaelc@zoovy.com";
-			obj.firstname =	"michael";
+			obj.email = 	"brianh2@zoovy.com";
+			obj.firstname =	"brian";
 			obj.lastname =	"zoovy";
 			obj.password =	"beer";
 			

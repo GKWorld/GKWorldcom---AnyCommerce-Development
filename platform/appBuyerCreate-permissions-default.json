@@ -7,7 +7,7 @@
 	"fields":[
 	   { "type":"hint","content":"Please fill out the fields below to create a customer account. Fields with a * next to them are required." },
 	   { "ignore":0,"required":1,"id":"email","type":"text","label":"Email","customer":"INFO.EMAIL" },
-	   { "ignore":0,"required":1,"id":"firstname","type":"text","label":"Purchasing Contact Firstname","customer":"INFO.firstname" },
+	   { "ignore":0,"required":1,"id":"firstname","type":"text","label":"Purchasing Contact Firstname","customer":"INFO.FIRSTNAME" },
 	   { "ignore":0,"required":1,"id":"lastname","type":"text","label":"Purchasing Contact Lastname","customer":"INFO.lastname" },
 	   { "ignore":0,"required":1,"id":"password","type":"text","label":"Password","customer":"INFO.password"},
 	   { "type":"submit","label":"Create Account" }
