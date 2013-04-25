@@ -55,8 +55,9 @@ var store_gkworld = function() {
 //actions are functions triggered by a user interaction, such as a click/tap.
 //these are going the way of the do do, in favor of app events. new extensions should have few (if any) actions.
 		a : {
-			createAccount : function($form){
-				$('.messaging',$form).empty();
+			createAccount : function($form, successMsg){
+				successMsg = successMsg || 'Your Account has been created.  Proceed to <a href="#" onClick="return showContent("customer",{"show":"createAccount"});">Log In</a>'
+				$('.createAccountMessaging',$form).empty();
 					
 				var errors = app.ext.store_gkworld.u.validateForm($form);
 				if($('input[name=createAccountPassword]', $form).val() !== $('input[name=createAccountPasswordConfirm]', $form).val()){
@@ -65,7 +66,7 @@ var store_gkworld = function() {
 								
 				if(errors.length  > 0){
 					for(var key in errors)
-					$('.messaging',$form).anymessage({'message':errors[key]});
+					$('.createAccountMessaging',$form).anymessage({'message':errors[key]});
 					}
 				else {
 					var obj={};
@@ -83,10 +84,10 @@ var store_gkworld = function() {
 					_tag.callback = function(rd){
 						app.u.dump(rd);
 						if(app.model.responseHasErrors(rd)){
-							$('.messaging',$form).anymessage({'message':rd});
+							$('.createAccountMessaging',$form).anymessage({'message':rd});
 							}
 						else{
-							$('.messaging',$form).anymessage(app.u.successMsgObject('Your Account has been created.  Proceed to Log In?'));
+							$('.createAccountMessaging',$form).anymessage(app.u.successMsgObject(successMsg));
 							}
 					}
 					
