@@ -129,7 +129,7 @@ $("#appPreView").dialog({
 		<span class='section'>
 <!-- <a href='#customer?show=lists' class='bindByAnchor'>Wish List</a> | -->
 <a href='#!customer?show=myaccount' class='bindByAnchor'>My Account</a> | 
-<a href='#!customer?show=newsletter' class='bindByAnchor'>Register</a> | 
+<a href='#!customer?show=createAccount' class='bindByAnchor'>Register</a> | 
 <a href='#!company?show=contact' class='bindByAnchor'>Contact</a> 
 		</span>
 
@@ -1174,8 +1174,32 @@ subscribeListsArticle is used for authenticated buyers
 		</div>
 		
 		<div id="createAccountArticle" class="displayNone textContentArea">
-			<form onSubmit="app.calls.appBuyerCreateHijack();">
-				<input type="submit" value="GO"/>
+			<form action="" onSubmit="app.ext.store_gkworld.a.createAccount($(this)); return false;"/>
+				
+				<div class="messaging"></div>
+				<fieldset>
+					<div>
+						<label>Email Address</label>
+						<input type="email" name="createAccountEmail" required="required" data-permissions-field="email"/>
+					</div>
+					<div>
+						<label>First Name</label>
+						<input type="text" name="createAccountFirstName" required="required" data-permissions-field="firstname"/>
+					</div>
+					<div>
+						<label>Last Name</label>
+						<input type="text" name="createAccountLastName" required="required" data-permissions-field="lastname"/>
+					</div>
+					<div>
+						<label>Password</label>
+						<input type="password" name="createAccountPassword" required="required" data-permissions-field="password"/>
+					</div>
+					<div>
+						<label>Confirm Password</label>
+						<input type="password" name="createAccountPasswordConfirm" required="required" />
+					</div>
+					<input type="submit" class='loadingButton ui-button-text ui-button ui-state-default ui-corner-all' value="Create Account"/>
+				</fieldset>
 			</form>
 		</div>
 
@@ -1878,7 +1902,7 @@ The 'data-action' attribute is used to assign an onclick.
 
 <div>
 <hr />
-<button class='ui-button-text ui-button ui-state-default ui-corner-all createAccountButton' onClick="showContent('customer',{'show':'newsletter'});">Create Account</button>
+<button class='ui-button-text ui-button ui-state-default ui-corner-all createAccountButton' onClick="showContent('customer',{'show':'createAccount'});">Create Account</button>
 </div>
 
 

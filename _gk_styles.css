@@ -195,3 +195,15 @@ input.ui-button-text, button{
 .buyerLoggedIn .loginShow{display:block;}
 .buyerLoggedIn span.loginShow{display:inline-block;}
 .buyerLoggedIn .loginHide {display:none;}
+
+
+#createAccountArticle form fieldset{
+	width: 290px;
+}
+#createAccountArticle div {margin: 5px 0px;}
+#createAccountArticle label, #createAccountArticle input {
+	width: 140px;
+	display: inline-block;
+}
+
+#createAccountArticle input[type=submit] { float: right; margin-top: 15px;}

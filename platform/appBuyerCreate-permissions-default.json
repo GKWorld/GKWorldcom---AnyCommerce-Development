@@ -1,6 +1,6 @@
 {
 	"email":"",
-	"auto_lock":1,
+	"auto_lock":0,
 	"initial_schedule":"",
 	"make_todo":"",
 	"make_ticket":"",
