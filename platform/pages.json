@@ -1,6 +1,7 @@
 {
 	"." : {
 		"testStr":"this is a test string",
+		"testInt" : 42,
 		"testObj" : {"string":"this is a string with the key 'string' inside a test object"},
 		"testArr" : [
 			"this is the first indexed string in a test array"

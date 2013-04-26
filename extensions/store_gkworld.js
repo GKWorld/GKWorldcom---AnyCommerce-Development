@@ -106,7 +106,7 @@ var store_gkworld = function() {
 		renderFormats : {
 			printTestObjStr : function($tag, data){
 				$tag.text(data.value.string);
-				}
+				},
 			
 			printTestArrStr : function($tag, data){
 				$tag.text(data.value[data.bindData.index]);
