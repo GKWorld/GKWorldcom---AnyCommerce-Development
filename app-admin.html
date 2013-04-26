@@ -26,7 +26,7 @@ else {
 
 var app = {vars:{
 	/////////////////////////////////\
-	"release":"201314.b",   ///|> Increment this with each change. model version followed by each deployed update getting a new letter in the alphabet.
+	"release":"201314.c",   ///|> Increment this with each change. model version followed by each deployed update getting a new letter in the alphabet.
 	//////////////////////////////////
 	"thisSessionIsAdmin": true,
 	"_clientid":"admin",
@@ -163,6 +163,7 @@ app.u.loadScript(app.vars.baseURL+"app-admin-init.js");
 			<div class='logo pointer alignCenter' onClick="navigateTo('#!dashboard');" title='home'><img src='extensions/admin/images/zoovy_logo-173x30.png' width='173' height='30' alt='zoovy' /></div>
 			<div class='menu floatRight'>
 				<span class='pointer lookLikeLink showForZoovyOnly' onClick="return navigateTo('/biz/downloads/index.cgi');" title='Use our windows clients for managing orders and product'>Downloads</span>
+				| <span class='pointer lookLikeLink' onClick="showUI('#!help',{'tab':'support'})">Help</span>
 				| <span class='pointer lookLikeLink' onClick="return navigateTo('#!taskManager');" title='view and edit your task list'>Tasks</span>
 				| <span class='pointer lookLikeLink' onClick="app.ext.admin.a.logout(); return false;" title='log out of your account' >Exit</span>
 			</div>
@@ -185,14 +186,24 @@ app.u.loadScript(app.vars.baseURL+"app-admin-init.js");
 			<li class='reportsTab' onClick="navigateTo('#:reports');"><span class='text'>Reports</span><span class='icon'></span></li>
 			<li class='kpiTab' onClick="navigateTo('#:kpi');"><span class='text'>KPI</span><span class='icon'></span></li>
 			<li class='utilitiesTab' onClick="navigateTo('#:utilities');"><span class='text'>Utilities</span><span class='icon'></span></li>
-			<li class='supportTab' onClick="navigateTo('/biz/support/index.cgi');"><span class='text'>Support</span><span class='icon'></span></li>
-<!--			<li class='messagesTab' onClick="navigateTo('#:messages');"><span class='text'>Messages</span><span class='messageCount'></span></li>-->
+<!--			<li class='supportTab' onClick="navigateTo('/biz/support/index.cgi');"><span class='text'>Support</span><span class='icon'></span></li> -->
+			<li class='supportTab' onClick="navigateTo('#!support',{'tab':'support'});"><span class='text'>Support</span><span class='icon'></span></li>
+			<li class='messagesTab' onClick="app.ext.admin.u.toggleMessagePane();"><span class='text'>Messages</span><span class='messageCount'></span></li>
 		</ul>
-		<div id='messagesContent' class='displayNone'></div>
+		<div id='messagesContent' class='displayNone'>
+			<button onClick="app.ext.admin.u.toggleMessagePane();" class='floatRight' id='closePanelButton'>Close Message Panel</button>
+			<div class='messagesList'>
+			<table>
+			<tbody data-app-role='messagesContainer'></tbody>
+			</table>
+			</div>
+			
+			<div class='messageDetail'></div>
+		</div>
 		</div>
 		<div id='navTabs'></div>
 		<div id='breadcrumb'></div>
-	</div>
+	</div><!-- /mastHead -->
 	
 	<div class='positionRelative pageContentContainer'>
 	
@@ -210,23 +221,19 @@ app.u.loadScript(app.vars.baseURL+"app-admin-init.js");
 		<div id='reportsContent' class='displayNone tabContent' data-section='reports'></div>
 		<div id='kpiContent' class='displayNone tabContent' data-section='kpi'></div>
 		<div id='utilitiesContent' class='displayNone tabContent' data-section='utilities'></div>
+		<div id='supportContent' class='displayNone tabContent' data-section='support'></div><!-- used for new support app -->
 		<div id='launchpadContent' class='displayNone tabContent' data-section='launchpad'>
-			<section id='launchpadTiles'>
 
-			</section>
-<!--
-				<li class='tileAdmin'><span class='tilename'>Admin</span></li>
-				<li class='tileDomainAdd' onClick="navigateTo('/biz/setup/domain/index.cgi?VERB=NEW');"><span class='tilename'>Add a New Domain</span></li>
-				<li class='tileProjectAdd'><span class='tilename'>Add a Project</span></li>
-				<li class='tileHelp' onClick="app.ext.admin.a.showHelpInterface($('#setupContent'));"><span class='tilename'>A little help here please?</span></li>
-				<li class='tileZoovyLive'></li>
-				<li class='tileZoovyCommunity' onClick="window.open('https://plus.google.com/communities/108928399105730273026');"></li>
--->
+
+
+
+
 		</div>
 		<div id='jtContent' class='displayNone tabContent' data-section='jt'></div><!-- for testing -->
 	
 	</div>
 
+	<div id='mastFoot'></div><!-- if a footer is ever introduced, put it here for launchpad compatibility. -->
 </div><!-- /appView -->
 
 
@@ -336,16 +343,23 @@ These two pieces of data are used for mapping after the uploads to set what fold
 	</li>
 	<li><a href='#'>Pages</a>
 	<ul>
+		<li><a href='#' onClick="app.ext.admin_reports.a.showKPIAddEditInModal('add'); return false;">showKPIAddEditInModal</a></li>
 		<li><a href='#' onClick="navigateTo('#!launchpad');">Launchpad</a></li>
 		<li><a href='#' onClick="navigateTo('#!batchManager');">batchjobs</a></li>
 		<li><a href='#' onClick="navigateTo('#!supplierManager');">Supplier Manager</a></li>
 		<li><a href='#' onClick="navigateTo('#!appChooser');">App Chooser</a></li>
 		<li><a href='#' onClick="$('#setupContent').empty(); app.ext.admin.a.showAchievementList($('#setupContent'));">showAchievementList (in setup)</a></li>
-		<li><a href='#' onClick="$('#setupContent').empty(); app.ext.admin.a.showHelpInterface($('#setupContent'));">showHelpInterface (in setup)</a></li>
 	</ul>
 	</li>
 	<li><a href='#'>Test</a>
 	<ul>
+		<li><a href='#' onClick="app.model.destroy('adminKPIDBCollectionList'); app.ext.admin.calls.adminKPIDBCollectionList.init({},'mutable'); app.model.dispatchThis('mutable');">adminKPIDBCollectionList</a></li>
+		<li><a href='#' onClick="app.model.destroy('adminKPIDBCollectionDetail|1528'); app.ext.admin.calls.adminKPIDBCollectionDetail.init(1528,{},'mutable'); app.model.dispatchThis('mutable');">adminKPIDBCollectionDetail</a></li>
+		<li><a href='#' onClick="app.ext.admin.calls.adminMessagesList.init(0,{},'mutable'); app.model.dispatchThis('mutable');">adminMessagesList</a></li>
+		<li><a href='#' onClick="app.model.destroy('adminKPIDBUserDataSetsList'); app.ext.admin.calls.adminKPIDBUserDataSetsList.init({},'mutable'); app.model.dispatchThis('mutable');">adminKPIDBUserDataSetsList</a></li>
+		
+		
+		
 		<li><a href='#' onClick="app.model.addDispatchToQ({'_cmd':'adminUIExecuteCGI','uri':'/biz/syndication/buycom/index.cgi'},'mutable'); app.model.dispatchThis('mutable');">UIExecCGI addDispatchToQ</a></li>
 		<li><a href='#' onClick="app.ext.admin.calls.adminUIExecuteCGI.init('/biz/syndication/buycom/index.cgi'); app.model.dispatchThis('mutable');">adminUIExecuteCGI call</a></li>
 		<li><a href='#' onClick="app.u.throwMessage('Something Wicked This Way Comes');">throwMessage</a></li>

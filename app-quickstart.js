@@ -372,7 +372,8 @@ document.write = function(v){
 				var L = tagObj.searchArray.length;
 				var $parent;
 				for(var i = 0; i < L; i += 1)	{
-					$parent = $('#'+tagObj.searchArray[i].split('|')[1]);
+//** 201318 -> better approach for handling selector.
+					$parent = $(app.u.jqSelector('#',tagObj.searchArray[i].split('|')[1]));
 					app.ext.myRIA.renderFormats.productSearch($parent,{value:app.data[tagObj.searchArray[i]]});
 					}
 				tagObj.state = 'onCompletes'; //needed for handleTemplateFunctions.
@@ -625,6 +626,7 @@ need to be customized on a per-ria basis.
 //				app.u.dump(data);
 				if(data.value)	{
 					var parentID = $tag.attr('id');
+
 					var L = data.value.hits.hits.length;
 					var templateID = data.bindData.loadsTemplate ? data.bindData.loadsTemplate : 'productListTemplateResults';
 					var pid;
@@ -2840,7 +2842,8 @@ app.templates[P.templateID].find('[data-bind]').each(function()	{
 			else if(namespace == 'list' && attribute.charAt(0) == '$')	{
 				var listPath = attribute.split('.')[0]
 				tagObj.lists.push(listPath); //attribute formatted as $listname.@products
-				numRequests = app.ext.store_navcats.calls.appNavcatDetail.init(listPath);
+//** 201318 -> numRequests could have been getting set to zero, causing no dispatch to go
+				numRequests += app.ext.store_navcats.calls.appNavcatDetail.init(listPath);
 				}
 			else if(namespace == 'list')	{
 				// no src is set.
@@ -2981,15 +2984,22 @@ else	{
 //used for adding a single item to the cart, such as from a prodlist w/ an add to cart but no quantity inputs for bulk adding.
 			addItemToCart : function($form,obj)	{
 				app.u.dump("BEGIN myRIA.u.addItemToCart");
-				obj = obj || {'action':''}
+				obj = obj || {'action':'modal'}
 				if($form && $form.length)	{
 					var cartObj = app.ext.store_product.u.buildCartItemAppendObj($form);
 					if(cartObj)	{
 						if(cartObj)	{
-							app.calls.cartItemAppend.init(cartObj,{},'immutable');
+							app.calls.cartItemAppend.init(cartObj,{'callback':function(rd){
+								if(obj.action === "message"){
+									app.u.dump(rd);
+									app.u.throwMessage(rd);
+									}
+								}},'immutable');
 							app.model.destroy('cartDetail');
 							app.calls.cartDetail.init({'callback':function(rd){
-								showContent('cart',obj);
+								if(obj.action === "modal"){
+									showContent('cart',obj);
+									}
 								}},'immutable');
 							app.model.dispatchThis('immutable');
 							}

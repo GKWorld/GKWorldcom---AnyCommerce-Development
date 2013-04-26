@@ -66,6 +66,9 @@ obj.PATH = .cat.safe.id
 */
 		appPageGet : {
 			init : function(obj,tagObj,Q)	{
+			
+				obj.project = "3038C4E2-A6F1-11E2-8B13-E07C8CF3";
+				
 				obj['_tag'] = typeof tagObj == 'object' ? tagObj : {};
 				obj['_tag'].datapointer = 'appPageGet|'+obj.PATH;  //no local storage of this. ### need to explore solutions.
 				var r = 0;

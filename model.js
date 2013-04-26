@@ -81,7 +81,7 @@ app.globalAjax.lastDispatch - keeps track of when the last dispatch occurs. Not 
 function zoovyModel() {
 	var r = {
 	
-		version : "201314",
+		version : "201318",
 	// --------------------------- GENERAL USE FUNCTIONS --------------------------- \\
 	
 	//pass in a json object and the last item id is returned.
@@ -659,6 +659,9 @@ QID is the dispatchQ ID (either passive, mutable or immutable. required for the 
 				case 'adminOrderDetail': //may contain cc
 				case 'adminOrderPaymentAction': //may contain cc
 				case 'adminOrderUpdate': //may contain cc
+				case 'adminTicketCreate':
+				case 'adminTicketUpdate':
+				case 'adminTicketDetail': //should be updated each visit.
 				case 'appBuyerLogin': //should be session specific. close/open will exec whoAmI which will put into memory if user is logged in.
 				case 'appPageGet': //
 				case 'buyerWalletList': //conains some cc info.
@@ -1309,6 +1312,7 @@ will return false if datapointer isn't in app.data or local (or if it's too old)
 				var url = extObjItem.filename;
 				var namespace = extObjItem.namespace; //for easy reference.
 				var errors = ""; // list of errors. what is returned
+				var initPassed;
 //the .js file for the extension contains a function matching the namespace used.
 //the following line executes that function and saves the object returned to the control.
 //this is essentially what makes the extension available for use.
@@ -1317,29 +1321,38 @@ will return false if datapointer isn't in app.data or local (or if it's too old)
 //yes, technically we could have saved it to a var, accessed the templates param, validated and NOT saved, but this is lighter.
 //it means that a developer could use an extension that didn't load properly, but that is their perogative, since we told them its broke.
 
-				app.ext[namespace] = window[namespace](); //keep this as early in the process as possible so it's done before the next extension loads.
+				if(typeof window[namespace] === 'function')	{
+					app.ext[namespace] = window[namespace](); //keep this as early in the process as possible so it's done before the next extension loads.
 
-				var callback = extObjItem.callback; //for easy reference.
-//						app.u.dump(" -> typeof callback: "+typeof callback);
-				if(typeof app.ext[namespace].callbacks.init === 'object')	{
-//							app.u.dump(" typeof === object");
-					var initPassed = app.ext[namespace].callbacks.init.onSuccess(); //returns t/f
-//							app.u.dump(" -> "+namespace+" onSuccess response = "+initPassed);
+
+					var callback = extObjItem.callback; //for easy reference.
+	//						app.u.dump(" -> typeof callback: "+typeof callback);
+					if(typeof app.ext[namespace].callbacks.init === 'object')	{
+	//							app.u.dump(" typeof === object");
+						initPassed = app.ext[namespace].callbacks.init.onSuccess(); //returns t/f
+	//							app.u.dump(" -> "+namespace+" onSuccess response = "+initPassed);
+						}
+					else	{
+	//no init was set in extension.  Init handles dependencies and should be present. For now, we'll trust that the developer had a good reason for not having an init and continue.
+						app.u.dump("WARNING: extension "+namespace+" did NOT have an init. This is very bad.");
+						errors += "<li>init not set for extension "+namespace;
+						}
+	//whether init passed or failed, load the templates. That way any errors that occur as a result of missing templates are also displayed.
+	//If the extension sets willfetchmyowntemplates, then no need to run template load code, the extension will handle adding it's own templates.
+	//						app.u.dump(" -> templates.length = "+app.ext[namespace].vars.templates.length);
+					if(app.ext[namespace].vars && app.ext[namespace].vars.templates && !app.ext[namespace].vars.willFetchMyOwnTemplates)	{
+						errors += app.model.loadTemplates(app.ext[namespace].vars.templates);
+						}
+					else	{
+	//							app.u.dump("WARNING: extension "+namespace+" did not define any templates. This 'may' valid, as some extensions may have no templates.");
+						}
+
 					}
 				else	{
-//no init was set in extension.  Init handles dependencies and should be present. For now, we'll trust that the developer had a good reason for not having an init and continue.
-					app.u.dump("WARNING: extension "+namespace+" did NOT have an init. This is very bad.");
-					errors += "<li>init not set for extension "+namespace;
+					initPassed = false;
+					errors += "window."+namespace+" does not exist, probably a mismatch between namespace declared in extension and init."
 					}
-//whether init passed or failed, load the templates. That way any errors that occur as a result of missing templates are also displayed.
-//If the extension sets willfetchmyowntemplates, then no need to run template load code, the extension will handle adding it's own templates.
-//						app.u.dump(" -> templates.length = "+app.ext[namespace].vars.templates.length);
-				if(app.ext[namespace].vars && app.ext[namespace].vars.templates && !app.ext[namespace].vars.willFetchMyOwnTemplates)	{
-					errors += app.model.loadTemplates(app.ext[namespace].vars.templates);
-					}
-				else	{
-//							app.u.dump("WARNING: extension "+namespace+" did not define any templates. This 'may' valid, as some extensions may have no templates.");
-					}
+
 
 /*
 now we know whether the extension properly loaded, had and executed an init and has a callback.
@@ -1347,7 +1360,7 @@ respond accordingly.
 */
 
 				if(initPassed == false)	{
-					app.u.throwMessage("Uh Oh! Something went wrong with our app. We apologize for any inconvenience. (err: "+namespace+" extension did not pass init)",true);
+					app.u.throwMessage("Uh Oh! Something went wrong with our app. We apologize for any inconvenience. (err: "+namespace+" extension did not pass init)<br><b>Error(s):<\/b><br>"+errors,true);
 					}
 //errors would be populated if, say, no init is set.
 				else if(errors)	{

@@ -230,10 +230,6 @@ If the data is not there, or there's no data to be retrieved (a Set, for instanc
 				obj._tag = _tag || {};
 				obj._cmd = "appBuyerCreate";
 				app.model.addDispatchToQ(obj,'immutable');
-				
-				
-				
-				
 				}
 			}, //appBuyerCreate
 
@@ -1693,12 +1689,6 @@ VALIDATION
 					if($input.is(':hidden') && $input.data('validation-rules') && $input.data('validation-rules').indexOf('skipIfHidden') >= 0)	{
 						//allows for a form to allow hidden fields that are only validated if they're displayed. ex: support fieldset for topic based questions.
 						}
-					else if($input.attr('required') == 'required' && !$input.val())	{
-						r = false;
-						$input.addClass('ui-state-error');
-						$input.after($span.text('required'));
-						removeClass($input);
-						}
 					else if ($input.attr('type') == 'email' && !app.u.isValidEmail($input.val()))	{
 						r = false;
 						$input.addClass('ui-state-error');
@@ -1711,10 +1701,18 @@ VALIDATION
 						$input.after($span.text('requires a max of '+$input.attr('maxlength')+' characters'));
 						removeClass($input);
 						}
+//** 201318 -> error was being reported incorrectly.
 					else if($input.data('minlength') && $input.val().length < $input.data('minlength'))	{
 						r = false;
 						$input.addClass('ui-state-error');
-						$input.after($span.text('requires a max of '+$input.attr('maxlength')+' characters'));
+						$input.after($span.text('requires a minimum of '+$input.data('minlength')+' characters'));
+						removeClass($input);
+						}
+//** 201318 -> moved this down so that the more specific error messages would be displayed earlier
+					else if($input.attr('required') == 'required' && !$input.val())	{
+						r = false;
+						$input.addClass('ui-state-error');
+						$input.after($span.text('required'));
 						removeClass($input);
 						}
 					else	{
