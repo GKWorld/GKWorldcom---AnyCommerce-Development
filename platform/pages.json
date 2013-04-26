@@ -5,7 +5,7 @@
 		"testArr" : [
 			"this is the first indexed string in a test array"
 		]
-	}
+	},
    "" : {
       "fl" : "~gkworld_c_featprod_20120405",
       "prodlist" : "&SORTBY=NONE&FORMAT=CUSTOM&SRC=PRODUCT%3Azoovy%3Arelated_products&ALTERNATE=0&SIZE=&SHOWSKU=&SHOWQUANTITY=0&",
