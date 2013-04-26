@@ -147,7 +147,21 @@ document.write = function(v){
 //The request for appCategoryList is needed early for both the homepage list of cats and tier1.
 //piggyback a few other necessary requests here to reduce # of requests
 				app.ext.store_navcats.calls.appCategoryList.init(zGlobals.appSettings.rootcat,{"callback":"showRootCategories","extension":"myRIA"},'mutable');
-				app.calls.appProfileInfo.init({'profile':app.vars.profile},{},'mutable');
+				app.calls.appProfileInfo.init({'profile':app.vars.profile},{callback : function(rd){
+					if(app.model.responseHasErrors(rd)){
+						$('#globalMessaging').anymessage({'message':rd});
+						}
+					else	{
+						$('.logo','#appView').each(function(){
+							var $logo = $(this);
+							if($logo.is('img') || $('img',$logo).length)	{} //the element with the logo class already has an image. do nothing.
+							else if(app.data[rd.datapointer]['zoovy:logo_website'])	{
+								$logo.append(app.u.makeImage({'tag':true,'m':true,'b':'TTTTTT','w':$logo.width(),'h':$logo.height(),'alt':app.data[rd.datapointer]['zoovy:company_name'] || "",'name':app.data[rd.datapointer]['zoovy:logo_website']}))
+								}
+							else	{} //logo field not set.
+							});
+						}
+					}},'mutable');
 				app.model.dispatchThis(); //this dispatch needs to occur prior to handleAppInit being executed.
 
 				var page = app.ext.myRIA.u.handleAppInit(); //checks url and will load appropriate page content. returns object {pageType,pageInfo}
@@ -637,12 +651,9 @@ fallback is to just output the value.
 
 			banner : function($tag, data)	{
 //				app.u.dump("begin myRIA.renderFormats.banner");
-				var obj = app.u.kvp2Array(data.value); //returns an object LINK, ALT and IMG
-				var hash; //used to store the href value in hash syntax. ex: #company?show=return
-				var pageInfo = {};
-				
-				
-//				app.u.dump(" -> obj.LINK: "+obj.LINK);
+				var obj = app.u.kvp2Array(data.value), //returns an object LINK, ALT and IMG
+				hash, //used to store the href value in hash syntax. ex: #company?show=return
+				pageInfo = {};
 				
 //if value starts with a #, then most likely the hash syntax is being used.
 				if(obj.LINK && obj.LINK.indexOf('#') == 0)	{
@@ -837,7 +848,7 @@ fallback is to just output the value.
 // myria.vars.session is where some user experience data is stored, such as recent searches or recently viewed items.
 // -> unshift is used in the case of 'recent' so that the 0 spot always holds the most recent and also so the length can be maintained (kept to a reasonable #).
 			showContent : function(pageType,infoObj)	{
-				app.u.dump("BEGIN showContent ["+pageType+"]."); app.u.dump(infoObj);
+//				app.u.dump("BEGIN showContent ["+pageType+"]."); app.u.dump(infoObj);
 /*
 what is returned. is set to true if pop/pushState NOT supported. 
 if the onclick is set to return showContent(... then it will return false for browser that support push/pop state but true
@@ -851,6 +862,7 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 					$old.siblings().hide(); //make sure only one 'page' is visible.
 					}
 				app.ext.myRIA.u.closeAllModals();  //important cuz a 'showpage' could get executed via wiki in a modal window.
+
 				if(typeof infoObj != 'object')	{infoObj = {}} //could be empty for a cart or checkout
 
 //if pageType isn't passed in, we're likely in a popState, so look in infoObj.
@@ -919,7 +931,9 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 							infoObj.performJumpToTop = infoObj.performJumpToTop || performJumpToTop;
 							}
 						else	{
-							$('#mainContentArea').empty().addClass('loadingBG').html("<h1>Transferring to Secure Login...</h1>");
+//							$('#mainContentArea').empty().addClass('loadingBG').html("<h1>Transferring to Secure Login...</h1>");
+// * changed from 'empty' to showLoading because empty could be a heavy operation if mainContentArea has a lot of content.
+							$('body').showLoading({'message':'Transferring to secure login'});							
 							var SSLlocation = app.vars.secureURL+"?cartID="+app.vars.cartID;
 							SSLlocation += "#customer?show="+infoObj.show
 							_gaq.push(['_link', SSLlocation]); //for cross domain tracking.
@@ -936,24 +950,24 @@ for legacy browsers. That means old browsers will use the anchor to retain 'back
 						app.ext.myRIA.u.handleTemplateFunctions(infoObj);
 
 //for local, don't jump to secure. ### this may have to change for a native app. what's the protocol? is there one?
-						if('file:' == document.location.protocol)	{
-							var $chkContainer = $('<div></div>');
-							$("#mainContentArea").append($chkContainer);
-							app.ext.orderCreate.a.startCheckout($chkContainer);
-							}
-						else if('https:' != document.location.protocol)	{
+						if('http:' == document.location.protocol)	{
 							app.u.dump(" -> nonsecure session. switch to secure for checkout.");
 // if we redirect to ssl for checkout, it's a new url and a pushstate isn't needed, so a param is added to the url.
-							$('#mainContentArea').addClass('loadingBG').html("<h1>Transferring you to a secure session for checkout.<\/h1><h2>Our app will reload shortly...<\/h2>");
+// * use showloading instead of .html (which could be heavy)
+//							$('#mainContentArea').addClass('loadingBG').html("<h1>Transferring you to a secure session for checkout.<\/h1><h2>Our app will reload shortly...<\/h2>");
+							$('body').showLoading({'message':'Transferring you to a secure session for checkout'});
 							var SSLlocation = zGlobals.appSettings.https_app_url+"?cartID="+app.vars.cartID+"&_session="+app.vars._session+"#checkout?show=checkout";
 							_gaq.push(['_link', SSLlocation]); //for cross domain tracking.
 							document.location = SSLlocation;
 							}
 						else	{
-							var $chkContainer = $('<div></div>');
-							$("#mainContentArea").append($chkContainer);
-							app.ext.orderCreate.a.startCheckout($chkContainer);
-							//app.ext.orderCreate.a.startCheckout($('#mainContentArea'));
+// * checkout was emptying mainContentArea and that was heavy. This solution is faster and doesn't nuke templates already rendered.
+							var $checkoutContainer = $("#checkoutContainer");
+							if(!$checkoutContainer.length)	{
+								$checkoutContainer = $("<div \/>",{'id':'checkoutContainer'});
+								$('#mainContentArea').append($checkoutContainer );
+								}
+							app.ext.orderCreate.a.startCheckout($checkoutContainer);
 							}
 						infoObj.state = 'onCompletes'; //needed for handleTemplateFunctions.
 						app.ext.myRIA.u.handleTemplateFunctions(infoObj);
@@ -2399,7 +2413,7 @@ elasticsearch.size = 50;
 					$article.show(); //only show content if page doesn't require authentication.
 
 //already rendered the page and it's visible. do nothing. Orders is always re-rendered cuz the data may change.
-					if($article.data('isTranslated') || infoObj.show == 'orders')	{}
+					if($article.data('isTranslated') && infoObj.show != 'orders')	{}
 					else	{
 					
 						switch(infoObj.show)	{
@@ -2453,7 +2467,7 @@ elasticsearch.size = 50;
 								else	{
 									$article.anymessage({'message':'Both a cart id and an order id are required (for security reasons) and one is not available. Please try your link again or, if the error persists, contact us for additional help.'});
 									}
-							
+								break;
 							case 'orders':
 							//{'parentID':'orderHistoryContainer','templateID':'orderLineItemTemplate','callback':'showOrderHistory','extension':'store_crm'}
 								app.calls.buyerPurchaseHistory.init({'callback':function(rd){
@@ -2500,6 +2514,21 @@ elasticsearch.size = 50;
 
 
 
+
+
+			showPaymentUpdateModal : function(orderid,cartid)	{
+				var $updateDialog = $("<div \/>",{'title':'Payment Update'}).appendTo('body');
+				$updateDialog.dialog({'modal':true,'width':500,'height':500});
+				
+				if(orderid && cartid)	{
+					$updateDialog.showLoading({'message':'One moment please. Acquiring payment methods.'});
+					app.ext.cco.calls.appPaymentMethods.init({'cartid':cartid,'orderid':orderid},{},'immutable');
+					app.model.dispatchThis('immutable');
+					}
+				else	{
+					$updateDialog.anymessage({'message':'In myRIA.u.showPaymentUpdateModal, either orderid ['+orderid+'] or cartid ['+cartid+'] is not set.','gMessage':true});
+					}
+				},
 
 
 
@@ -2565,7 +2594,7 @@ buyer to 'take with them' as they move between  pages.
 				$('#loginSuccessContainer').hide(); //contains 'continue' button.
 				$('#loginMessaging, #recoverPasswordMessaging').empty(); //used for success and fail messaging.
 				$('#loginFormContainer, #recoverPasswordContainer').show(); //contains actual form and password recovery form (second id)
-				$('#loginFormForModal').dialog({modal: true,width:550,autoOpen:false});
+				$('#loginFormForModal').dialog({modal: true,width: ($(window).width() > 500) ? 500 : '90%',autoOpen:false});
 				$('#loginFormForModal').dialog('open');
 				
 		
