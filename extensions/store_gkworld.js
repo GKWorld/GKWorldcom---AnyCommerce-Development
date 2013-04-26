@@ -104,7 +104,13 @@ var store_gkworld = function() {
 //on a data-bind, format: is equal to a renderformat. extension: tells the rendering engine where to look for the renderFormat.
 //that way, two render formats named the same (but in different extensions) don't overwrite each other.
 		renderFormats : {
-
+			printTestObjStr : function($tag, data){
+				$tag.text(data.value.string);
+				}
+			
+			printTestArrStr : function($tag, data){
+				$tag.text(data.value[data.bindData.index]);
+				}
 			}, //renderFormats
 ////////////////////////////////////   UTIL [u]   \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 

@@ -336,6 +336,11 @@ COMMONLY EDITED TEMPLATES
 the homepageTemplate template is loaded into mainContentArea by default when the application loads
 -->
 <div id='homepageTemplate' class='homeTemplate'>
+
+	<div data-bind="var: category(%page.testStr); format: text;"></div>
+	<div data-bind="var: category(%page.testObj); format: printTestObjStr; extension:store_gkworld;"></div>
+	<div data-bind="var: category(%page.testStr); format: printTestArrStr; index:0; extension:store_gkwrold;"></div>
+
 	<div class="bannerContainer">
 
 		<div class="topRight pointer"><a title="Click here for Sale Items" onClick="return showContent('category',{'navcat':'.weekly_special.clearance'});"><img alt="Click here for Sale Items" src="images/sale.jpg" height="200" width="300"></a></div>
