@@ -1,9 +1,9 @@
 {
 	"." : {
-		"testStr":"this is a test string",
-		"testInt" : 42,
-		"testObj" : {"string":"this is a string with the key 'string' inside a test object"},
-		"testArr" : [
+		"test_str":"this is a test string",
+		"test_int" : 42,
+		"test_obj" : {"string":"this is a string with the key 'string' inside a test object"},
+		"test_arr" : [
 			"this is the first indexed string in a test array"
 		]
 	},
