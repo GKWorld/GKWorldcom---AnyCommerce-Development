@@ -112,18 +112,15 @@ not used in required
 		
 	</div>
 -->
-	<input type='email' name='bill/email' size='30' placeholder="email address" data-bind="var:cart(bill/email); defaultVar:cart(customer/login); format:popVal;" data-app-event='orderCreate|execBuyerEmailUpdate' />
-	<input type='password' placeholder='password' size='30' name='password' />
-	<button data-app-event='orderCreate|execBuyerLogin'>login</button>
-
-
+	<input type='email' name='bill/email' size='30' placeholder="email address" data-bind="var:cart(bill/email); defaultVar:cart(customer/login); format:popVal;" data-app-event='orderCreate|execBuyerEmailUpdate' /> 	<input type='password' placeholder='password' size='30' name='password' /> <button data-app-event='orderCreate|execBuyerLogin'>login</button>
+<!--
+not used in required
+	<label class='accountCreateContainer'><input type='checkbox' name='want/create_customer' data-app-event='orderCreate|tagAsAccountCreate' />Create customer account</label>
+-->	
 
 
 </div>
-	<label class='accountCreateContainer loginHide'><input type='checkbox' name='want/create_customer' data-app-event='orderCreate|tagAsAccountCreate' />Create customer account</label>
-	<!--
-	DISABLING ACCOUNT CREATE RIGHT NOW -- NEEDS LOTS OF WORK
-	-->
+
 </section>
 
 
@@ -152,7 +149,7 @@ This template is also used in the myAccount page, which is why a default using _
 
 	<div><input type='text' name='bill/city' placeholder='city' required='required' value='' data-bind='var: cart(bill/city); defaultVar: cart(bill/city); format:popVal;'  data-app-event='orderCreate|execAddressUpdate' /></div>
 	
-	<div><input type='text' name='bill/region' placeholder='state/region' required='required' size='5' value='' data-bind='var: cart(bill/region); defaultVar: cart(bill/region); format:popVal;' maxlength='10' data-app-event='orderCreate|execAddressUpdate' /></div>
+	<div><input type='text' name='bill/region' placeholder='state/region' required='required' size='5' value='' data-bind='var: cart(bill/region); defaultVar: cart(bill/region); format:popVal;' maxlength='20' data-app-event='orderCreate|execAddressUpdate' /></div>
 	
 	<!-- postal not required for international. don't add it. -->
 	<div><input type='text'  name='bill/postal' placeholder='zip/postal code' required='required' size='14' value='' data-bind='var: cart(bill/postal); defaultVar: cart(bill/postal); format:popVal;' maxlength='10'  data-app-event='orderCreate|execAddressUpdate' /></div>
@@ -185,7 +182,7 @@ don't add required to any inputs because if bill to ship is checked, NONE of the
 
 	<div><input type='text' name='ship/city' placeholder='city' required='required' value='' data-bind='var: cart(ship/city); defaultVar: cart(ship/city); format:popVal;' data-app-event='orderCreate|execAddressUpdate' /></div>
 	
-	<div><input type='text'  name='ship/region' placeholder='state/region' required='required' size='5' value='' data-bind='var: cart(ship/region); defaultVar: cart(ship/region); format:popVal;' maxlength='10' data-app-event='orderCreate|execAddressUpdate' /></div>
+	<div><input type='text'  name='ship/region' placeholder='state/region' required='required' size='5' value='' data-bind='var: cart(ship/region); defaultVar: cart(ship/region); format:popVal;' maxlength='20' data-app-event='orderCreate|execAddressUpdate' /></div>
 
 	
 	<div><input type='text'  name='ship/postal' placeholder='zip/postal code' required='required' size='14' value='' data-bind='var: cart(ship/postal); defaultVar: cart(ship/postal); format:popVal;' maxlength='10' data-app-event='orderCreate|execAddressUpdate'/></div>
@@ -197,17 +194,9 @@ don't add required to any inputs because if bill to ship is checked, NONE of the
 
 <!-- a panel that only appears in 'nice' -->
 <section id='chkoutAccountCreateTemplate'>
-<div>
-	<div class="createAccountMessaging"></div>
-	<div><input type="email" data-permissions-field="email" placeholder="Email" required='required' name='createAccountFirstName' /></div>
-	<div><input type="text" data-permissions-field="firstname" placeholder="First Name" required='required' name='createAccountFirstName' /></div>
-	<div><input type="text" data-permissions-field="lastname" placeholder="Last Name" required='required' name='createAccountLastName' /></div>
-	<div><input type='password' data-permissions-field="password" data-minlength='8' placeholder='password' required='required' name='createAccountPassword' size='12' /> <span class='hint'>must be at least 8 characters</span></div>
-	<div><input type='password' data-minlength='8' placeholder='verify password' required='required'  name='createAccountPasswordConfirm' size='12' /></div>
-	<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="app.ext.store_gkworld.a.createAccount($(this).parent(), 'Your account has been created, log in above!');" ><span class="ui-button-text">Create Account</span></button>
-</div>
 
-<!--
+<div><input type='password' data-minlength='8' placeholder='password' required='required' name='want/new_password' size='12' data-bind='var: cart(want/new_password); format:popVal;' /> <span class='hint'>must be at least 8 characters</span></div>
+<div><input type='password' data-minlength='8' placeholder='verify password' required='required'  name='want/new_password2' size='12' data-bind='var: cart(want/new_password2); format:popVal;' /></div>
 <label>Recovery Question
 <select name='want/recovery_hint' data-bind='var: cart(want/recovery_hint); format:popVal;'>
 	<option value='2'>Name of your favorite childhood pet?</option>
@@ -218,7 +207,7 @@ don't add required to any inputs because if bill to ship is checked, NONE of the
 </label>
 
 <input type='text' placeholder='recovery answer' required='required' value='' name='want/recovery_answer' maxlength='20' size='20'  data-bind='var: cart(want/recovery_answer); format:popVal;' /></label>
--->
+
 </section>
 
 
@@ -420,7 +409,7 @@ do NOT change the input name or id or checkout will likely break.
 
 <!-- used after a successful checkout.  -->
 
-<div id='chkoutCompletedTemplate' class='checkoutSuccess contentContainer'>
+<div id='chkoutCompletedTemplate' class='checkoutSuccess'>
 
 	<div class='floatRight ocmThirdParty'>
 		<h2>What next?</h2>
@@ -474,7 +463,7 @@ do NOT change the input name or id or checkout will likely break.
 	
 	<address class='marginBottom'>
 	<h4>
-		<span data-bind='var:order(order/order/bill/firstname);format:text; pretext:Bill To: ;'></span>
+		<span data-bind='var:order(order/bill/firstname);format:text; pretext:Bill To: ;'></span>
 		<span data-bind='var:order(order/bill/lastname);format:text;'></span>
 	</h4>
 	<div data-bind='var:order(order/bill/address1);format:text;'></div>

@@ -68,6 +68,29 @@ var admin_orders = function() {
 			}
 		},
 
+
+	tiles : {
+		
+		mktSummary : function(){
+			
+			app.ext.admin.calls.appResource.init('quickstats/SAMZ.json',{'callback':'transmogrify','parentID':'dashboardReportTbody','templateID':'quickstatReportTemplate'},'mutable'); //amazon
+			app.ext.admin.calls.appResource.init('quickstats/SBYS.json',{'callback':'transmogrify','parentID':'dashboardReportTbody','templateID':'quickstatReportTemplate'},'mutable'); //buy.com
+			app.ext.admin.calls.appResource.init('quickstats/SSRS.json',{'callback':'transmogrify','parentID':'dashboardReportTbody','templateID':'quickstatReportTemplate'},'mutable'); //sears
+			
+			
+			var obj = {
+				'bgcolor' : 'magenta',
+				'target':'orders',
+				'$content' : $("<div \/>").append("<span class='focon-camera icon'></span><span class='tilename'>marketplace summary</span>"),
+				'size' : '1x1'
+				};
+			
+			return obj;
+			}
+		
+	},
+
+
 ////////////////////////////////////   CALLBACKS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 
@@ -574,6 +597,8 @@ $('body').showLoading({'message':'Fetching order'});
 
 //go fetch order data. callback handles data population.
 app.model.destroy('adminOrderDetail|'+orderID); //get a clean copy of the order.
+app.model.destroy('adminOrderPaymentMethods'); //though not stored in local, be sure the last orders methods aren't by accident.
+
 app.ext.admin.calls.adminOrderDetail.init(orderID,{'callback':function(responseData){
 //	app.u.dump("Executing callback for adminOrderDetail");
 	
@@ -1243,12 +1268,13 @@ see the renderformat paystatus for a quick breakdown of what the first integer r
 				else if (pref['tender'] == 'PAYPALEC') {
 					// PAYPALEC is a separate tender type (but short term it's basically a credit card)
 					// long term it will have some specialized actions that are unique exclusively to paypal
+					// old orders may have a payment type of PAYPAL (IPN) but those are old and these actions are not applicable. no actions are.
 					if (pref['ps'] == '189') {	actions.push('capture') }
 					if (pref['ps'] == '199') {	actions.push('capture') }
 					if (pref['ps'] == '259') { actions.push('retry') }
 					if (pref['ps'].substring(0,1) == '0' || pref['ps'].substring(0,1) == '4') { 
-						actions.push('refund') 
-						actions.push('void')
+						actions.push('refund');
+						actions.push('void');
 						}
 					}
 				else if (pref['tender'] == 'CREDIT') {
@@ -1284,9 +1310,6 @@ see the renderformat paystatus for a quick breakdown of what the first integer r
 				else if (pref['tender'] == 'LAYAWAY') {
 					actions.push('layaway')
 					actions.push('void')
-					}
-				else if (pref['tender'] == 'PAYPALEC') {
-					if (pref['ps'] == '199') { actions.push('capture') };
 					}
 				else{
 					app.u.dump(" -> no tender conditions met.");
@@ -1359,7 +1382,7 @@ see the renderformat paystatus for a quick breakdown of what the first integer r
 							break;
 						case 'override':
 							output += "<h4 class='clearfix'>Override: "+pref.uuid+"<\/h4>";
-							output += "<div class='warning clearfix smallPadding'>This is an advanced interface intended for experts only.<br \/><b>Do not use without the guidance of technical support.</b><br \/><span class='lookLikeLink' onClick='app.ext.admin.u.showHelpInDialog(\"info_paymentstatus\");'>Payment Status Codes</span><\/div>";
+							output += "<div class='warning clearfix smallPadding'>This is an advanced interface intended for experts only.<br \/><b>Do not use without the guidance of technical support.</b><br \/><span class='lookLikeLink' onClick='app.ext.admin_support.a.showHelpDocInDialog(\"info_paymentstatus\");'>Payment Status Codes</span><\/div>";
 							output += "<br \/>New payment status: <input type='textbox' size='3' onKeyPress='return app.u.numbersOnly(event);' name='ps' value='"+pref.ps+"' \/>";
 							output += reasonInput;
 							output += "<button>Override</button>";
@@ -1927,7 +1950,7 @@ $('.editable',$container).each(function(){
 				$btn.button();
 				$btn.off('click.orderPrintPackSlip').on('click.orderPrintPackSlip',function(event){
 					event.preventDefault();
-					app.u.dump("BEGIN admin_orders.e.orderPrintPackSlip click event");
+//					app.u.dump("BEGIN admin_orders.e.orderPrintPackSlip click event");
 					var orderID = $btn.data('orderid') || $btn.closest('[data-orderid]').data('orderid');
 					if(orderID)	{
 						app.ext.convertSessionToOrder.a.printOrder(orderID,{data:{'type':'packslip','profile':app.data['adminOrderDetail|'+orderID].our.profile,'domain':app.data['adminOrderDetail|'+orderID].our.sdomain}});

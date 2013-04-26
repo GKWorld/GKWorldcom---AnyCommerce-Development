@@ -20,7 +20,7 @@
 
 //    !!! ->   TODO: replace 'username' in the line below with the merchants username.     <- !!!
 
-var store_gkworld = function() {
+var store_username = function() {
 	var theseTemplates = new Array('');
 	var r = {
 

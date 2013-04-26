@@ -84,6 +84,10 @@ var orderCreate = function() {
 					$('#'+app.ext.orderCreate.vars.containerID).append("");
 					r = true;
 					}
+				else if(!app.vars.checkoutAuthMode)	{
+					r = false;
+					$('#globalMessaging').anymessage({'message':'<strong>Uh Oh!<\/strong> app.vars.checkoutAuthMode is not set. should be set to passive, required or active (depending on the checkout behavior desired).'});
+					}
 				else	{
 					r = true;
 					if(document.domain.indexOf('app-hosted.com') >= 0)	{window.localStorage.clear()} //clear localStorage for shared domain to avoid cross-store contamination.
@@ -106,6 +110,7 @@ var orderCreate = function() {
 			onSuccess : function(tagObj)	{
 				//used for one page checkout only.
 				app.u.dump("BEGIN startcheckout callback for legacy 1PC");
+				app.model.destroy('buyerAddressList'); //list 'may' have been updated in vstore UI.
 				app.ext.orderCreate.a.startCheckout($('#zContent'));
 				}
 			},
@@ -117,6 +122,7 @@ var orderCreate = function() {
 		handlePayPalIntoPaymentQ : {
 			onSuccess : function(tagObj)	{
 				app.u.dump('BEGIN orderCreate[nice].callbacks.handlePayPalIntoPaymentQ.onSuccess');
+				//this is the callback AFTER the payment is added to the Q, so no success is needed, only specific error handling.
 				},
 			onError : function(responseData,uuid)	{
 				$('body').showLoading({'message':'Updating order...'});
@@ -235,13 +241,34 @@ _gaq.push(['_trackEvent','Checkout','User Event','Order created ('+orderID+')'])
 					}
 
 
+
+
 if(app.vars._clientid == '1pc')	{
 //add the html roi to the dom. this likely includes tracking scripts. LAST in case script breaks something.
 //this html roi is only generated if clientid = 1PC OR model version is pre 2013. for apps, add code using checkoutCompletes.
 	setTimeout(function(){
 		$checkout.append(checkoutData['html:roi']);
 		app.u.dump('wrote html:roi to DOM.');
+
+//GTS for apps is handled in google extension
+		if(typeof window.GoogleTrustedStore)	{
+			delete window.GoogleTrustedStore; //delete existing object or gts conversion won't load right.
+//running this will reload the script. the 'span' will be added as part of html:roi
+//if this isn't run in the time-out, the 'span' w/ order totals won't be added to DOM and this won't track as a conversion.
+			(function() {
+			var scheme = (("https:" == document.location.protocol) ? "https://" : "http://");
+			var gts = document.createElement("script");
+			gts.type = "text/javascript";
+			gts.async = true;
+			gts.src = scheme + "www.googlecommerce.com/trustedstores/gtmp_compiled.js";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(gts, s);
+			})();
+			}
+
 		},2000); 
+
+
 	}
 else	{
 	app.u.dump("Not 1PC.");
@@ -374,7 +401,8 @@ _gaq.push(['_trackEvent','Checkout','App Event','Order NOT created. error occure
 			chkoutMethodsShip : function($fieldset,formObj)	{
 				var valid = 0;
 				if($fieldset && formObj)	{
-					if($("[name='want/shipping_id']:checked").length)	{
+					if(app.ext.cco.u.thisSessionIsPayPal())	{valid = 1} //ship address comes back from paypal. panel is hidden. auto-approve.
+					else if($("[name='want/shipping_id']:checked").length)	{
 						if(app.u.validateForm($fieldset)){valid = 1;}
 						else	{valid = 0;}
 						}
@@ -395,7 +423,12 @@ _gaq.push(['_trackEvent','Checkout','App Event','Order NOT created. error occure
 			chkoutMethodsPay : function($fieldset,formObj)	{
 				var valid = 0;
 				if($fieldset && formObj)	{
-					if($('[name="want/payby"]:checked',$fieldset).length)	{
+					if(app.ext.cco.u.thisSessionIsPayPal() && app.ext.cco.u.aValidPaypalTenderIsPresent())	{valid = 1;} //if paypal
+//should only get match here for expired paypal payments or some unexpected paypal related issue.
+					else if(app.ext.cco.u.thisSessionIsPayPal()){
+						$fieldset.anymessage({'message':"It appears something has gone wrong with your paypal authorization. Perhaps it expired. Please click the 'choose alternate payment method' link and either re-authorize through paypal or choose an alternate payment method. We apologize for the inconvenience. "})
+						}
+					else if($('[name="want/payby"]:checked',$fieldset).length)	{
 						if(app.u.validateForm($fieldset))	{valid = 1;}
 						else	{valid = 0}
 						}
@@ -433,13 +466,14 @@ _gaq.push(['_trackEvent','Checkout','App Event','Order NOT created. error occure
 							$("input[name='bill/phone']",$fieldset).removeAttr('required');
 							}
 
-//postal and region are only required for domestic orders.	
+//postal and region are only required for domestic orders.
+// * 201314 -> minlength was added to ensure a proper zip supplied.
 						if(formObj['bill/countrycode'] == "US" || !formObj['bill/countrycode'])	{
-							$("input[name='bill/postal']",$fieldset).attr('required','required');
+							$("input[name='bill/postal']",$fieldset).attr('required','required').attr('data-minlength',5);
 							$("input[name='bill/region']",$fieldset).attr('required','required');
 							}
 						else	{
-							$("input[name='bill/postal']",$fieldset).removeAttr('required');
+							$("input[name='bill/postal']",$fieldset).removeAttr('required').removeAttr('data-minlength');
 							$("input[name='bill/region']",$fieldset).removeAttr('required');
 							}
 						
@@ -471,13 +505,14 @@ _gaq.push(['_trackEvent','Checkout','App Event','Order NOT created. error occure
 						}
 					else	{
 
-//postal and region are only required for domestic orders.	
+//postal and region are only required for domestic orders.
+// * 201314 -> minlength was added to ensure a proper zip supplied. Also provides a low-level of attempting shipping fraud (setting US for Int. shipping addresses)
 						if(formObj['ship/countrycode'] == "US")	{
-							$("input[name='ship/postal']",$fieldset).attr('required','required');
+							$("input[name='ship/postal']",$fieldset).attr('required','required').attr('data-minlength',5);
 							$("input[name='ship/region']",$fieldset).attr('required','required');
 							}
 						else	{
-							$("input[name='ship/postal']",$fieldset).removeAttr('required');
+							$("input[name='ship/postal']",$fieldset).removeAttr('required').removeAttr('data-minlength');
 							$("input[name='ship/region']",$fieldset).removeAttr('required');
 							}
 						
@@ -503,7 +538,7 @@ _gaq.push(['_trackEvent','Checkout','App Event','Order NOT created. error occure
 				},
 			chkoutCartSummary : function($fieldset,formObj)	{
 				return 1;
-				},				
+				}
 				
 			}, //validate
 		
@@ -850,7 +885,7 @@ note - the order object is available at app.data['order|'+P.orderID]
 		a : {
 			
 			startCheckout : function($chkContainer)	{
-				app.u.dump("BEGIN orderCreate.a.startCheckout");
+//				app.u.dump("BEGIN orderCreate.a.startCheckout");
 //				app.u.dump(" -> app.u.buyerIsAuthenticated(): "+app.u.buyerIsAuthenticated());
 
 				if($chkContainer && $chkContainer.length)	{
@@ -881,9 +916,16 @@ note - the order object is available at app.data['order|'+P.orderID]
 							$('#globalMessaging').anymessage({'message':rd});
 							}
 						else	{
+//							app.u.dump(" -> cartDetail callback for startCheckout reached.");
 							if(app.data.cartDetail['@ITEMS'].length)	{
+								app.u.dump(" -> cart has items. 2013-14-13e");
 //NOTE - this should only be done once. panels should be updated individually from there forward.
-								$chkContainer.anycontent({'templateID':'checkoutTemplate',data: app.ext.orderCreate.u.extendedDataForCheckout()}); 
+//								$chkContainer.anycontent({'templateID':'checkoutTemplate',data: app.ext.orderCreate.u.extendedDataForCheckout()});
+								app.u.dump("NOT using anycontent plugin.");
+								var $checkoutContents = app.renderFunctions.transmogrify({},'checkoutTemplate',app.ext.orderCreate.u.extendedDataForCheckout());
+								app.u.dump("transmogrify saved to var");
+								$chkContainer.append($checkoutContents);
+								app.u.dump(" -> checkout appended to container.");
 								$("fieldset[data-app-role]",$chkContainer).each(function(index, element) {
 									var $fieldset = $(element),
 									role = $fieldset.data('app-role');
@@ -892,13 +934,14 @@ note - the order object is available at app.data['order|'+P.orderID]
 									$("legend",$fieldset).addClass('ui-widget-header ui-corner-all');
 									app.ext.orderCreate.u.handlePanel($chkContainer,role,['handleDisplayLogic','handleAppEvents']);
 									});
+//								app.u.dump(" -> handlePanel has been run over all fieldsets.");
 								}
 							else	{
 								$chkContainer.anymessage({'message':'It appears your cart is empty. If you think you are receiving this message in error, please refresh the page or contact us.'});
 								}
 							}
 						}},'immutable');
-
+//					app.u.dump(" -> made it past adding calls to Q for startCheckout. now dispatch.");
 					app.model.dispatchThis('immutable');
 					}
 				else	{
@@ -985,7 +1028,7 @@ note - the order object is available at app.data['order|'+P.orderID]
 							
 							if(addressType == 'bill' && $btn.closest('form').find("input[name='want/bill_to_ship']").is(':checked'))	{
 	//							app.u.dump("Ship to billing address checked. set fields in billing.");
-	//copy the address into the shipping fields.
+//copy the address into the shipping fields so shipping rates update.
 								var addrObj = app.ext.cco.u.getAddrObjByID(addressType,addressID); //will return address object.
 								if(!$.isEmptyObject(addrObj))	{
 									for(index in addrObj)	{
@@ -1092,11 +1135,11 @@ note - the order object is available at app.data['order|'+P.orderID]
 					var $form = $btn.closest('form');
 					
 //if paypalEC is selected, skip validation and go straight to paypal. Upon return, bill and ship will get populated automatically.
-					if($("input[name='want/payby']:checked",$form).val() == 'PAYPALEC' && !app.ext.orderCreate.vars['payment-pt'])	{
+					if($("input[name='want/payby']:checked",$form).val() == 'PAYPALEC' && !app.ext.cco.u.thisSessionIsPayPal())	{
 						$('body').showLoading({'message':'Transferring you to PayPal payment authorization'});
 						app.ext.cco.calls.cartPaypalSetExpressCheckout.init({'getBuyerAddress': (app.u.buyerIsAuthenticated()) ? 0 : 1},{'callback':function(rd){
-							$('body').hideLoading();
 							if(app.model.responseHasErrors(rd)){
+								$('body').hideLoading();
 								$('html, body').animate({scrollTop : $fieldset.offset().top},1000); //scroll to first instance of error.
 								$fieldset.anymessage({'message':rd});
 								}
@@ -1111,7 +1154,13 @@ note - the order object is available at app.data['order|'+P.orderID]
 						if(app.ext.orderCreate.validate.checkout($form))	{
 							$('body').showLoading({'message':'Creating order...'});
 							app.ext.cco.u.sanitizeAndUpdateCart($form);
-							app.ext.cco.u.buildPaymentQ($form);
+//paypal payments are added to the q as soon as the user returns from paypal.
+//This will solve the double-add to the payment Q
+//payment method validation ensures a valid tender is present.
+							if(app.ext.cco.u.thisSessionIsPayPal())	{}
+							else	{
+								app.ext.cco.u.buildPaymentQ($form);
+								}
 							app.ext.cco.calls.cartOrderCreate.init({'callback':'cart2OrderIsComplete','extension':'orderCreate','jqObj':$form});
 							app.model.dispatchThis('immutable');						
 							
@@ -1157,10 +1206,18 @@ note - the order object is available at app.data['order|'+P.orderID]
 			execCountryUpdate : function($sel)	{
 				//recalculate the shipping methods and payment options.
 				$sel.off('change.execCountryUpdate').on('change.execCountryUpdate',function(){
-					var obj = {};
+					var obj = {}, $form = $sel.closest('form');
+//temporary workaround. setting bill country to int isn't updating ship methods correctly.
+//					app.u.dump(" -> $sel.attr('name'): "+$sel.attr('name'));
+//if bill to ship is enabled, must update ship country or shipping won't update.
+					if($sel.attr('name') == 'bill/countrycode' && $("[name='want/bill_to_ship']",$form).is(':checked'))	{
+//						app.u.dump(" -> ship to bill is enabled. update ship country.");
+						obj['ship/countrycode'] = $sel.val();
+						}
+					
 					obj[$sel.attr('name')] = $sel.val();
 					app.calls.cartSet.init(obj); //update the cart w/ the country.
-					app.ext.orderCreate.u.handleCommonPanels($sel.closest('form'));
+					app.ext.orderCreate.u.handleCommonPanels($form);
 					app.model.dispatchThis('immutable');
 					})
 				}, //execCountryUpdate
@@ -1277,8 +1334,8 @@ note - the order object is available at app.data['order|'+P.orderID]
 				var $checkoutForm = $btn.closest('form'), //used in some callbacks later.
 				$checkoutAddrFieldset = $btn.closest('fieldset');
 
-				$btn.off('click.showBuyerAddressUpdate').on('click.showBuyerAddressUpdate',function(){
-					
+				$btn.off('click.showBuyerAddressUpdate').on('click.showBuyerAddressUpdate',function(event){
+					event.preventDefault();
 					var addressType = $btn.closest("[data-app-addresstype]").data('app-addresstype');
 					
 					app.ext.store_crm.u.showAddressEditModal({
@@ -1324,9 +1381,14 @@ note - the order object is available at app.data['order|'+P.orderID]
 // re-render the panel as well so that if bill to ship is unchecked, the zip has to be re-entered. makes sure ship quotes are up to date.
 // originally, had ship zip change to bill instead of blank, but seemed like there'd be potential for a buyer to miss that change.
 					if($cb.is(':checked'))	{
-						app.calls.cartSet.init({'ship/postal': ""},{'callback':function(rd){
-							app.ext.orderCreate.u.handlePanel($form,'chkoutAddressShip',['empty','translate','handleDisplayLogic','handleAppEvents']);
-							}},'immutable'); //update ship zip to bill zip.
+//** Fixes bug where if ship to bill is disabled, shipping is populated, then ship to bill is re-enabled, bill address is not used for shipping quotes (entered ship address is)
+						app.ext.cco.u.sanitizeAndUpdateCart($form,{
+							'callback':function(rd){app.ext.orderCreate.u.handlePanel($form,'chkoutAddressShip',['empty','translate','handleDisplayLogic','handleAppEvents'])}
+							});
+						
+//						app.calls.cartSet.init({'ship/postal': ""},{'callback':function(rd){
+//							app.ext.orderCreate.u.handlePanel($form,'chkoutAddressShip',['empty','translate','handleDisplayLogic','handleAppEvents']);
+//							}},'immutable'); //update ship zip to bill zip.
 						}
 					else	{
 						app.ext.orderCreate.u.handlePanel($form,'chkoutAddressShip',['handleDisplayLogic']);
@@ -1346,16 +1408,23 @@ note - the order object is available at app.data['order|'+P.orderID]
 			
 //Combines the various data objects into one, so that they can be fed into the translator and rendered in one pass.
 			extendedDataForCheckout : function()	{
+//				app.u.dump("BEGIN orderCreate.u.extendedDataForCheckout - 2013-04-13");
 //				app.u.dump("app.data.cartDetail:"); app.u.dump(app.data.cartDetail);
 				if(app.u.buyerIsAuthenticated())	{
+//					app.u.dump(" -> buyer is authenticated");
 					var obj = $.extend(true,app.data.appPaymentMethods,app.data.appCheckoutDestinations,app.data.buyerAddressList,app.data.buyerWalletList,app.data.cartDetail);
 					}
 				else	{
+//					app.u.dump(" -> buyer is not authenticated.");
 					var obj = $.extend(true,app.data.appPaymentMethods,app.data.appCheckoutDestinations,app.data.cartDetail);
 					}
+
+//				app.u.dump(" -> data object has been extended. ");
+
 //when a buyer returns from paypal, the shipping is populated, but the billing is not always.
 //this will put the ship info into the bill fields if they're blank.
 				if(app.ext.cco.u.thisSessionIsPayPal())	{
+//					app.u.dump(" -> session is paypal. copy some data around.");
 					if(obj.bill && obj.ship)	{
 						if(!obj.bill.company)	{obj.bill.company = obj.ship.company}
 						if(!obj.bill.address1)	{obj.bill.address1 = obj.ship.address1}
@@ -1366,7 +1435,7 @@ note - the order object is available at app.data['order|'+P.orderID]
 						if(!obj.bill.countrycode)	{obj.bill.countrycode = obj.ship.countrycode}
 						}
 					}
-				
+//				app.u.dump("END orderCreate.u.extendedDataForCheckout");
 				return obj;
 				}, //extendedDataForCheckout
 
@@ -1391,8 +1460,10 @@ note - the order object is available at app.data['order|'+P.orderID]
 //actions are rendered in the order they're passed.
 
 			handlePanel : function($context, role, actions)	{
+//				app.u.dump("BEGIN handlePanel"); //app.u.dump(actions);
+
 				if($context && role && actions && typeof actions === 'object')	{
-//					app.u.dump("BEGIN handlePanel for role: "+role); //app.u.dump(actions);
+//					app.u.dump(" -> role: "+role);
 					var L = actions.length,
 					formObj = $context.is('form') ? $context.serializeJSON() : $("form",$context).serializeJSON(),
 					$fieldset = $("[data-app-role='"+app.u.jqSelector('',role)+"']",$context),
@@ -1452,27 +1523,40 @@ note - the order object is available at app.data['order|'+P.orderID]
 
 
 			handlePaypalInit : function($context)	{
-				
+//				app.u.dump("BEGIN orderCreate.u.handlePaypalInit");
 //paypal code need to be in this startCheckout and not showCheckoutForm so that showCheckoutForm can be 
 // executed w/out triggering the paypal code (which happens when payment method switches FROM paypal to some other method) because
 // the paypalgetdetails cmd only needs to be executed once per session UNLESS the cart contents change.
 //calls are piggybacked w/ this. do not add dispatch here.
 				var token = app.u.getParameterByName('token');
 				var payerid = app.u.getParameterByName('PayerID');
+//				app.u.dump(" -> aValidPaypalTenderIsPresent(): "+app.ext.cco.u.aValidPaypalTenderIsPresent());
 				if(token && payerid)	{
-					$context.anymessage({'message':'Welcome Back! you are almost done. Simply verify the information below and push the place order button to complete your transaction.','iconClass':'ui-icon-check','containerClass':'ui-state-highlight ui-state-success'});
-					app.u.dump("It appears we've just returned from PayPal.");
-					app.ext.orderCreate.vars['payment-pt'] = token;
-					app.ext.orderCreate.vars['payment-pi'] = payerid;
-					app.ext.cco.calls.cartPaymentQ.init({"cmd":"insert","PT":token,"ID":token,"PI":payerid,"TN":"PAYPALEC"},{"extension":"orderCreate","callback":"handlePayPalIntoPaymentQ"});
+//					app.u.dump(" -> both token and payerid are set.");
+					if(app.ext.cco.u.aValidPaypalTenderIsPresent())	{
+						app.u.dump(" -> token and payid are set but a valid paypal tender is already present.");
+						} //already have paypal in paymentQ. could be user refreshed page. don't double-add to Q.
+					else	{
+						$context.anymessage({'message':'Welcome Back! you are almost done. Simply verify the information below and push the place order button to complete your transaction.','iconClass':'ui-icon-check','containerClass':'ui-state-highlight ui-state-success'});
+						app.u.dump("It appears we've just returned from PayPal.");
+						app.ext.orderCreate.vars['payment-pt'] = token;
+						app.ext.orderCreate.vars['payment-pi'] = payerid;
+						app.ext.cco.calls.cartPaymentQ.init({"cmd":"insert","PT":token,"ID":token,"PI":payerid,"TN":"PAYPALEC"},{"extension":"orderCreate","callback":"handlePayPalIntoPaymentQ"});
+						}
 					}
 //if token and/or payerid is NOT set on URI, then this is either not yet a paypal order OR is/was paypal and user left checkout and has returned.
 				else if(app.ext.cco.u.thisSessionIsPayPal())	{
-					if(!app.ext.cco.u.aValidPaypalTenderIsPresent())	{app.ext.cco.u.nukePayPalEC();}
+					app.u.dump(" -> no token or payerid set. nuke all paypal if present.");
+					if(!app.ext.cco.u.aValidPaypalTenderIsPresent())	{
+						app.u.dump(" -> validPayalTender found. Nuke it.");
+						app.ext.cco.u.nukePayPalEC();
+						}
+					app.u.dump(" -> paypal nuked ");
 					}
 				else	{
 					//do nothing.
 					}
+				app.u.dump("END orderCreate.u.handlePaypalInit");
 				}, //handlePaypalInit
 
 //run when a payment method is selected or when payment panel is re-rendered.
@@ -1520,7 +1604,7 @@ note - the order object is available at app.data['order|'+P.orderID]
 		renderFormats : {
 
 			shipMethodsAsRadioButtons : function($tag,data)	{
-				app.u.dump('BEGIN store_cart.renderFormat.shipMethodsAsRadioButtons');
+//				app.u.dump('BEGIN store_cart.renderFormat.shipMethodsAsRadioButtons');
 				var o = '';
 				var shipName,id,isSelectedMethod,safeid;  // id is actual ship id. safeid is id without any special characters or spaces. isSelectedMethod is set to true if id matches cart shipping id selected.;
 				var L = data.value.length;
