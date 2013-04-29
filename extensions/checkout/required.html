@@ -115,11 +115,11 @@ not used in required
 	<input type='email' name='bill/email' size='30' placeholder="email address" data-bind="var:cart(bill/email); defaultVar:cart(customer/login); format:popVal;" data-app-event='orderCreate|execBuyerEmailUpdate' /> 	<input type='password' placeholder='password' size='30' name='password' /> <button data-app-event='orderCreate|execBuyerLogin'>login</button>
 <!--
 not used in required
-	<label class='accountCreateContainer'><input type='checkbox' name='want/create_customer' data-app-event='orderCreate|tagAsAccountCreate' />Create customer account</label>
 -->	
 
 
 </div>
+	<label class='accountCreateContainer'><input type='checkbox' name='want/create_customer' data-app-event='orderCreate|tagAsAccountCreate' />Create customer account</label>
 
 </section>
 
@@ -195,18 +195,25 @@ don't add required to any inputs because if bill to ship is checked, NONE of the
 <!-- a panel that only appears in 'nice' -->
 <section id='chkoutAccountCreateTemplate'>
 
-<div><input type='password' data-minlength='8' placeholder='password' required='required' name='want/new_password' size='12' data-bind='var: cart(want/new_password); format:popVal;' /> <span class='hint'>must be at least 8 characters</span></div>
-<div><input type='password' data-minlength='8' placeholder='verify password' required='required'  name='want/new_password2' size='12' data-bind='var: cart(want/new_password2); format:popVal;' /></div>
-<label>Recovery Question
-<select name='want/recovery_hint' data-bind='var: cart(want/recovery_hint); format:popVal;'>
-	<option value='2'>Name of your favorite childhood pet?</option>
-	<option value='3'>City you were born in?</option>
-	<option value='4'>Last name of your best friend growing up?</option>
-	<option value='5'>Last city you lived in?</option>
-</select>
-</label>
-
-<input type='text' placeholder='recovery answer' required='required' value='' name='want/recovery_answer' maxlength='20' size='20'  data-bind='var: cart(want/recovery_answer); format:popVal;' /></label>
+<div>
+	<div class="createAccountMessaging"></div>
+	<div><input type="email" data-permissions-field="email" placeholder="Email" required='required' name='createAccountFirstName' /></div>
+	<div><input type="text" data-permissions-field="firstname" placeholder="First Name" required='required' name='createAccountFirstName' /></div>
+	<div><input type="text" data-permissions-field="lastname" placeholder="Last Name" required='required' name='createAccountLastName' /></div>
+	<div><input type='password' data-permissions-field="password" data-minlength='8' placeholder='password' required='required' name='createAccountPassword' size='12' /> <span class='hint'>must be at least 8 characters</span></div>
+	<div><input type='password' data-minlength='8' placeholder='verify password' required='required'  name='createAccountPasswordConfirm' size='12' /></div>
+	<button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" onClick="app.ext.store_gkworld.a.createAccount($(this).parent(), 'Your account has been created, log in above!');" ><span class="ui-button-text">Create Account</span></button>
+</div>
+<!--
+ <label>Recovery Question
+ <select name='want/recovery_hint' data-bind='var: cart(want/recovery_hint); format:popVal;'>
+ 	<option value='2'>Name of your favorite childhood pet?</option>
+@@ -210,7 +218,7 @@ don't add required to any inputs because if bill to ship is checked, NONE of the
+ </label>
+ 
+ <input type='text' placeholder='recovery answer' required='required' value='' name='want/recovery_answer' maxlength='20' size='20'  data-bind='var: cart(want/recovery_answer); format:popVal;' /></label>
+-
++-->
 
 </section>
 
