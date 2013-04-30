@@ -202,7 +202,7 @@ document.write = function(v){
 //we always get the tier 1 cats so they're handy, but we only do something with them out of the get if necessary (tier1categories is defined)
 				if($('#tier1categories').length)	{
 					app.u.dump("#tier1categories is set. fetch tier1 cat data.");
-					app.ext.store_navcats.u.getChildDataOf(zGlobals.appSettings.rootcat,{'parentID':'tier1categories','callback':'addCatToDom','templateID':'categoryListTemplateRootCats','extension':'store_navcats'},'appCategoryDetailMax');  //generate nav for 'browse'. doing a 'max' because the page will use that anway.
+					app.ext.store_navcats.u.getChildDataOf(zGlobals.appSettings.rootcat,{'parentID':'tier1categories','callback':'addCatToDom','templateID':'categoryListTemplateRootCats','extension':'store_navcats'},'appCategoryDetail');  //generate nav for 'browse'. doing a 'max' because the page will use that anway.
 					app.model.dispatchThis();
 					}
 				}
