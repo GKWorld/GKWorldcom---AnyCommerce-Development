@@ -67,6 +67,23 @@ css files should be included before any .js file to ensure they are downloaded i
 
 
 <script type="text/javascript">
+	$.fn.intervaledEmpty = function(interval, remove){
+		interval = interval || 1000;
+		if($(this).children().length > 0){
+			var i = 0;
+			$(this).children().each(function(){
+				$(this).detach();
+				setTimeout(function(){$(this).intervaledEmpty(interval, true);},interval*i);
+				i++;
+			});
+		}
+		if(remove){
+			console.debug("removal");
+			$(this).remove();
+		}
+		return this;
+	}
+
 app.u.loadScript(app.vars.baseURL+"app-init.js");
 </script>
 
@@ -1327,18 +1344,7 @@ onclicks are recursive, so only add it to the parent element.
 .mpControlsPagination is used to 'hide' the pagination portion of the header if pagination is disabled.
 -->
 <script type="text/javascript">
-	$.fn.intervaledEmpty = function(interval){
-		if($(this).children().length > 0){
-			var i = 0;
-			$(this).children().each(function(){
-				$(this).detach();
-				setTimeout(function(){$(this).intervaledEmpty(interval);},interval*i);
-				i++;
-			});
-		} else {
-			$(this).remove();
-		}
-	}
+
 </script>
 <div id='mpControlSpec' class='mpControlContainer'>
 	<div class='mpControls ui-widget ui-state-default ui-corner-top'>
