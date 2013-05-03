@@ -30,7 +30,7 @@ addthis_id = 'gkworld';
 
 	
 var app = {vars:{
-	"release":"20130430154800",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
+	"release":"20130502174700",  //increment this with each change. should solve caching issues. format: YYYYMMDDHHMMSS
 	"_clientid":"zmvc",
 	"baseURL":"", //used in non-local mode.
 	"checkoutAuthMode" : "active",//can be passive, active or required
@@ -1453,13 +1453,15 @@ So the cart template should contain these two elements and the extension should 
 	<div class='checkoutButtonsContainer'>
 		<span title='proceed to secure checkout'><button class='ui-button ui-button-text ui-state-default ui-corner-all checkoutButton' onClick="showContent('checkout',{});">Store Checkout</button></span>
 		
-		<div class="loginShow clear marginTop paddingTop borderTop">
 			<span id='paypalECButton' data-bind='var: cart(cart/cartid); format:paypalECButton;'></span>
 			<span id='googleCheckoutButton' class='pointer' data-bind='var: cart(sum/items_total); format:googleCheckoutButton;'></span>
+<!--
+		<div class="loginShow clear marginTop paddingTop borderTop">
 		</div>
 		<div class="loginHide clear marginTop marginBottom paddingTop borderTop">
 			<a href="#" onClick="return showContent('customer',{'show':'myaccount'});">Log In</a> to check out via PaypalEC or Google Checkout.
 		</div>
+-->
 <!--
 Amazon is not currently functional
 			<span id='amazonCheckoutButton' class='pointer' data-bind='var: cart(cart/cartid); format:amazonCheckoutButton;'></span>
