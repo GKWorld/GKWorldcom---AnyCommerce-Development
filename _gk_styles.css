@@ -220,3 +220,7 @@ input.ui-button-text, button{
 	max-height: 100px;
 	max-width: 350px;
 }
+
+#resultsProductListContainer {
+	width: 100%;
+}

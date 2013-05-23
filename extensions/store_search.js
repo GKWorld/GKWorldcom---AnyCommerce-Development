@@ -122,7 +122,8 @@ P.query = { 'and':{ 'filters':[ {'term':{'profile':'E31'}},{'term':{'tags':'IS_S
 					$list.closest('.previewListContainer').find('.resultsHeader').empty().remove(); //remove any previous results multipage headers
 
 					if(L == 0)	{
-						$list.append("Your query returned zero results.");
+						$list.append("<div class='contentContainer'>Your query returned zero results.</div>");
+						
 						}
 					else	{
 						var $parent;
