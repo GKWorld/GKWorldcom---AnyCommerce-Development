@@ -207,3 +207,15 @@ input.ui-button-text, button{
 }
 
 #createAccountArticle input[type=submit] { float: right; margin-top: 15px;}
+
+.dynamicbanners {
+	position: absolute;
+	left: 350px;
+	height: 100px;
+	width: 350px;
+}
+
+.dynamicbanners img {
+	max-height: 100px;
+	max-width: 350px;
+}

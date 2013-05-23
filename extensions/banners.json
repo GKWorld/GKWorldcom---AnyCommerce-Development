@@ -1,0 +1,15 @@
+[
+	{
+		"src":"images/banners/testbanner1.jpg",
+		"alt" : "Test Banner 1",
+		"title" : "Test Banner 1",
+		"catLink" : ".buy"
+	},
+	
+	{
+		"src":"images/banners/testbanner2.jpg",
+		"alt" : "Test Banner 2",
+		"title" : "Test Banner 2",
+		"prodLink" : "GKW55449"
+	}
+]	

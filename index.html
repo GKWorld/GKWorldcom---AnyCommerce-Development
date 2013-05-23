@@ -170,7 +170,9 @@ $("#appPreView").dialog({
 <div id='mastHead' class='contentWidth'>
 
 	<div class='logo'><a href='#!category?navcat=.' class='bindByAnchor'><img src='images/logo-369x84.png' width='369' height='84' alt='GKWorld.com' /></a></div>
-
+	
+	<div class="dynamicbanners alignCenter"></div>
+	
 	<div class='minicart bevelBox pointer' onClick="showContent('cart',{})">
 		<span class='spriteBG cartIcon'></span>
 		<span>View Cart</span>
@@ -353,10 +355,7 @@ the homepageTemplate template is loaded into mainContentArea by default when the
 -->
 <div id='homepageTemplate' class='homeTemplate'>
 
-	<div data-bind="var: category(%page.test_str); format: text;"></div>
-	<div data-bind="var: category(%page.test_int); format: text;"></div>
-	<div data-bind="var: category(%page.test_obj); format: printTestObjStr; extension:store_gkworld;"></div>
-	<div data-bind="var: category(%page.test_arr); format: printTestArrStr; index:0; extension:store_gkworld;"></div>
+	
 
 	<div class="bannerContainer">
 

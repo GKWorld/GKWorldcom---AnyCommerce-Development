@@ -27,14 +27,30 @@ var store_gkworld = function() {
 
 ////////////////////////////////////   CALLBACKS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-
-
 	callbacks : {
 //executed when extension is loaded. should include any validation that needs to occur.
 		init : {
 			onSuccess : function()	{
 				var r = false; //return false if extension won't load for some reason (account config, dependencies, etc).
-
+				$.getJSON("extensions/banners.json?_v="+(new Date()).getTime(), function(data){
+					for(var banner in data){
+						var $img = $("<img src='"+banner.src+"' alt='"+banner.alt+"' title='"+banner.title+"'/>");
+							if(banner.prodLink){
+								$img.addClass('pointer').click(function(){
+									showContent('product',{'pid':banner.prodLink});
+									});
+								}
+							else if(banner.catLink){
+								$img.addClass('pointer').click(function(){
+									showContent('category',{'navcat':banner.catLink});
+									});
+								}
+							else {
+								//just a banner!
+								}
+						
+						}
+					});
 				//if there is any functionality required for this extension to load, put it here. such as a check for async google, the FB object, etc. return false if dependencies are not present. don't check for other extensions.
 				r = true;
 
