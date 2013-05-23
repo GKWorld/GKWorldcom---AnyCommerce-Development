@@ -32,7 +32,7 @@ var store_gkworld = function() {
 		init : {
 			onSuccess : function()	{
 				var r = false; //return false if extension won't load for some reason (account config, dependencies, etc).
-				$.getJSON("extensions/banners.json?_v="+(new Date()).getTime(), function(data){
+				$.getJSON("_banners.json?_v="+(new Date()).getTime(), function(data){
 					var $bannerContainer = $('.dynamicbanners');
 					for(var key in data){
 						var banner = data[key];
