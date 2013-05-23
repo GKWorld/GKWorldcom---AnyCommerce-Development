@@ -1,13 +1,13 @@
 [
 	{
-		"src":"images/banners/testbanner1.jpg",
+		"src":"banners/2012_app/free_shipping.jpg",
 		"alt" : "Test Banner 1",
 		"title" : "Test Banner 1",
 		"catLink" : ".buy"
 	},
 	
 	{
-		"src":"images/banners/testbanner2.jpg",
+		"src":"banners/2012_app/sale.jpg",
 		"alt" : "Test Banner 2",
 		"title" : "Test Banner 2",
 		"prodLink" : "GKW55449"

@@ -33,23 +33,38 @@ var store_gkworld = function() {
 			onSuccess : function()	{
 				var r = false; //return false if extension won't load for some reason (account config, dependencies, etc).
 				$.getJSON("extensions/banners.json?_v="+(new Date()).getTime(), function(data){
-					for(var banner in data){
-						var $img = $("<img src='"+banner.src+"' alt='"+banner.alt+"' title='"+banner.title+"'/>");
-							if(banner.prodLink){
-								$img.addClass('pointer').click(function(){
-									showContent('product',{'pid':banner.prodLink});
-									});
-								}
-							else if(banner.catLink){
-								$img.addClass('pointer').click(function(){
-									showContent('category',{'navcat':banner.catLink});
-									});
-								}
-							else {
-								//just a banner!
-								}
+					var $bannerContainer = $('.dynamicbanners');
+					for(var key in data){
+						var banner = data[key];
+						
+						
+						var $img = $(app.u.makeImage({
+							tag : true,
+							w : 350,
+							h : 100,
+							b : "tttttt",
+							name : banner.src,
+							alt : banner.alt,
+							title : banner.title
+							}));
+						if(banner.prodLink){
+							$img.addClass('pointer').click(function(){
+								showContent('product',{'pid':banner.prodLink});
+								});
+							}
+						else if(banner.catLink){
+							$img.addClass('pointer').click(function(){
+								showContent('category',{'navcat':banner.catLink});
+								});
+							}
+						else {
+							//just a banner!
+							}
+						
+						$bannerContainer.append($img);
 						
 						}
+					$bannerContainer.cycle();
 					});
 				//if there is any functionality required for this extension to load, put it here. such as a check for async google, the FB object, etc. return false if dependencies are not present. don't check for other extensions.
 				r = true;

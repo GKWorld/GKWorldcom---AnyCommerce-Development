@@ -213,6 +213,7 @@ input.ui-button-text, button{
 	left: 350px;
 	height: 100px;
 	width: 350px;
+	overflow: hidden;
 }
 
 .dynamicbanners img {
