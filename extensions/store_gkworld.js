@@ -23,7 +23,8 @@
 var store_gkworld = function() {
 	var theseTemplates = new Array('');
 	var r = {
-
+	
+	vars : {},
 ////////////////////////////////////   CALLBACKS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 	callbacks : {
@@ -31,43 +32,25 @@ var store_gkworld = function() {
 		init : {
 			onSuccess : function()	{
 				var r = false; //return false if extension won't load for some reason (account config, dependencies, etc).
-				$.getJSON("_banners.json?_v="+(new Date()).getTime(), function(data){
+				$.getJSON("_banners.json?_v="+(new Date()).getTime(), function(json){
+					//adding header banners
 					var $bannerContainer = $('.dynamicbanners');
-					for(var key in data){
-						var banner = data[key];
-						
-						app.u.dump(banner);
-						var $img = $(app.u.makeImage({
-							tag : true,
-							w : 350,
-							h : 100,
-							b : "tttttt",
-							name : banner.src,
-							alt : banner.alt,
-							title : banner.title
-							}));
-						if(banner.prodLink){
-							$img.addClass('pointer').data('pid', banner.prodLink).click(function(){
-								showContent('product',{'pid':$(this).data('pid')});
-								});
-							}
-						else if(banner.catLink){
-							$img.addClass('pointer').data('navcat', banner.catLink).click(function(){
-								showContent('category',{'navcat':$(this).data('navcat')});
-								});
-							}
-						else {
-							//just a banner!
-							}
-						
-						$bannerContainer.append($img);
-						
+					for(var key in json.headerBanners.banners){
+						$bannerContainer.append(app.ext.store_gkworld.u.makeBanner(json.headerBanners.banners[key], 350, 100, "tttttt"));
 						}
-					$bannerContainer.cycle();
-					});
+					$bannerContainer.cycle(json.headerBanners.cycleOptions);
+					
+					//store homepageBanners in vars for the onCompletes later
+					app.ext.store_gkworld.vars.homepageBanners = json.homepageBanners
+					
+					}).fail(function(){app.u.throwMessage("BANNERS FAILED TO LOAD - there is a bug in _banners.json")});
 				//if there is any functionality required for this extension to load, put it here. such as a check for async google, the FB object, etc. return false if dependencies are not present. don't check for other extensions.
 				r = true;
-
+				
+				app.rq.push(['templateFunction','homepageTemplate','onCompletes',function(P){
+					app.ext.store_gkworld.u.showHomepageBanners();
+					}]);
+				
 				return r;
 				},
 			onError : function()	{
@@ -147,7 +130,46 @@ var store_gkworld = function() {
 //utilities are typically functions that are exected by an event or action.
 //any functions that are recycled should be here.
 		u : {
-		
+			showHomepageBanners : function(){
+				var $container = $('#homepageTemplate_ .bannerContainer');
+				if(!$container.hasClass('bannersRendered')){
+					if(app.ext.store_gkworld.vars.homepageBanners){
+						$container.addClass('bannersRendered');
+						$('.main',$container).removeClass('loadingBG').append(app.ext.store_gkworld.u.makeBanner(app.ext.store_gkworld.vars.homepageBanners.main,800,400,"ffffff"));
+						$('.topRight',$container).removeClass('loadingBG').append(app.ext.store_gkworld.u.makeBanner(app.ext.store_gkworld.vars.homepageBanners.topRight ,300,200,"ffffff"));
+						$('.bottomRight',$container).removeClass('loadingBG').append(app.ext.store_gkworld.u.makeBanner(app.ext.store_gkworld.vars.homepageBanners.bottomRight ,300,200,"ffffff"));
+						}
+					else {
+						setTimeout(this.showHomepageBanners,250);
+						}
+					}
+				
+				},
+			makeBanner : function(bannerJSON, w, h, b){
+				var $img = $(app.u.makeImage({
+					tag : true,
+					w : w,
+					h : h,
+					b : b,
+					name : bannerJSON.src,
+					alt : bannerJSON.alt,
+					title : bannerJSON.title
+					}));
+				if(bannerJSON.prodLink){
+					$img.addClass('pointer').data('pid', bannerJSON.prodLink).click(function(){
+						showContent('product',{'pid':$(this).data('pid')});
+						});
+					}
+				else if(bannerJSON.catLink){
+					$img.addClass('pointer').data('navcat', bannerJSON.catLink).click(function(){
+						showContent('category',{'navcat':$(this).data('navcat')});
+						});
+					}
+				else {
+					//just a banner!
+					}
+				return $img;
+				},
 			validateForm : function($form)	{
 	//			app.u.dump("BEGIN admin.u.validateForm");
 				if($form && $form instanceof jQuery)	{

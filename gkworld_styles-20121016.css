@@ -424,11 +424,9 @@ ul.twoColList	{
 /* homepage */
 
 .bannerContainer	{position:relative; height:400px; margin-bottom:12px; overflow:hidden; width:100%;}
-.bannerContainer .topRight	{position:absolute; top:0; right:0; z-index:6;}
-.bannerContainer .bottomRight	{position:absolute; bottom:0; right:0; z-index:6;}
-
-#slideshowContainer  {position:relative; z-index:10; height:400px; width:900px; overflow:hidden; z-index:5; } /* setting height/width and overflow hidden keeps banners from showing up, then hiding once slideshow() is executed */
-#slideshowContainer  ul, .slideshow li	{list-style:none; margin:0; padding:0; display:inline; float:left; } /* the slides */
+.bannerContainer .topRight	{position:absolute; top:0; right:0; z-index:6; width:300px; height:200px;}
+.bannerContainer .bottomRight	{position:absolute; bottom:0; right:0; z-index:6; width:300px; height: 200px;}
+.bannerContainer .main {position:absolute; top:0px;left:0px; height:400px; width:800px;}
 
 #slideshowNav { z-index: 50; position: absolute; bottom: 10px; left: 10px; width:100%; text-align:left; }
 #slideshowNav a {

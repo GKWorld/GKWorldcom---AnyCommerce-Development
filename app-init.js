@@ -49,13 +49,6 @@ app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
 		else	{} //couldn't find the tab to tabificate.
 	}]);
 
-//sample of an onDeparts. executed any time a user leaves this page/template type.
-app.rq.push(['templateFunction','homepageTemplate','onDeparts',function(P) {app.u.dump("just left the homepage")}]);
-app.rq.push(['templateFunction','homepageTemplate','onCompletes',function(P) {
-		var $target=$('#wideSlideshow');
-//		$target.cycle({fx:'fade',speed:'slow',timeout:5000,pager:'#slideshowNav',pagerAnchorBuilder:function(index,el){return'<a href="#"> </a>';},slideExpr:'li'});	
-		//$target.cycle({fx:'fade',speed:'slow',timeout:5000,slideExpr:'li'});
-		}]);
 /*
 app.rq.push(['templateFunction','productTemplate','onCompletes',function(P) {
 	if(app.data.cartDetail && app.data.cartDetail.ship && app.data.cartDetail.ship.postal)	{

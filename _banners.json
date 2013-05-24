@@ -1,15 +1,44 @@
-[
-	{
-		"src":"banners/2012_app/salebanner_test.jpg",
-		"alt" : "Test Banner 1",
-		"title" : "Test Banner 1",
-		"catLink" : ".buy.anime"
+{
+	"homepageBanners" : {
+		"main":{
+			"src":"banners/2012_app/sale.jpg",
+			"alt" : "Test Banner 2",
+			"title" : "Test Banner 2",
+			"prodLink" : "GKW55449"
+		},
+		"topRight" : {
+			"src":"banners/2012_app/sale.jpg",
+			"alt" : "Test Banner 2",
+			"title" : "Test Banner 2",
+			"prodLink" : "GKW55449"
+		},
+		"bottomRight" : {
+			"src":"banners/2012_app/sale.jpg",
+			"alt" : "Test Banner 2",
+			"title" : "Test Banner 2",
+			"prodLink" : "GKW55449"
+		}
 	},
 	
-	{
-		"src":"banners/2012_app/sale.jpg",
-		"alt" : "Test Banner 2",
-		"title" : "Test Banner 2",
-		"prodLink" : "GKW55449"
+	"headerBanners" : {
+		"cycleOptions" : {
+			"timeout" : 2000
+		},
+		"banners" : [
+			{
+				"src":"banners/2012_app/salebanner_test.jpg",
+				"alt" : "Test Banner 1",
+				"title" : "Test Banner 1",
+				"catLink" : ".buy.anime"
+			},
+			
+			{
+				"src":"banners/2012_app/sale.jpg",
+				"alt" : "Test Banner 2",
+				"title" : "Test Banner 2",
+				"prodLink" : "GKW55449"
+			}
+		]	
 	}
-]	
+}
+
