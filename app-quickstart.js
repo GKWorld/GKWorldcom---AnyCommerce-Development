@@ -2682,7 +2682,7 @@ buyer to 'take with them' as they move between  pages.
 //best practice would be to NOT call this function directly. call showContent.
 
 			showPage : function(infoObj)	{
-				//app.u.dump("BEGIN myRIA.u.showPage("+infoObj.navcat+")");
+				app.u.dump("BEGIN myRIA.u.showPage("+infoObj.navcat+")");
 				var r = null; //what is returned. will be set to parent id, if all required data is present.
 				var catSafeID = infoObj.navcat;
 				if(!catSafeID)	{

@@ -24,7 +24,6 @@ var store_gkworld = function() {
 	var theseTemplates = new Array('');
 	var r = {
 
-
 ////////////////////////////////////   CALLBACKS    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 	callbacks : {
@@ -37,7 +36,7 @@ var store_gkworld = function() {
 					for(var key in data){
 						var banner = data[key];
 						
-						
+						app.u.dump(banner);
 						var $img = $(app.u.makeImage({
 							tag : true,
 							w : 350,
@@ -48,13 +47,13 @@ var store_gkworld = function() {
 							title : banner.title
 							}));
 						if(banner.prodLink){
-							$img.addClass('pointer').click(function(){
-								showContent('product',{'pid':banner.prodLink});
+							$img.addClass('pointer').data('pid', banner.prodLink).click(function(){
+								showContent('product',{'pid':$(this).data('pid')});
 								});
 							}
 						else if(banner.catLink){
-							$img.addClass('pointer').click(function(){
-								showContent('category',{'navcat':banner.catLink});
+							$img.addClass('pointer').data('navcat', banner.catLink).click(function(){
+								showContent('category',{'navcat':$(this).data('navcat')});
 								});
 							}
 						else {
