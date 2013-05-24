@@ -1,22 +1,22 @@
 {
 	"homepageBanners" : {
 		"main":{
-			"src":"banners/2012_app/sale.jpg",
-			"alt" : "Test Banner 2",
-			"title" : "Test Banner 2",
-			"prodLink" : "GKW55449"
+			"src":"banners/2012_app/shop_anime_by_collection_800x400.jpg",
+			"alt" : "Shop Anime",
+			"title" : "Shop Anime",
+			"catLink" : ".buy.anime"
 		},
 		"topRight" : {
 			"src":"banners/2012_app/sale.jpg",
-			"alt" : "Test Banner 2",
-			"title" : "Test Banner 2",
-			"prodLink" : "GKW55449"
+			"alt" : "On Sale",
+			"title" : "Click here for Sale Items",
+			"catLink" : ".weekly_special.clearance"
 		},
 		"bottomRight" : {
-			"src":"banners/2012_app/sale.jpg",
-			"alt" : "Test Banner 2",
-			"title" : "Test Banner 2",
-			"prodLink" : "GKW55449"
+			"src":"banners/2012_app/newarrivals_banner.jpg",
+			"alt" : "New Arrivals",
+			"title" : "Shop New Arrivals",
+			"catLink" : ".weekly_special.new"
 		}
 	},
 	
@@ -29,14 +29,16 @@
 				"src":"banners/2012_app/salebanner_test.jpg",
 				"alt" : "Test Banner 1",
 				"title" : "Test Banner 1",
-				"catLink" : ".buy.anime"
+				"catLink" : ".buy.anime",
+				"hide" : 1
 			},
 			
 			{
 				"src":"banners/2012_app/sale.jpg",
 				"alt" : "Test Banner 2",
 				"title" : "Test Banner 2",
-				"prodLink" : "GKW55449"
+				"prodLink" : "GKW55449",
+				"hide" : 1
 			}
 		]	
 	}

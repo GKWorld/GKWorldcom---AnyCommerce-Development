@@ -35,11 +35,21 @@ var store_gkworld = function() {
 				$.getJSON("_banners.json?_v="+(new Date()).getTime(), function(json){
 					//adding header banners
 					var $bannerContainer = $('.dynamicbanners');
-					for(var key in json.headerBanners.banners){
-						$bannerContainer.append(app.ext.store_gkworld.u.makeBanner(json.headerBanners.banners[key], 350, 100, "tttttt"));
+					app.u.dump(json.headerBanners.banners);
+					for(var i = 0; i<json.headerBanners.banners.length; i++){
+						if(json.headerBanners.banners[i].hide){
+							json.headerBanners.banners.splice(i, 1);
+							i--;
+							}
+						else{
+							$bannerContainer.append(app.ext.store_gkworld.u.makeBanner(json.headerBanners.banners[i], 350, 100, "tttttt"));
+							}
 						}
-					$bannerContainer.cycle(json.headerBanners.cycleOptions);
-					
+					app.u.dump(json.headerBanners.banners.length);
+					app.u.dump(json.headerBanners.banners);
+					if(json.headerBanners.banners.length > 1){
+						$bannerContainer.cycle(json.headerBanners.cycleOptions);
+						}
 					//store homepageBanners in vars for the onCompletes later
 					app.ext.store_gkworld.vars.homepageBanners = json.homepageBanners
 					
