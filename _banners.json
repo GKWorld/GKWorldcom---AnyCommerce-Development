@@ -26,11 +26,11 @@
 		},
 		"banners" : [
 			{
-				"src":"banners/2012_app/salebanner_test.jpg",
+				"src":"banners/2012_app/memorialday2013.png",
 				"alt" : "Test Banner 1",
 				"title" : "Test Banner 1",
 				"catLink" : ".buy.anime",
-				"hide" : 1
+				"hide" : 0
 			},
 			
 			{
