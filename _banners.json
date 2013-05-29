@@ -26,7 +26,7 @@
 		},
 		"banners" : [
 			{
-				"src":"banners/35offa.jpg",
+				"src":"banners/35offb.jpg",
 				"alt" : "Test Banner 1",
 				"title" : "Test Banner 1",
 				"catLink" : ".weekly_special.new",
