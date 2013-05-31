@@ -160,7 +160,7 @@ For the list of available params, see the 'options' object below.
 //the validate order request returns a list of issues.
 				else if(msg['@issues'])	{
 					var L = msg['@issues'].length;
-					console.dir("Got to @issues, length: "+L);
+					//console.dir("Got to @issues, length: "+L);
 					$r = $("<div \/>").css({'margin-left':'20px'}); //adds a left margin to make multiple messages all align.
 					for(var i = 0; i < L; i += 1)	{
 						$r.append("<p>"+msg['@issues'][i][3]+"<\/p>");
@@ -245,7 +245,7 @@ or this: $('#bob').find('.ui-tabs-nav li:nth-child(2)').trigger('click');
 			
 			if($t.attr('widget') == 'anytabs')	{} //id has already been set as tabs.
 			else	{
-				console.log('got into init else');
+				//console.log('got into init else');
 				$t.attr('widget','anytabs')
 				$t.addClass('ui-tabs ui-widget ui-widget-anytabs')
 				self.tabs = $("ul",$t).first();
@@ -638,8 +638,8 @@ th.click(function(){
 					break;
 				
 				default:
-					console.log("Unrecognized option passed into anytable via setOption");
-					console.log(" -> option: "+option);
+					//console.log("Unrecognized option passed into anytable via setOption");
+					//console.log(" -> option: "+option);
 					break;
 				}
 			}, //_setOption
@@ -852,8 +852,8 @@ Additional a settings button can be added which will contain a dropdown of selec
 					break;
 				
 				default:
-					console.log("Unrecognized option passed into anypanel via setOption");
-					console.log(" -> option: "+option);
+					//console.log("Unrecognized option passed into anypanel via setOption");
+					//console.log(" -> option: "+option);
 					break;
 				}
 			},
@@ -931,7 +931,7 @@ Additional a settings button can be added which will contain a dropdown of selec
 			if(this.options.state == 'collapse')	{ this.collapse();}
 			else if (this.options.state == 'expand')	{this.expand();}
 			else	{
-				console.warn("unknown state passed into anypanel");
+				//console.warn("unknown state passed into anypanel");
 				}
 			},
 

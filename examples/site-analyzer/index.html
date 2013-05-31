@@ -43,7 +43,7 @@ var myExtensions = [
 function getConfig4Domain()	{
 	var domain = $('#domain').val();
 	if(domain)	{
-		console.log('BEGIN getConfig4Domain');
+		//console.log('BEGIN getConfig4Domain');
 		var protocol = location.protocol === 'https:' ? 'https:' : 'http:';
 		var url = protocol+'//'+$('#domain').val()+'/jquery/config.js';
 		$.getScript(url).success(function(script, textStatus) {

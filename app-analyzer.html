@@ -48,7 +48,7 @@ app.u.loadScript("app-analyzer-init.js");
 function getConfig4Domain()	{
 	var domain = $('#domain').val();
 	if(domain)	{
-		console.log('BEGIN getConfig4Domain');
+		//console.log('BEGIN getConfig4Domain');
 		var url = 'http://'+$('#domain').val()+'/jquery/config.js';
 		$.getScript(url).success(function(script, textStatus) {
 //instantiate wiki parser.

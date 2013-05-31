@@ -209,11 +209,26 @@ input.ui-button-text, button{
 #createAccountArticle input[type=submit] { float: right; margin-top: 15px;}
 
 .dynamicbanners {
+	overflow: hidden;
 	position: absolute;
-	left: 350px;
 	height: 100px;
 	width: 350px;
-	overflow: hidden;
+}
+
+@media screen and (min-width : 1200px){
+	.dynamicbanners {
+		left: 350px;
+	}
+}
+@media screen and (max-width:1199px){
+	.dynamicbanners{
+		left:50%;
+		margin-left: -175px;
+		top: 97px;
+	}
+	#mastHead {
+		height: 207px;
+	}
 }
 
 .dynamicbanners img {
