@@ -1,15 +1,16 @@
 {
-	"email":"",
-	"auto_lock":0,
-	"initial_schedule":"",
-	"make_todo":"",
-	"make_ticket":"",
-	"fields":[
-	   { "type":"hint","content":"Please fill out the fields below to create a customer account. Fields with a * next to them are required." },
-	   { "ignore":0,"required":1,"id":"email","type":"text","label":"Email","customer":"INFO.EMAIL" },
-	   { "ignore":0,"required":1,"id":"firstname","type":"text","label":"Purchasing Contact Firstname","customer":"INFO.FIRSTNAME" },
-	   { "ignore":0,"required":1,"id":"lastname","type":"text","label":"Purchasing Contact Lastname","customer":"INFO.LASTNAME" },
-	   { "ignore":0,"required":1,"id":"password","type":"text","label":"Password","customer":"INFO.PASSWORD"},
-	   { "type":"submit","label":"Create Account" }
+	"_version":201318,
+	"_start":"createBuyer",
+	"_inputs":[
+		{ "required":1,"var":"email","type":"text","label":"Email" },
+		{ "required":1,"var":"firstname","type":"text","label":"Purchasing Contact Firstname" },
+		{ "required":1,"var":"lastname","type":"text","label":"Purchasing Contact Lastname" },
+		{ "required":1,"var":"password","type":"text","label":"Password" }
+	],
+	 
+
+	"createBuyer": [
+		"SET?firstname=$firstname&lastname=$lastname",
+		"PASSWORDRESET?password=$password"
 	]
 }
