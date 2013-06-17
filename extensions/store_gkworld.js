@@ -94,9 +94,9 @@ var store_gkworld = function() {
 				else {
 					var obj={};
 					var _tag={};
-					obj.project = "3038C4E2-A6F1-11E2-8B13-E07C8CF3";
-					obj.permissions = "platform/appBuyerCreate-permissions-default.json";
-					
+					//obj.project = "3038C4E2-A6F1-11E2-8B13-E07C8CF3";
+					//obj.permissions = "platform/appBuyerCreate-permissions-default.json";
+					obj._vendor = "gkworld";
 					$("input", $form).each(function(){
 						if($(this).data("permissions-field")){
 							obj[$(this).data("permissions-field")] = $(this).val();
