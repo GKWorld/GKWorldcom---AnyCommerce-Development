@@ -93,7 +93,7 @@ var store_gkworld = function() {
 //these are going the way of the do do, in favor of app events. new extensions should have few (if any) actions.
 		a : {
 			createAccount : function($form, successMsg){
-				successMsg = successMsg || 'Your Account has been created.  Proceed to <a href="#" onClick="return showContent("customer",{"show":"createAccount"});">Log In</a>'
+				successMsg = successMsg || 'Your Account has been created.  Proceed to <a href="#" onClick="return showContent("customer",{"show":"myaccount"});">Log In</a>'
 				$('.createAccountMessaging',$form).empty();
 					
 				var errors = app.ext.store_gkworld.u.validateForm($form);
