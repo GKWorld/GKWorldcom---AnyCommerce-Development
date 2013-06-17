@@ -56,7 +56,16 @@ var store_gkworld = function() {
 					}).fail(function(){app.u.throwMessage("BANNERS FAILED TO LOAD - there is a bug in _banners.json")});
 				
 				app.rq.push(['templateFunction','productTemplate','onCompletes', function(P){
-					
+					var $context = $(app.u.jqSelector('#',P.parentID));
+					$("select[name=AG] option", $context).each(function(){
+						var sku = P.pid+":AG"+$(this).attr("value");
+						app.u.dump(sku);
+						app.u.dump(app.data["appProductGet|"+P.pid]["@inventory"][sku]);
+						if(app.data["appProductGet|"+P.pid]["@inventory"][sku] && app.data["appProductGet|"+P.pid]["@inventory"][sku].inv <= 0){
+							$(this).attr("disabled","disabled");
+							}
+						});
+						
 					}]);
 				
 				//if there is any functionality required for this extension to load, put it here. such as a check for async google, the FB object, etc. return false if dependencies are not present. don't check for other extensions.
