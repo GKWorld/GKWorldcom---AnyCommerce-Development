@@ -54,6 +54,11 @@ var store_gkworld = function() {
 					app.ext.store_gkworld.vars.homepageBanners = json.homepageBanners
 					
 					}).fail(function(){app.u.throwMessage("BANNERS FAILED TO LOAD - there is a bug in _banners.json")});
+				
+				app.rq.push(['templateFunction','productTemplate','onCompletes', function(P){
+					
+					}]);
+				
 				//if there is any functionality required for this extension to load, put it here. such as a check for async google, the FB object, etc. return false if dependencies are not present. don't check for other extensions.
 				r = true;
 				
