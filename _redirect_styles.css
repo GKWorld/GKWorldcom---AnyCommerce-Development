@@ -33,4 +33,6 @@
 .ui-dialog .ui-dialog-content.redirectToSiteApp h3, 
 .ui-dialog .ui-dialog-content.autoRedirectToSiteApp h3 {
 	font-size: 1em;
+	color: #FFFFFF;
+	margin: 10px 0px;
 }
