@@ -19,3 +19,9 @@
 .floatRight{float: right;}
 
 .stopFutureRedirectMessage {display:none;}
+
+
+.redirectToSiteApp, .autoRedirectToSiteApp {
+    background: url("images/body_bg-9x7.gif") repeat scroll 0 0 transparent;
+    font-family: MyriadPro-Regular,'Myriad Pro Regular',MyriadPro,'Myriad Pro',Helvetica,Arial,sans-serif;
+}
