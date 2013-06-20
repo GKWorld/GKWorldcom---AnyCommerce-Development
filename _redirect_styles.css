@@ -8,3 +8,14 @@
     padding: 4px;
     text-shadow: 1px 1px 1px #050561;
 }
+
+.hideDialog .ui-dialog-titlebar-close,
+.hideDialog .ui-dialog-titlebar {
+	display: none;
+}
+.redirectToSiteApp {text-align:center;}
+
+.floatLeft {float: left;}
+.floatRight{float: right;}
+
+.stopFutureRedirectMessage {display:none;}
