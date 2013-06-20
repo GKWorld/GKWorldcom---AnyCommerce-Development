@@ -21,7 +21,8 @@
 .stopFutureRedirectMessage {display:none;}
 
 
-.redirectToSiteApp, .autoRedirectToSiteApp {
+.ui-dialog .ui-dialog-content.redirectToSiteApp, 
+.ui-dialog .ui-dialog-content.autoRedirectToSiteApp {
     background: url("images/body_bg-9x7.gif") repeat scroll 0 0 transparent;
     font-family: MyriadPro-Regular,'Myriad Pro Regular',MyriadPro,'Myriad Pro',Helvetica,Arial,sans-serif;
 }
