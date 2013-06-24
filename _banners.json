@@ -34,11 +34,11 @@
 			},
 			
 			{
-				"src":"banners/2012_app/sale.jpg",
+				"src":"banners/old_site_design.png",
 				"alt" : "Test Banner 2",
 				"title" : "Test Banner 2",
-				"prodLink" : "GKW55449",
-				"hide" : 1
+				"prodLink" : "gkworld.com",
+				"hide" : 0
 			}
 		]	
 	}
